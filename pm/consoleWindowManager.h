@@ -1,14 +1,15 @@
 #pragma once
 
+#ifndef  CONSOLE_WINDOW_MANAGER
+#define CONSOLE_WINDOW_MANAGER
+
 #include <windows.h>
 #include <iostream>
 #include <io.h>
 #include <fcntl.h>
 #include <string>
 #include <tchar.h>
-
-#ifndef  CONSOLE_WINDOW_MANAGER
-#define CONSOLE_WINDOW_MANAGER
+#include <atlstr.h>
 
 class ConsoleWindowManager {
 
@@ -22,17 +23,20 @@ private:
 	HWND mhWnd;
 	RECT mRect;
 	COORD mCoord;
+	CString mAppTitle;
+	CString mAppVersion;
+	CString mAppDeveloper;
 	void calcPos(const int& x, const int& y, const int& color = 10);
 protected:
 
 public:
 	ConsoleWindowManager();
 	~ConsoleWindowManager();
-	void init();
+	void loadStringTable();
+	void initWindow();	
 	HANDLE getConsole();	
 	void sPos(const int& x, const int& y, const std::string& ch, const int& color = 10);
 	void wPos(const int& x, const int& y, const wchar_t &ch, const int& color = 10);
 };
-
 
 #endif // ! CONSOLE_WINDOW_MANAGER

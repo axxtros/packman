@@ -1,9 +1,11 @@
 #include "stdafx.h"
+
 #include "consoleWindowManager.h"
 
 ConsoleWindowManager::ConsoleWindowManager()
 {
-	init();
+	loadStringTable();
+	initWindow();	
 }
 
 ConsoleWindowManager::~ConsoleWindowManager()
@@ -11,8 +13,17 @@ ConsoleWindowManager::~ConsoleWindowManager()
 
 }
 
-void ConsoleWindowManager::init()
-{	
+void ConsoleWindowManager::loadStringTable()
+{
+	mAppTitle.LoadStringW(1);
+	mAppVersion.LoadStringW(2);
+	mAppDeveloper.LoadStringW(3);
+}
+
+
+void ConsoleWindowManager::initWindow()
+{				
+	SetConsoleTitle(mAppTitle + " v." + mAppVersion + " by " + mAppDeveloper);
 	mHConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	mhWnd = GetDesktopWindow();
 	GetWindowRect(mhWnd, &mRect);	
@@ -52,7 +63,7 @@ void ConsoleWindowManager::wPos(const int & x, const int & y, const wchar_t & ch
 	std::wcout << ch;
 }
 
-void ConsoleWindowManager::calcPos(const int & x, const int & y, const int & color)
+inline void ConsoleWindowManager::calcPos(const int & x, const int & y, const int & color)
 {
 	mCoord.X = x;
 	mCoord.Y = y;
