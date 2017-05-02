@@ -11,11 +11,12 @@ MainMenuCtrl::MainMenuCtrl(ConsoleWindowManager* cwm)
 
 MainMenuCtrl::~MainMenuCtrl()
 {
-	//delete cwm;
+	//delete pCwm;
 }
 
 void MainMenuCtrl::loadMenuItems()
 {
+	std::string text = "This is a text!";	
+	pCwm->sPos(Util::calcLineCenter(0, 100, text), 2, text);
 	pCwm->wPos(12, 10, L'\u25A0');
-
 }

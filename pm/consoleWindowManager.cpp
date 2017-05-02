@@ -51,7 +51,7 @@ HANDLE ConsoleWindowManager::getConsole()
 
 void ConsoleWindowManager::sPos(const int & x, const int & y, const std::string & ch, const int & color)
 {
-	calcPos(x, y, color);
+	calcPos(x, y, color);	
 	_setmode(_fileno(stdout), _O_TEXT);				//TEXT mode
 	std::cout << ch;
 }

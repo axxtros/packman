@@ -5,10 +5,11 @@
 
 #include <atlstr.h>
 #include "consoleWindowManager.h";
+#include "util.h"
 
 class MainMenuCtrl {
 private:
-	ConsoleWindowManager* pCwm;
+	ConsoleWindowManager* pCwm;	
 	void loadMenuItems();
 protected:
 public:

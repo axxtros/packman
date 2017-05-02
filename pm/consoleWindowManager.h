@@ -13,9 +13,7 @@
 
 class ConsoleWindowManager {
 
-	static const bool FULL_SCREEN_MODE = 0;
-	static const unsigned int CONSOLE_WINDOW_WIDTH = 1000;
-	static const unsigned int CONSOLE_WINDOW_HEIGHT = 800;
+	static const bool FULL_SCREEN_MODE = 0;	
 	const unsigned int DEFAULT_CONSOLE_COLOR = 10;
 
 private:
@@ -30,6 +28,9 @@ private:
 protected:
 
 public:
+	static const unsigned int CONSOLE_WINDOW_WIDTH = 1000;
+	static const unsigned int CONSOLE_WINDOW_HEIGHT = 800;
+
 	ConsoleWindowManager();
 	~ConsoleWindowManager();
 	void loadStringTable();
