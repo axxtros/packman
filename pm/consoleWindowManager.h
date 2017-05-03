@@ -30,6 +30,7 @@ protected:
 public:
 	static const unsigned int CONSOLE_WINDOW_WIDTH = 1000;
 	static const unsigned int CONSOLE_WINDOW_HEIGHT = 800;
+	static const unsigned int CONSOLE_WINDOW_BUFFER_WIDTH = (CONSOLE_WINDOW_WIDTH / 8);	//kb. 8.3 pixel egy karakter oszlop
 
 	ConsoleWindowManager();
 	~ConsoleWindowManager();

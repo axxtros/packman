@@ -27,6 +27,7 @@ void ConsoleWindowManager::initWindow()
 	mHConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	mhWnd = GetDesktopWindow();
 	GetWindowRect(mhWnd, &mRect);	
+	SetConsoleScreenBufferSize(mhWnd, mCoord);
 	if (FULL_SCREEN_MODE) {
 		//https://cboard.cprogramming.com/windows-programming/72624-how-get-your-program-run-fullscreen-console.html
 		keybd_event(VK_MENU, 0x38, 0, 0);
