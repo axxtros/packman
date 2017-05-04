@@ -48,30 +48,38 @@ void Game::loadLevel(const unsigned int level)
 			for (unsigned int i = 0; i != line.length(); i++) {
 				//wall
 				if (line[i] == ConsoleWindowManager::SYMBOL_WALL_BLOCK) {
+					//pLevelVector[lineNum][i] = ConsoleWindowManager::SYMBOL_WALL_BLOCK;
+					//pLevelVector[lineNum].push_back(ConsoleWindowManager::SYMBOL_WALL_BLOCK);
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + i, GAME_LEVEL_TOP_POS + lineNum, ConsoleWindowManager::SYMBOL_FULL_BLOCK, ConsoleWindowManager::COLOR_WALL);
 				}
 				//dot
 				else if (line[i] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK) {
+					//pLevelVector[lineNum][i] = ConsoleWindowManager::SYMBOL_EMPTY_BLOCK;
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + i, GAME_LEVEL_TOP_POS + lineNum, ConsoleWindowManager::SYMBOL_DOT, ConsoleWindowManager::COLOR_DOT);
 				}
 				//player
 				else if (line[i] == ConsoleWindowManager::SYMBOL_PLAYER) {
+					//pLevelVector[lineNum][i] = ConsoleWindowManager::SYMBOL_PLAYER;
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + i, GAME_LEVEL_TOP_POS + lineNum, ConsoleWindowManager::SYMBOL_GHOST, ConsoleWindowManager::COLOR_PLAYER);
 				}
 				//ghost: Blinky: Red
 				else if (line[i] == ConsoleWindowManager::SYMBOL_GHOST_RED) {
+					//pLevelVector[lineNum][i] = ConsoleWindowManager::SYMBOL_GHOST_RED;
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + i, GAME_LEVEL_TOP_POS + lineNum, ConsoleWindowManager::SYMBOL_GHOST, ConsoleWindowManager::COLOR_GHOST_RED);
 				}
 				//ghost: Pinky: Pink
 				else if (line[i] == ConsoleWindowManager::SYMBOL_GHOST_PINK) {
+					//pLevelVector[lineNum][i] = ConsoleWindowManager::SYMBOL_GHOST_PINK;
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + i, GAME_LEVEL_TOP_POS + lineNum, ConsoleWindowManager::SYMBOL_GHOST, ConsoleWindowManager::COLOR_GHOST_PINK);
 				}
 				//ghost: Inky: Blue
 				else if (line[i] == ConsoleWindowManager::SYMBOL_GHOST_BLUE) {
+					//pLevelVector[lineNum][i] = ConsoleWindowManager::SYMBOL_GHOST_BLUE;
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + i, GAME_LEVEL_TOP_POS + lineNum, ConsoleWindowManager::SYMBOL_GHOST, ConsoleWindowManager::COLOR_GHOST_BLUE);
 				}
 				//ghost: Clyde: Orange
 				else if (line[i] == ConsoleWindowManager::SYMBOL_GHOST_ORANGE) {
+					//pLevelVector[lineNum][i] = ConsoleWindowManager::SYMBOL_GHOST_ORANGE;
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + i, GAME_LEVEL_TOP_POS + lineNum, ConsoleWindowManager::SYMBOL_GHOST, ConsoleWindowManager::COLOR_GHOST_ORANGE);
 				}
 			}

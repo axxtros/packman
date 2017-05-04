@@ -10,6 +10,7 @@
 #include <fstream>
 #include <map>
 #include <cstdlib>
+#include <vector>
 
 #include "consoleWindowManager.h"
 
@@ -22,6 +23,7 @@ private:
 	
 	ConsoleWindowManager* pCwm;
 	std::map<std::string, unsigned int> mScores;
+	std::vector<std::vector<char>> pLevelVector;
 	unsigned long mPlayerPoint;
 
 	void init();
