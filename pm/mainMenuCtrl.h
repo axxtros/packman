@@ -9,12 +9,12 @@
 #include <string>
 #include <fstream>
 
-#include "consoleWindowManager.h";
+#include "consoleWindowManager.h"
+#include "game.h"
 #include "util.h"
 
 class MainMenuCtrl {
-private:
-
+private:	
 	static const unsigned int SELECTED_MENU_COLOR = 14;
 	static const unsigned int SLEEP_MENU = 300;
 	const unsigned int GAME_TITLE_LEFT_POS = 32;
@@ -22,13 +22,14 @@ private:
 	const std::string LOGO_FILE = "files\\logo.txt";
 
 	ConsoleWindowManager* pCwm;	
+	Game* pGame;
 	CString mainMenuText;
 	void loopMainMenu();
 	void writeMainMenu();	
 	void printCenterText(const unsigned int& rowNum, const unsigned int& stringTableID, const unsigned int& leftDistance = 0, const unsigned int& color = 10);
 	unsigned int selectedMenu;
 	void writeTitle();
-	bool isKeydown(const int & key);
+	bool isKeydown(const int & key);	
 protected:
 public:
 	MainMenuCtrl(ConsoleWindowManager*);

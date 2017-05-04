@@ -143,6 +143,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="consoleWindowManager.h" />
+    <ClInclude Include="game.h" />
     <ClInclude Include="mainMenuCtrl.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -151,6 +152,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="consoleWindowManager.cpp" />
+    <ClCompile Include="game.cpp" />
     <ClCompile Include="mainMenuCtrl.cpp" />
     <ClCompile Include="pm.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -166,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="files\logo.txt" />
+    <Text Include="files\scores.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

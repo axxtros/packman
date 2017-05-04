@@ -1,0 +1,9 @@
+Dots#50
+Cherry#100
+Strawberry#300
+Orange#500
+Apple#700
+Melon#1000
+Galaxian Boss#2000
+Bell#3000
+Key#5000

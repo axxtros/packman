@@ -5,7 +5,7 @@
 
 #include "stdafx.h"
 
-#include "consoleWindowManager.h";
+#include "consoleWindowManager.h"
 #include "mainMenuCtrl.h"
 
 int main()
