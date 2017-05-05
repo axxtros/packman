@@ -13,11 +13,13 @@
 #include <vector>
 
 #include "consoleWindowManager.h"
+#include "util.h"
 
 class Game {
 private:
 	const std::string SCORES_FILE = "files\\scores.txt";
-	const std::string LEVEL_FILE = "files\\level_1.txt";
+	const std::string LEVEL_FILE_DIR = "files\\level_";
+	const std::string LEVEL_FILE_EXT = ".txt";
 	const unsigned int GAME_LEVEL_LEFT_POS = 0;
 	const unsigned int GAME_LEVEL_TOP_POS = 0;
 

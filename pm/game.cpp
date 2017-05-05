@@ -39,87 +39,50 @@ void Game::loadScores()
 }
 
 void Game::loadLevel(const unsigned int level)
-{	
-	std::ifstream file(LEVEL_FILE);
-	std::string line;	
-	while (std::getline(file, line)) {	
-		pLevel.push_back(line);	
-	}
-	for (unsigned int i = 0; i != pLevel.size(); i++) {
-		for (unsigned int j = 0; j != pLevel[i].length(); j++) {
-			//wall
-			if (pLevel[i][j] == ConsoleWindowManager::SYMBOL_WALL_BLOCK) {
-				pCwm->wPos(GAME_LEVEL_LEFT_POS + j, GAME_LEVEL_TOP_POS + i, ConsoleWindowManager::SYMBOL_FULL_BLOCK, ConsoleWindowManager::COLOR_WALL);
-			}
-			//dot
-			else if (pLevel[i][j] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK) {
-				pCwm->wPos(GAME_LEVEL_LEFT_POS + j, GAME_LEVEL_TOP_POS + i, ConsoleWindowManager::SYMBOL_DOT, ConsoleWindowManager::COLOR_DOT);
-			}
-			//player
-			else if (pLevel[i][j] == ConsoleWindowManager::SYMBOL_PLAYER) {
-				pCwm->wPos(GAME_LEVEL_LEFT_POS + j, GAME_LEVEL_TOP_POS + i, ConsoleWindowManager::SYMBOL_GHOST, ConsoleWindowManager::COLOR_PLAYER);
-			}
-			//ghost: Blinky: Red
-			else if (pLevel[i][j] == ConsoleWindowManager::SYMBOL_GHOST_RED) {
-				pCwm->wPos(GAME_LEVEL_LEFT_POS + j, GAME_LEVEL_TOP_POS + i, ConsoleWindowManager::SYMBOL_GHOST, ConsoleWindowManager::COLOR_GHOST_RED);
-			}
-			//ghost: Pinky: Pink
-			else if (pLevel[i][j] == ConsoleWindowManager::SYMBOL_GHOST_PINK) {
-				pCwm->wPos(GAME_LEVEL_LEFT_POS + j, GAME_LEVEL_TOP_POS + i, ConsoleWindowManager::SYMBOL_GHOST, ConsoleWindowManager::COLOR_GHOST_PINK);
-			}
-			//ghost: Inky: Blue
-			else if (pLevel[i][j] == ConsoleWindowManager::SYMBOL_GHOST_BLUE) {
-				pCwm->wPos(GAME_LEVEL_LEFT_POS + j, GAME_LEVEL_TOP_POS + i, ConsoleWindowManager::SYMBOL_GHOST, ConsoleWindowManager::COLOR_GHOST_BLUE);
-			}
-			//ghost: Clyde: Orange
-			else if (pLevel[i][j] == ConsoleWindowManager::SYMBOL_GHOST_ORANGE) {
-				pCwm->wPos(GAME_LEVEL_LEFT_POS + j, GAME_LEVEL_TOP_POS + i, ConsoleWindowManager::SYMBOL_GHOST, ConsoleWindowManager::COLOR_GHOST_ORANGE);
-			}
-		}
-	}
-
-	unsigned int lineNum = 0;	
+{		
+	std::string fileName = LEVEL_FILE_DIR + std::to_string(level) + LEVEL_FILE_EXT;
+	std::ifstream file(fileName, std::fstream::in | std::fstream::out | std::fstream::app);
+	std::string line;
 	while (std::getline(file, line)) {
-		if (line.length() > 0) {
-			for (unsigned int i = 0; i != line.length(); i++) {
+		pLevel.push_back(line);
+	}
+	if (pLevel.size() > 0) {
+		for (unsigned int i = 0; i != pLevel.size(); i++) {
+			for (unsigned int j = 0; j != pLevel[i].length(); j++) {
 				//wall
-				if (line[i] == ConsoleWindowManager::SYMBOL_WALL_BLOCK) {
-					//pLevelVector[lineNum][i] = ConsoleWindowManager::SYMBOL_WALL_BLOCK;
-					//pLevelVector[lineNum].push_back(ConsoleWindowManager::SYMBOL_WALL_BLOCK);
-					pCwm->wPos(GAME_LEVEL_LEFT_POS + i, GAME_LEVEL_TOP_POS + lineNum, ConsoleWindowManager::SYMBOL_FULL_BLOCK, ConsoleWindowManager::COLOR_WALL);
+				if (pLevel[i][j] == ConsoleWindowManager::SYMBOL_WALL_BLOCK) {
+					pCwm->wPos(GAME_LEVEL_LEFT_POS + j, GAME_LEVEL_TOP_POS + i, ConsoleWindowManager::SYMBOL_FULL_BLOCK, ConsoleWindowManager::COLOR_WALL);
 				}
 				//dot
-				else if (line[i] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK) {
-					//pLevelVector[lineNum][i] = ConsoleWindowManager::SYMBOL_EMPTY_BLOCK;
-					pCwm->wPos(GAME_LEVEL_LEFT_POS + i, GAME_LEVEL_TOP_POS + lineNum, ConsoleWindowManager::SYMBOL_DOT, ConsoleWindowManager::COLOR_DOT);
+				else if (pLevel[i][j] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK) {
+					pCwm->wPos(GAME_LEVEL_LEFT_POS + j, GAME_LEVEL_TOP_POS + i, ConsoleWindowManager::SYMBOL_DOT, ConsoleWindowManager::COLOR_DOT);
 				}
 				//player
-				else if (line[i] == ConsoleWindowManager::SYMBOL_PLAYER) {
-					//pLevelVector[lineNum][i] = ConsoleWindowManager::SYMBOL_PLAYER;
-					pCwm->wPos(GAME_LEVEL_LEFT_POS + i, GAME_LEVEL_TOP_POS + lineNum, ConsoleWindowManager::SYMBOL_GHOST, ConsoleWindowManager::COLOR_PLAYER);
+				else if (pLevel[i][j] == ConsoleWindowManager::SYMBOL_PLAYER) {
+					pCwm->wPos(GAME_LEVEL_LEFT_POS + j, GAME_LEVEL_TOP_POS + i, ConsoleWindowManager::SYMBOL_GHOST, ConsoleWindowManager::COLOR_PLAYER);
 				}
 				//ghost: Blinky: Red
-				else if (line[i] == ConsoleWindowManager::SYMBOL_GHOST_RED) {
-					//pLevelVector[lineNum][i] = ConsoleWindowManager::SYMBOL_GHOST_RED;
-					pCwm->wPos(GAME_LEVEL_LEFT_POS + i, GAME_LEVEL_TOP_POS + lineNum, ConsoleWindowManager::SYMBOL_GHOST, ConsoleWindowManager::COLOR_GHOST_RED);
+				else if (pLevel[i][j] == ConsoleWindowManager::SYMBOL_GHOST_RED) {
+					pCwm->wPos(GAME_LEVEL_LEFT_POS + j, GAME_LEVEL_TOP_POS + i, ConsoleWindowManager::SYMBOL_GHOST, ConsoleWindowManager::COLOR_GHOST_RED);
 				}
 				//ghost: Pinky: Pink
-				else if (line[i] == ConsoleWindowManager::SYMBOL_GHOST_PINK) {
-					//pLevelVector[lineNum][i] = ConsoleWindowManager::SYMBOL_GHOST_PINK;
-					pCwm->wPos(GAME_LEVEL_LEFT_POS + i, GAME_LEVEL_TOP_POS + lineNum, ConsoleWindowManager::SYMBOL_GHOST, ConsoleWindowManager::COLOR_GHOST_PINK);
+				else if (pLevel[i][j] == ConsoleWindowManager::SYMBOL_GHOST_PINK) {
+					pCwm->wPos(GAME_LEVEL_LEFT_POS + j, GAME_LEVEL_TOP_POS + i, ConsoleWindowManager::SYMBOL_GHOST, ConsoleWindowManager::COLOR_GHOST_PINK);
 				}
 				//ghost: Inky: Blue
-				else if (line[i] == ConsoleWindowManager::SYMBOL_GHOST_BLUE) {
-					//pLevelVector[lineNum][i] = ConsoleWindowManager::SYMBOL_GHOST_BLUE;
-					pCwm->wPos(GAME_LEVEL_LEFT_POS + i, GAME_LEVEL_TOP_POS + lineNum, ConsoleWindowManager::SYMBOL_GHOST, ConsoleWindowManager::COLOR_GHOST_BLUE);
+				else if (pLevel[i][j] == ConsoleWindowManager::SYMBOL_GHOST_BLUE) {
+					pCwm->wPos(GAME_LEVEL_LEFT_POS + j, GAME_LEVEL_TOP_POS + i, ConsoleWindowManager::SYMBOL_GHOST, ConsoleWindowManager::COLOR_GHOST_BLUE);
 				}
 				//ghost: Clyde: Orange
-				else if (line[i] == ConsoleWindowManager::SYMBOL_GHOST_ORANGE) {
-					//pLevelVector[lineNum][i] = ConsoleWindowManager::SYMBOL_GHOST_ORANGE;
-					pCwm->wPos(GAME_LEVEL_LEFT_POS + i, GAME_LEVEL_TOP_POS + lineNum, ConsoleWindowManager::SYMBOL_GHOST, ConsoleWindowManager::COLOR_GHOST_ORANGE);
+				else if (pLevel[i][j] == ConsoleWindowManager::SYMBOL_GHOST_ORANGE) {
+					pCwm->wPos(GAME_LEVEL_LEFT_POS + j, GAME_LEVEL_TOP_POS + i, ConsoleWindowManager::SYMBOL_GHOST, ConsoleWindowManager::COLOR_GHOST_ORANGE);
 				}
 			}
 		}
-		lineNum++;
+	}
+	else {			
+		pCwm->sPos(0, 0, Util::getTableText(11), 7);			
+		std::cin.ignore();
+		exit(EXIT_FAILURE);
 	}
 }
