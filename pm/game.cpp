@@ -22,7 +22,7 @@ void Game::init()
 	mPlayerPoint = 0;
 	loadMapUnits();
 	loadLevel(1);
-	
+	gameLoop();
 	getchar();
 }
 
@@ -93,7 +93,23 @@ void Game::loadLevel(const unsigned int level)
 
 void Game::gameLoop()
 {
+	while (!isKeydown(VK_RETURN)) {
+		if (isKeydown(VK_UP)) {
+			pLevel[player->getY()][player->getX()] = 
+			player->setY(player->getY() - 1);
+		}
+		if (isKeydown(VK_DOWN)) {
 
+		}
+		if (isKeydown(VK_LEFT)) {
+
+		}
+		if (isKeydown(VK_RIGHT)) {
+
+		}
+
+		Sleep(30);
+	}
 }
 
 void Game::refreshScore(const unsigned int score)
