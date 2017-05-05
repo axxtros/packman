@@ -1,10 +1,45 @@
-XXXXXXXXXXXXXXXXXXX
-X        X        X
-X XXXX XXX 0    X X
-X X      X    XXX X
-X                 X
-X    XXXX  XXX    X
-XXX XX RPBO  XXX  X
-X    XXXXXXXXX    X
-X                 X
-XXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+X                                                                                                                     X
+X                                                                                                                     X
+X                                                                                                                     X
+X                                                                                                                     X
+X                                                                                                                     X
+X                                                                                                                     X
+X                                                                                                                     X
+X                                                                                                                     X
+X                                                                                                                     X
+X                                                                                                                     X
+X                                                                                                                     X
+X                                                                                                                     X
+X                                                                                                                     X
+X                                                                                                                     X
+X                                                                                                                     X
+X                                                                                                                     X
+X                                                                                                                     X
+X                                                                                                                     X
+X                                                                                                                     X
+X                                                                                                                     X
+X                                                                                                                     X
+X                                            0                                                                        X
+X                                                                                                                     X
+X                                                                                                                     X
+X                                                                                                                     X
+X                                            RPBO                                                                     X
+X                                                                                                                     X
+X                                                                                                                     X
+X                                                                                                                     X
+X                                                                                                                     X
+X                                                                                                                     X
+X                                                                                                                     X
+X                                                                                                                     X
+X                                                                                                                     X
+X                                                                                                                     X
+X                                                                                                                     X
+X                                                                                                                     X
+X                                                                                                                     X
+X                                                                                                                     X
+X                                                                                                                     X
+X                                                                                                                     X
+X                                                                                                                     X
+X                                                                                                                     X
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

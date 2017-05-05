@@ -25,6 +25,7 @@ int main()
 	MainMenuCtrl* mmc = new MainMenuCtrl(rCwm);
 
 	getchar();
+	delete mmc;
 	delete cwm;
     return 0;
 }

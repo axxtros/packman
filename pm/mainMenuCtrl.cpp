@@ -10,7 +10,7 @@ MainMenuCtrl::MainMenuCtrl(ConsoleWindowManager* cwm)
 
 MainMenuCtrl::~MainMenuCtrl()
 {
-	//delete pCwm;
+	delete pGame;
 }
 
 void MainMenuCtrl::loopMainMenu()
@@ -87,7 +87,7 @@ void MainMenuCtrl::writeTitle()
 	}
 }
 
-bool MainMenuCtrl::isKeydown(const int & key)
+inline bool MainMenuCtrl::isKeydown(const int & key)
 {
 	return (GetAsyncKeyState(key) & 0x8000) != 0;
 }
