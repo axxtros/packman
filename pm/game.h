@@ -20,10 +20,14 @@ private:
 	const std::string LEVEL_FILE = "files\\level_1.txt";
 	const unsigned int GAME_LEVEL_LEFT_POS = 0;
 	const unsigned int GAME_LEVEL_TOP_POS = 0;
-	
+
+	//http://www-h.eng.cam.ac.uk/help/tpl/languages/C++/vectormemory.html
+	/*std::vector<char> tempLineVec(lines[0].length());
+	std::vector<std::vector<char>> tempLevelVec(lines.size(), tempLineVec);*/
+
+	std::vector<std::string> pLevel;
 	ConsoleWindowManager* pCwm;
-	std::map<std::string, unsigned int> mScores;
-	std::vector<std::vector<char>> pLevelVector;
+	std::map<std::string, unsigned int> mScores;	
 	unsigned long mPlayerPoint;
 
 	void init();

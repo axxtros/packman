@@ -6,6 +6,8 @@
 //http://ascii-table.com/ascii-extended-pc-list.php
 //console colors:
 //http://stackoverflow.com/questions/4053837/colorizing-text-in-the-console-with-c
+//vector
+//http://www-h.eng.cam.ac.uk/help/tpl/languages/C++/vectormemory.html
 
 #include "stdafx.h"
 
