@@ -11,6 +11,7 @@
 #include <map>
 #include <cstdlib>
 #include <vector>
+#include <thread>
 
 #include "consoleWindowManager.h"
 #include "util.h"
@@ -18,6 +19,9 @@
 
 class Game {
 private:
+	const bool IS_TIMING_VISIBLE = false;
+	const unsigned int PLAYER_SPEED = 50;
+
 	const std::string SCORES_FILE = "files\\scores.txt";
 	const std::string LEVEL_FILE_DIR = "files\\level_";
 	const std::string LEVEL_FILE_EXT = ".txt";
@@ -29,14 +33,27 @@ private:
 	const std::string BLUE_GHOST_NAME = "Inky";
 	const std::string ORANGE_GHOST_NAME = "Clyde";
 
+	const unsigned int RED_GHOST_SCORE = 100;
+	const unsigned int PINK_GHOST_SCORE = 200;
+	const unsigned int BLUE_GHOST_SCORE = 300;
+	const unsigned int ORANGE_GHOST_SCORE = 400;	
+
+	const unsigned int COLOR_GHOST_RED = 12;
+	const unsigned int COLOR_GHOST_BLUE = 9;
+	const unsigned int COLOR_GHOST_PINK = 13;
+	const unsigned int COLOR_GHOST_ORANGE = 14;
+
 	//http://www-h.eng.cam.ac.uk/help/tpl/languages/C++/vectormemory.html
 	/*std::vector<char> tempLineVec(lines[0].length());
 	std::vector<std::vector<char>> tempLevelVec(lines.size(), tempLineVec);*/
 
+	unsigned int emptyBlockX;
+	unsigned int emptyBlockY;
+
 	std::vector<std::string> pLevel;	//max.: 40x60 karakter
 	ConsoleWindowManager* pCwm;
 	std::map<std::string, unsigned int> mScores;	
-	unsigned long mPlayerPoint;
+	unsigned long mPlayerPoint;	
 
 	Unit* player;
 	Unit* redGhost;
@@ -46,10 +63,14 @@ private:
 	
 	void init();
 	void loadMapUnits();
-	void loadLevel(const unsigned int level);
+	void loadLevel(const unsigned int level);	
 	void gameLoop();
-	void refreshScore(const unsigned int score);
+	void unitMove(Unit* unit);	
+	bool collisionWall(Unit* const unit);
+	void refreshPlayerScore(const unsigned int score);
 	bool isKeydown(const int & key);
+	void timeCounter();
+	void refreshEmptyBlock();
 protected:
 public:
 	Game(ConsoleWindowManager*);

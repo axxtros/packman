@@ -47,11 +47,7 @@ public:
 
 	static const unsigned int COLOR_PLAYER = 15;
 	static const unsigned int COLOR_WALL = 2;
-	static const unsigned int COLOR_DOT = 8;
-	static const unsigned int COLOR_GHOST_RED = 12;
-	static const unsigned int COLOR_GHOST_BLUE = 9;
-	static const unsigned int COLOR_GHOST_PINK = 13;
-	static const unsigned int COLOR_GHOST_ORANGE = 14;
+	static const unsigned int COLOR_DOT = 8;	
 
 	ConsoleWindowManager();
 	~ConsoleWindowManager();

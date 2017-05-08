@@ -7,12 +7,21 @@
 
 class Unit {
 private:
+	enum Mode {SEARCH, WAIT, FOLLOW, ANGRY};
+	/*
+		SEARCH - irányt választ, követi az irányt, ha elágazáshoz ér, vagy az irány már nem tartható tovább, akkor új irány választ
+		WAIT - egyhelyben áll, várakozik
+		FOLLOW - követi a játékost, pontosan arra megy, amerre a játékos
+		ANGRY - sokkal gyorsabban SEARCH, vagy FOLLOW, de csak egy bizonyos ideig (0-5 sec.)
+	*/
 	std::string name;
 	unsigned int score;		//player score, if damage this unit
 	unsigned int x;			//x coord on the map
 	unsigned int y;			//y coord on the map
 	unsigned int dir;		//direction (0-up, 1-down, 2-left, 3-right)
 	unsigned int color;		//color
+	unsigned int speed;		//ai unit speed
+	Mode currentMode;
 protected:
 public:
 	Unit(std::string, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);

@@ -16,3 +16,11 @@ std::string Util::getTableText(unsigned int stringTableID)
 	result.LoadStringW(stringTableID);
 	return CStringA(result);
 }
+
+unsigned int Util::getRandomNum(const unsigned int min, const unsigned int max)
+{
+	std::random_device rd;
+	std::mt19937 mt(rd());
+	std::uniform_real_distribution<double> dist(min, max + 1);
+	return dist(mt);
+}

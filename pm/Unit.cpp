@@ -9,6 +9,7 @@ Unit::Unit(std::string _name, unsigned int _score, unsigned int _x, unsigned int
 	this->y = _y;
 	this->dir = _dir;
 	this->color = _color;
+	this->currentMode = SEARCH;
 }
 
 Unit::~Unit()
