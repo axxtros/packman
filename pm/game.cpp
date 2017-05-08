@@ -63,27 +63,27 @@ void Game::loadLevel(const unsigned int level)
 				}
 				//player
 				else if (pLevel[i][j] == ConsoleWindowManager::SYMBOL_PLAYER) {
-					player = new Unit("", 0, j, i, 0, ConsoleWindowManager::COLOR_PLAYER);
+					player = new Unit("", 0, j, i, 0, ConsoleWindowManager::COLOR_PLAYER, 0);
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + j, GAME_LEVEL_TOP_POS + i, ConsoleWindowManager::SYMBOL_GHOST, ConsoleWindowManager::COLOR_PLAYER);
 				}
 				//ghost: Blinky: Red
 				else if (pLevel[i][j] == ConsoleWindowManager::SYMBOL_GHOST_RED) {
-					redGhost = new Unit(RED_GHOST_NAME, RED_GHOST_SCORE, j, i, Util::getRandomNum(0, 3), Game::COLOR_GHOST_RED);
+					redGhost = new Unit(RED_GHOST_NAME, RED_GHOST_SCORE, j, i, Util::getRandomNum(0, 3), Game::COLOR_GHOST_RED, Game::GHOST_DEFAULT_SPEED);
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + j, GAME_LEVEL_TOP_POS + i, ConsoleWindowManager::SYMBOL_GHOST, Game::COLOR_GHOST_RED);
 				}
 				//ghost: Pinky: Pink
 				else if (pLevel[i][j] == ConsoleWindowManager::SYMBOL_GHOST_PINK) {
-					pinkGhost = new Unit(PINK_GHOST_NAME, PINK_GHOST_SCORE, j, i, Util::getRandomNum(0, 3), Game::COLOR_GHOST_PINK);
+					pinkGhost = new Unit(PINK_GHOST_NAME, PINK_GHOST_SCORE, j, i, Util::getRandomNum(0, 3), Game::COLOR_GHOST_PINK, Game::GHOST_DEFAULT_SPEED);
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + j, GAME_LEVEL_TOP_POS + i, ConsoleWindowManager::SYMBOL_GHOST, Game::COLOR_GHOST_PINK);
 				}
 				//ghost: Inky: Blue
 				else if (pLevel[i][j] == ConsoleWindowManager::SYMBOL_GHOST_BLUE) {
-					blueGhost = new Unit(BLUE_GHOST_NAME, BLUE_GHOST_SCORE, j, i, Util::getRandomNum(0, 3), Game::COLOR_GHOST_BLUE);
+					blueGhost = new Unit(BLUE_GHOST_NAME, BLUE_GHOST_SCORE, j, i, Util::getRandomNum(0, 3), Game::COLOR_GHOST_BLUE, Game::GHOST_DEFAULT_SPEED);
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + j, GAME_LEVEL_TOP_POS + i, ConsoleWindowManager::SYMBOL_GHOST, Game::COLOR_GHOST_BLUE);
 				}
 				//ghost: Clyde: Orange
 				else if (pLevel[i][j] == ConsoleWindowManager::SYMBOL_GHOST_ORANGE) {
-					orangeGhost = new Unit(ORANGE_GHOST_NAME, ORANGE_GHOST_SCORE, j, i, Util::getRandomNum(0, 3), Game::COLOR_GHOST_ORANGE);
+					orangeGhost = new Unit(ORANGE_GHOST_NAME, ORANGE_GHOST_SCORE, j, i, Util::getRandomNum(0, 3), Game::COLOR_GHOST_ORANGE, Game::GHOST_DEFAULT_SPEED);
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + j, GAME_LEVEL_TOP_POS + i, ConsoleWindowManager::SYMBOL_GHOST, Game::COLOR_GHOST_ORANGE);
 				}
 			}
@@ -122,14 +122,14 @@ void Game::gameLoop()
 		if (isKeydown(VK_RIGHT)) {
 			player->setDir(3);
 			unitMove(player);
-		}		
-		Sleep(PLAYER_SPEED);
+		}
+		Sleep(GAME_SPEED);
 	}
 }
 
 void Game::unitMove(Unit* unit)
-{
-	int currentCoord = 0;	
+{		
+	int currentCoord = 0;
 	pCwm->wPos(GAME_LEVEL_LEFT_POS + unit->getX(), GAME_LEVEL_TOP_POS + unit->getY(), ConsoleWindowManager::SYMBOL_EMPTY_BLOCK, 0);
 	switch (unit->getDir()) {
 		case 0:		//up

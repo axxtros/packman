@@ -20,7 +20,7 @@
 class Game {
 private:
 	const bool IS_TIMING_VISIBLE = false;
-	const unsigned int PLAYER_SPEED = 50;
+	const unsigned int GAME_SPEED = 50;
 
 	const std::string SCORES_FILE = "files\\scores.txt";
 	const std::string LEVEL_FILE_DIR = "files\\level_";
@@ -42,6 +42,8 @@ private:
 	const unsigned int COLOR_GHOST_BLUE = 9;
 	const unsigned int COLOR_GHOST_PINK = 13;
 	const unsigned int COLOR_GHOST_ORANGE = 14;
+
+	const unsigned int GHOST_DEFAULT_SPEED = 100;
 
 	//http://www-h.eng.cam.ac.uk/help/tpl/languages/C++/vectormemory.html
 	/*std::vector<char> tempLineVec(lines[0].length());
