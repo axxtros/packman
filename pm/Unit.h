@@ -4,23 +4,28 @@
 #define UNIT_H
 
 #include <string>
+
+#include "consoleWindowManager.h"
 #include "util.h"
 
 class Unit {	
-private:	
+public:
 	/*
 	ALIVE - él, mûködik
 	DEATH - halott, nincs figyelembe véve
 	*/
 	enum Status { ALIVE, DEATH };
 	/*
-	SEARCH - irányt választ, követi az irányt, ha elágazáshoz ér, vagy az irány már nem tartható tovább, akkor új irány választ
+	SEARCH - keres, követi az aktuális irányát
+	SELDIR - irányt választ (ha elágazáshoz ér, vagy az irány már nem tartható tovább, akkor új irány választ)
 	WAIT - egyhelyben áll, várakozik
 	FOLLOW - követi a játékost, pontosan arra megy, amerre a játékos
 	ANGRY - sokkal gyorsabban SEARCH, vagy FOLLOW, de csak egy bizonyos ideig (0-5 sec.)
 	*/
-	enum Mode { SEARCH, WAIT, FOLLOW, ANGRY };
+	enum Mode { SEARCH, SELDIR, WAIT, FOLLOW, ANGRY };
 
+private:
+	unsigned int id;		//0 = player, !0 = ai
 	std::string name;
 	unsigned int score;		//player score, if damage this unit
 	unsigned int x;			//x coord on the map
@@ -30,10 +35,16 @@ private:
 	unsigned int speed;		//ai unit speed
 	Status currentStatus;
 	Mode currentMode;
+
+	std::vector<std::string>* map;	
+	//bool isNextFreeBlock();
+	unsigned int searchNewDir();
 protected:
 public:
-	Unit(std::string, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);
-	~Unit();
+	Unit(unsigned int, std::string, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, std::vector<std::string>*);
+	~Unit();	
+
+	void setId(unsigned int value) { this->id = value; };
 	void setScore(unsigned int value) { this->score = value; };
 	void setX(unsigned int value) { this->x = value; };
 	void setY(unsigned int value) { this->y = value; };
@@ -41,6 +52,7 @@ public:
 	void setColor(unsigned int value) { this->color = color; };
 	void setStatus(Status _status) { this->currentStatus = _status; };
 	void setMode(Mode _mode) { this->currentMode = _mode; };
+	unsigned int getId() { return id; };
 	unsigned int getScore() { return score; };
 	unsigned int getX() { return x; };
 	unsigned int getY() { return y; };
@@ -48,6 +60,7 @@ public:
 	unsigned int getColor() { return color; };
 	Status getStatus() { return currentStatus; };
 	Mode getMode() { return currentMode; };
+	void behaviourCtrl();
 };
 
 #endif UNIT_H

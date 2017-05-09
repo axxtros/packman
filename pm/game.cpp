@@ -10,10 +10,10 @@ Game::Game(ConsoleWindowManager* cwm)
 Game::~Game()
 {	
 	delete player;
-	delete redGhost;
-	delete pinkGhost;
-	delete blueGhost;
-	delete orangeGhost;
+	delete ghostRed;
+	delete ghostPink;
+	delete ghostBlue;
+	delete ghostOrange;
 }
 
 void Game::init()
@@ -63,27 +63,27 @@ void Game::loadLevel(const unsigned int level)
 				}
 				//player
 				else if (pLevel[i][j] == ConsoleWindowManager::SYMBOL_PLAYER) {
-					player = new Unit("", 0, j, i, 0, ConsoleWindowManager::COLOR_PLAYER, 0);
+					player = new Unit(ID_PLAYER, "", 0, j, i, 0, ConsoleWindowManager::COLOR_PLAYER, 0, &pLevel);
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + j, GAME_LEVEL_TOP_POS + i, ConsoleWindowManager::SYMBOL_GHOST, ConsoleWindowManager::COLOR_PLAYER);
 				}
 				//ghost: Blinky: Red
 				else if (pLevel[i][j] == ConsoleWindowManager::SYMBOL_GHOST_RED) {
-					redGhost = new Unit(RED_GHOST_NAME, RED_GHOST_SCORE, j, i, Util::getRandomNum(0, 3), Game::COLOR_GHOST_RED, Game::GHOST_DEFAULT_SPEED);
+					ghostRed = new Unit(ID_GHOST_RED, RED_GHOST_NAME, RED_GHOST_SCORE, j, i, Util::getRandomNum(0, 3), Game::COLOR_GHOST_RED, Game::GHOST_DEFAULT_SPEED, &pLevel);
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + j, GAME_LEVEL_TOP_POS + i, ConsoleWindowManager::SYMBOL_GHOST, Game::COLOR_GHOST_RED);
 				}
 				//ghost: Pinky: Pink
 				else if (pLevel[i][j] == ConsoleWindowManager::SYMBOL_GHOST_PINK) {
-					pinkGhost = new Unit(PINK_GHOST_NAME, PINK_GHOST_SCORE, j, i, Util::getRandomNum(0, 3), Game::COLOR_GHOST_PINK, Game::GHOST_DEFAULT_SPEED);
+					ghostPink = new Unit(ID_GHOST_PINK, PINK_GHOST_NAME, PINK_GHOST_SCORE, j, i, Util::getRandomNum(0, 3), Game::COLOR_GHOST_PINK, Game::GHOST_DEFAULT_SPEED, &pLevel);
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + j, GAME_LEVEL_TOP_POS + i, ConsoleWindowManager::SYMBOL_GHOST, Game::COLOR_GHOST_PINK);
 				}
 				//ghost: Inky: Blue
 				else if (pLevel[i][j] == ConsoleWindowManager::SYMBOL_GHOST_BLUE) {
-					blueGhost = new Unit(BLUE_GHOST_NAME, BLUE_GHOST_SCORE, j, i, Util::getRandomNum(0, 3), Game::COLOR_GHOST_BLUE, Game::GHOST_DEFAULT_SPEED);
+					ghostBlue = new Unit(ID_GHOST_BLUE, BLUE_GHOST_NAME, BLUE_GHOST_SCORE, j, i, Util::getRandomNum(0, 3), Game::COLOR_GHOST_BLUE, Game::GHOST_DEFAULT_SPEED, &pLevel);
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + j, GAME_LEVEL_TOP_POS + i, ConsoleWindowManager::SYMBOL_GHOST, Game::COLOR_GHOST_BLUE);
 				}
 				//ghost: Clyde: Orange
 				else if (pLevel[i][j] == ConsoleWindowManager::SYMBOL_GHOST_ORANGE) {
-					orangeGhost = new Unit(ORANGE_GHOST_NAME, ORANGE_GHOST_SCORE, j, i, Util::getRandomNum(0, 3), Game::COLOR_GHOST_ORANGE, Game::GHOST_DEFAULT_SPEED);
+					ghostOrange = new Unit(ID_GHOST_ORANGE, ORANGE_GHOST_NAME, ORANGE_GHOST_SCORE, j, i, Util::getRandomNum(0, 3), Game::COLOR_GHOST_ORANGE, Game::GHOST_DEFAULT_SPEED, &pLevel);
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + j, GAME_LEVEL_TOP_POS + i, ConsoleWindowManager::SYMBOL_GHOST, Game::COLOR_GHOST_ORANGE);
 				}
 			}
@@ -104,73 +104,161 @@ void Game::gameLoop()
 		timeThread.detach();
 	}	
 
-	bool gameLoop = true;	
-	//player move
+	bool gameLoop = true;		
 	while (gameLoop) {
+		//player move
 		if (isKeydown(VK_UP)) {			
 			player->setDir(0);
-			unitMove(player);			
+			playerMove(player);
 		}
 		if (isKeydown(VK_DOWN)) {
 			player->setDir(1);
-			unitMove(player);
+			playerMove(player);
 		}
 		if (isKeydown(VK_LEFT)) {
 			player->setDir(2);
-			unitMove(player);
+			playerMove(player);
 		}
 		if (isKeydown(VK_RIGHT)) {
 			player->setDir(3);
-			unitMove(player);
+			playerMove(player);
 		}
+
+		//ghosts move
+		ghostRed->behaviourCtrl();
+		aiUnitMove(ghostRed);
+		//ghostBlue->behaviourCtrl();
+		//unitMove(ghostBlue);
+		//ghostPink->behaviourCtrl();
+		//unitMove(ghostPink);
+		//ghostOrange->behaviourCtrl();
+		//unitMove(ghostOrange);
+
 		Sleep(GAME_SPEED);
 	}
 }
 
-void Game::unitMove(Unit* unit)
-{		
-	int currentCoord = 0;
+void Game::playerMove(Unit * unit)
+{
 	pCwm->wPos(GAME_LEVEL_LEFT_POS + unit->getX(), GAME_LEVEL_TOP_POS + unit->getY(), ConsoleWindowManager::SYMBOL_EMPTY_BLOCK, 0);
+	pLevel[unit->getY()][unit->getX()] = ConsoleWindowManager::SYMBOL_EMPTY_BLOCK;
+	int currentCoord = 0;
 	switch (unit->getDir()) {
-		case 0:		//up
+		case 0:	//up
 			currentCoord = unit->getY();
-			unit->setY(--currentCoord);
-			if (collisionWall(unit)) {
-				unit->setY(++currentCoord);				
+			if (!collisionDetection(unit)) {
+				unit->setY(--currentCoord);
 			}
 			break;
-		case 1:		//down
+		case 1:	//down
 			currentCoord = unit->getY();
-			unit->setY(++currentCoord);
-			if (collisionWall(unit)) {
-				unit->setY(--currentCoord);
-			}				
+			if (!collisionDetection(unit)) {
+				unit->setY(++currentCoord);
+			}
 			break;
-		case 2:		//left
+		case 2:	//left
 			currentCoord = unit->getX();
-			unit->setX(--currentCoord);
-			if (collisionWall(unit)) {
-				unit->setX(++currentCoord);
-			}				
-			break;
-		case 3:		//right
-			currentCoord = unit->getX();
-			unit->setX(++currentCoord);
-			if (collisionWall(unit)) {
+			if (!collisionDetection(unit)) {
 				unit->setX(--currentCoord);
-			}				
+			}
+			break;
+		case 3:	//right
+			currentCoord = unit->getX();
+			if (!collisionDetection(unit)) {
+				unit->setX(++currentCoord);
+			}
 			break;
 	}
 	pCwm->wPos(GAME_LEVEL_LEFT_POS + unit->getX(), GAME_LEVEL_TOP_POS + unit->getY(), ConsoleWindowManager::SYMBOL_GHOST, unit->getColor());
+	pLevel[unit->getY()][unit->getX()] = ConsoleWindowManager::SYMBOL_EMPTY_BLOCK;
 	if (!IS_TIMING_VISIBLE) {
 		refreshEmptyBlock();
 	}
 }
 
-bool Game::collisionWall(Unit* const unit)
+void Game::aiUnitMove(Unit* unit)
+{		
+	if (unit->getMode() == Unit::SEARCH || unit->getMode() == Unit::FOLLOW || unit->getMode() == Unit::ANGRY) {
+		int currentCoord = 0;
+		switch (unit->getDir()) {
+		case 0:		//up
+			pCwm->wPos(GAME_LEVEL_LEFT_POS + unit->getX(), GAME_LEVEL_TOP_POS + unit->getY() + 1, ConsoleWindowManager::SYMBOL_EMPTY_BLOCK, 0);
+			pLevel[unit->getY() + 1][unit->getX()] = ConsoleWindowManager::SYMBOL_EMPTY_BLOCK;
+			currentCoord = unit->getY();
+			unit->setY(currentCoord--);
+			if (collisionDetection(unit)) {
+				unit->setMode(Unit::Mode::SELDIR);
+			}
+			break;
+		case 1:		//down
+			pCwm->wPos(GAME_LEVEL_LEFT_POS + unit->getX(), GAME_LEVEL_TOP_POS + unit->getY() - 1, ConsoleWindowManager::SYMBOL_EMPTY_BLOCK, 0);
+			pLevel[unit->getY() - 1][unit->getX()] = ConsoleWindowManager::SYMBOL_EMPTY_BLOCK;
+			currentCoord = unit->getY();
+			unit->setY(currentCoord++);
+			if (collisionDetection(unit)) {
+				unit->setMode(Unit::Mode::SELDIR);
+			}
+			break;
+		case 2:		//left
+			pCwm->wPos(GAME_LEVEL_LEFT_POS + unit->getX() + 1, GAME_LEVEL_TOP_POS + unit->getY(), ConsoleWindowManager::SYMBOL_EMPTY_BLOCK, 0);
+			pLevel[unit->getY()][unit->getX() + 1] = ConsoleWindowManager::SYMBOL_EMPTY_BLOCK;
+			currentCoord = unit->getX();
+			unit->setX(currentCoord--);
+			if (collisionDetection(unit)) {
+				unit->setMode(Unit::Mode::SELDIR);
+			}
+			break;
+		case 3:		//right
+			pCwm->wPos(GAME_LEVEL_LEFT_POS + unit->getX() - 1, GAME_LEVEL_TOP_POS + unit->getY(), ConsoleWindowManager::SYMBOL_EMPTY_BLOCK, 0);
+			pLevel[unit->getY()][unit->getX() - 1] = ConsoleWindowManager::SYMBOL_EMPTY_BLOCK;
+			currentCoord = unit->getX();
+			unit->setX(currentCoord++);
+			if (collisionDetection(unit)) {
+				unit->setMode(Unit::Mode::SELDIR);
+			}
+			break;
+		}
+		pCwm->wPos(GAME_LEVEL_LEFT_POS + unit->getX(), GAME_LEVEL_TOP_POS + unit->getY(), ConsoleWindowManager::SYMBOL_GHOST, unit->getColor());
+		switch (unit->getId()) {
+		case Game::ID_GHOST_RED:
+			pLevel[unit->getY()][unit->getX()] = ConsoleWindowManager::SYMBOL_GHOST_RED;
+			break;
+		case Game::ID_GHOST_PINK:
+			pLevel[unit->getY()][unit->getX()] = ConsoleWindowManager::SYMBOL_GHOST_PINK;
+			break;
+		case Game::ID_GHOST_BLUE:
+			pLevel[unit->getY()][unit->getX()] = ConsoleWindowManager::SYMBOL_GHOST_BLUE;
+			break;
+		case Game::ID_GHOST_ORANGE:
+			pLevel[unit->getY()][unit->getX()] = ConsoleWindowManager::SYMBOL_GHOST_ORANGE;
+			break;
+		}
+		if (!IS_TIMING_VISIBLE) {
+			refreshEmptyBlock();
+		}
+	}	
+}
+
+bool Game::collisionDetection(Unit* const unit)
 {
-	if (pLevel[unit->getY()][unit->getX()] == ConsoleWindowManager::SYMBOL_WALL_BLOCK)
-		return true;
+	switch (unit->getDir()) {
+		case 0: //up
+			if (pLevel[unit->getY() - 1][unit->getX()] != ConsoleWindowManager::SYMBOL_EMPTY_BLOCK)
+				return true;
+			break;
+		case 1: //down
+			if (pLevel[unit->getY() + 1][unit->getX()] != ConsoleWindowManager::SYMBOL_EMPTY_BLOCK)
+				return true;
+			break;
+		case 2: //left
+			if (pLevel[unit->getY()][unit->getX() - 1] != ConsoleWindowManager::SYMBOL_EMPTY_BLOCK)
+				return true;
+			break;
+		case 3: //right
+			if (pLevel[unit->getY()][unit->getX() + 1] != ConsoleWindowManager::SYMBOL_EMPTY_BLOCK)
+				return true;
+			break;
+	}	
 	return false;
 }
 

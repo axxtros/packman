@@ -20,13 +20,21 @@
 class Game {
 private:
 	const bool IS_TIMING_VISIBLE = false;
-	const unsigned int GAME_SPEED = 50;
+	const unsigned int GAME_SPEED = 100;
 
 	const std::string SCORES_FILE = "files\\scores.txt";
 	const std::string LEVEL_FILE_DIR = "files\\level_";
 	const std::string LEVEL_FILE_EXT = ".txt";
 	const unsigned int GAME_LEVEL_LEFT_POS = 0;
 	const unsigned int GAME_LEVEL_TOP_POS = 0;
+
+	enum {
+		ID_PLAYER = 0,
+		ID_GHOST_RED = 1,
+		ID_GHOST_PINK = 2,
+		ID_GHOST_BLUE = 3,
+		ID_GHOST_ORANGE = 4
+	};
 
 	const std::string RED_GHOST_NAME = "Blinky";
 	const std::string PINK_GHOST_NAME = "Pink";
@@ -58,17 +66,18 @@ private:
 	unsigned long mPlayerPoint;	
 
 	Unit* player;
-	Unit* redGhost;
-	Unit* pinkGhost;
-	Unit* blueGhost;
-	Unit* orangeGhost;
+	Unit* ghostRed;
+	Unit* ghostPink;
+	Unit* ghostBlue;
+	Unit* ghostOrange;
 	
 	void init();
 	void loadMapUnits();
 	void loadLevel(const unsigned int level);	
 	void gameLoop();
-	void unitMove(Unit* unit);	
-	bool collisionWall(Unit* const unit);
+	void playerMove(Unit *unit);
+	void aiUnitMove(Unit* unit);	
+	bool collisionDetection(Unit* const unit);
 	void refreshPlayerScore(const unsigned int score);
 	bool isKeydown(const int & key);
 	void timeCounter();

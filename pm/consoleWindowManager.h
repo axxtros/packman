@@ -40,6 +40,7 @@ public:
 	static const char SYMBOL_GHOST_BLUE = 'B';
 	static const char SYMBOL_GHOST_PINK = 'P';
 	static const char SYMBOL_GHOST_ORANGE = 'O';
+	static const char SYMBOL_GHOST_TEST = 'T';
 	static const char SYMBOL_EMPTY_BLOCK = ' ';
 	static const wchar_t SYMBOL_FULL_BLOCK = L'\u2588';
 	static const wchar_t SYMBOL_DOT = L'\u2219';
