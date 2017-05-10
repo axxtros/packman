@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include "Unit.h"
 
-Unit::Unit(unsigned int _id, std::string _name, unsigned int _score, unsigned int _x, unsigned int _y, unsigned int _dir, unsigned int _color, unsigned int _speed, std::vector<std::string>* _map)
+Unit::Unit(unsigned int _id, std::string _name, unsigned int _score, unsigned int _x, unsigned int _y, unsigned int _dir, unsigned int _color, 
+	unsigned int _speed, std::vector<std::string>* _map, char _mapSymbol, wchar_t _screenSymbol)
 {
 	this->id = _id;
 	this->name = _name;
@@ -13,7 +14,9 @@ Unit::Unit(unsigned int _id, std::string _name, unsigned int _score, unsigned in
 	this->speed = _speed;
 	this->currentStatus = Status::ALIVE;
 	this->currentMode = Mode::SEARCH;
-	this->map = _map;	
+	this->map = _map;
+	this->mapSymbol = _mapSymbol;
+	this->screenSymbol = _screenSymbol;
 }
 
 Unit::~Unit()

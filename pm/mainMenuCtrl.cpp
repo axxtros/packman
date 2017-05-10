@@ -78,8 +78,8 @@ void MainMenuCtrl::writeTitle()
 	{		
 		if (line.length() > 0) {
 			for (unsigned int i = 0; i != line.length(); i++) {
-				if (line[i] == ConsoleWindowManager::SYMBOL_WALL_BLOCK) {					
-					pCwm->wPos(GAME_TITLE_LEFT_POS + i, GAME_TITLE_TOP_POS + lineNum, ConsoleWindowManager::SYMBOL_FULL_BLOCK, 2);
+				if (line[i] == ConsoleWindowManager::SYMBOL_MAP_WALL_BLOCK) {					
+					pCwm->wPos(GAME_TITLE_LEFT_POS + i, GAME_TITLE_TOP_POS + lineNum, ConsoleWindowManager::SYMBOL_SCREEN_WALL_BLOCK, 2);
 				}
 			}
 		}

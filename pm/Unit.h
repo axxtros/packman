@@ -38,10 +38,14 @@ private:
 
 	std::vector<std::string>* map;	
 	//bool isNextFreeBlock();
+
+	char mapSymbol;
+	wchar_t screenSymbol;
+
 	unsigned int searchNewDir();
 protected:
 public:
-	Unit(unsigned int, std::string, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, std::vector<std::string>*);
+	Unit(unsigned int, std::string, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, std::vector<std::string>*, char, wchar_t);
 	~Unit();	
 
 	void setId(unsigned int value) { this->id = value; };
@@ -52,12 +56,16 @@ public:
 	void setColor(unsigned int value) { this->color = color; };
 	void setStatus(Status _status) { this->currentStatus = _status; };
 	void setMode(Mode _mode) { this->currentMode = _mode; };
+	void setMapSymbol(char value) { this->mapSymbol = value; };
+	void setScreenSymbol(wchar_t value) { this->screenSymbol = value; };
 	unsigned int getId() { return id; };
 	unsigned int getScore() { return score; };
 	unsigned int getX() { return x; };
 	unsigned int getY() { return y; };
 	unsigned int getDir() { return dir; };
 	unsigned int getColor() { return color; };
+	char getMapSymbol() { return mapSymbol; };
+	wchar_t getScreenSymbol() { return screenSymbol; };
 	Status getStatus() { return currentStatus; };
 	Mode getMode() { return currentMode; };
 	void behaviourCtrl();

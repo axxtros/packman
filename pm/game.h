@@ -30,10 +30,7 @@ private:
 
 	enum {
 		ID_PLAYER = 0,
-		ID_GHOST_RED = 1,
-		ID_GHOST_PINK = 2,
-		ID_GHOST_BLUE = 3,
-		ID_GHOST_ORANGE = 4
+		ID_GHOST = 1		
 	};
 
 	const std::string RED_GHOST_NAME = "Blinky";
@@ -75,8 +72,7 @@ private:
 	void loadMapUnits();
 	void loadLevel(const unsigned int level);	
 	void gameLoop();
-	void playerMove(Unit *unit);
-	void aiUnitMove(Unit* unit);	
+	void unitMove(Unit *unit);	
 	bool collisionDetection(Unit* const unit);
 	void refreshPlayerScore(const unsigned int score);
 	bool isKeydown(const int & key);

@@ -32,19 +32,24 @@ public:
 	static const unsigned int CONSOLE_WINDOW_HEIGHT = 800;
 	static const unsigned int CONSOLE_WINDOW_BUFFER_WIDTH = (CONSOLE_WINDOW_WIDTH / 8);	//kb. 8.3 pixel egy karakter oszlop
 
-	//symbols
+	//symbols - map (ezek a térképen jelennek meg)
 	static const char SYMBOL_FILE_LINE_SEPARATOR = '#';
-	static const char SYMBOL_WALL_BLOCK = 'X';
-	static const char SYMBOL_PLAYER = '0';
-	static const char SYMBOL_GHOST_RED = 'R';
-	static const char SYMBOL_GHOST_BLUE = 'B';
-	static const char SYMBOL_GHOST_PINK = 'P';
-	static const char SYMBOL_GHOST_ORANGE = 'O';
-	static const char SYMBOL_GHOST_TEST = 'T';
+	static const char SYMBOL_MAP_WALL_BLOCK = 'X';
+	static const char SYMBOL_MAP_PLAYER = '0';
+	static const char SYMBOL_MAP_GHOST_RED = 'R';
+	static const char SYMBOL_MAP_GHOST_BLUE = 'B';
+	static const char SYMBOL_MAP_GHOST_PINK = 'P';
+	static const char SYMBOL_MAP_GHOST_ORANGE = 'O';
+	static const char SYMBOL_MAP_GHOST_TEST = 'T';
+	
+	//symbols - screen (ezek a felületen jelennek meg)
+	static const wchar_t SYMBOL_SCREEN_WALL_BLOCK = L'\u2588';
+	static const wchar_t SYMBOL_SCREEN_DOT = L'\u2219';
+	static const wchar_t SYMBOL_SCREEN_PLAYER = L'\u2587';//L'\u2588';
+	static const wchar_t SYMBOL_SCREEN_GHOST = L'\u2588';
+
+	//symbols - universals (map and screen)
 	static const char SYMBOL_EMPTY_BLOCK = ' ';
-	static const wchar_t SYMBOL_FULL_BLOCK = L'\u2588';
-	static const wchar_t SYMBOL_DOT = L'\u2219';
-	static const wchar_t SYMBOL_GHOST = L'\u2588';
 
 	static const unsigned int COLOR_PLAYER = 15;
 	static const unsigned int COLOR_WALL = 2;
