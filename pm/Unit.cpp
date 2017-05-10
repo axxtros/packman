@@ -31,6 +31,8 @@ void Unit::behaviourCtrl()
 				this;
 			break;
 		case Mode::SELDIR:
+			setDir(selectNewDir());
+			setMode(Mode::SEARCH);
 			break;
 		case Mode::WAIT: 
 			break;
@@ -41,57 +43,7 @@ void Unit::behaviourCtrl()
 	}	
 }
 
-//bool Unit::isNextFreeBlock()
-//{	
-//	std::string nextBlock = "";	
-//	switch (dir) {
-//		case 0:	//up			
-//			if (y > 0) {
-//				--y;
-//			}
-//			nextBlock = this->map[0][y][x];
-//			break;
-//		case 1: //down
-//			if (y < this->map[0].size()) {
-//				++y;
-//			}
-//			nextBlock = this->map[0][y][x];
-//			break;
-//		case 2: //left
-//			if (x > 0) {
-//				--x;
-//			}
-//			nextBlock = this->map[0][y][x];
-//			break;
-//		case 3: //right
-//			nextBlock = this->map[0][y][++x];
-//			break;
-//	}
-//	if (nextBlock[0] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK)
-//		return true;
-//	return false;
-//}
-
-unsigned int Unit::searchNewDir()
+unsigned int Unit::selectNewDir()
 {
-	unsigned int idx = 0;
-	unsigned int possibleDirs[4];
-	std::string currentBlock = map[x][y];
-	if (map[x][--y][0] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK) {	//up
-		possibleDirs[idx] = 0;
-		idx++;
-	}
-	if (map[x][++y][0] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK) {	//down
-		possibleDirs[idx] = 1;
-		idx++;
-	}
-	if (map[--x][y][0] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK) {	//left
-		possibleDirs[idx] = 2;
-		idx++;
-	}
-	if (map[++x][y][0] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK) {	//right
-		possibleDirs[idx] = 3;
-		idx++;
-	}	
-	return Util::getRandomNum(0, idx);
+	return Util::getRandomNum(0, 3);	
 }

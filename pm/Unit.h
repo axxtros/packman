@@ -35,14 +35,11 @@ private:
 	unsigned int speed;		//ai unit speed
 	Status currentStatus;
 	Mode currentMode;
-
-	std::vector<std::string>* map;	
-	//bool isNextFreeBlock();
-
+	const std::vector<std::string>* map;	
 	char mapSymbol;
 	wchar_t screenSymbol;
 
-	unsigned int searchNewDir();
+	unsigned int selectNewDir();
 protected:
 public:
 	Unit(unsigned int, std::string, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, std::vector<std::string>*, char, wchar_t);

@@ -127,12 +127,12 @@ void Game::gameLoop()
 		//ghosts move
 		ghostRed->behaviourCtrl();
 		unitMove(ghostRed);
-		//ghostBlue->behaviourCtrl();
-		//unitMove(ghostBlue);
-		//ghostPink->behaviourCtrl();
-		//unitMove(ghostPink);
-		//ghostOrange->behaviourCtrl();
-		//unitMove(ghostOrange);
+		ghostBlue->behaviourCtrl();
+		unitMove(ghostBlue);
+		ghostPink->behaviourCtrl();
+		unitMove(ghostPink);
+		ghostOrange->behaviourCtrl();
+		unitMove(ghostOrange);
 
 		Sleep(GAME_SPEED);
 	}
@@ -217,6 +217,15 @@ bool Game::collisionDetection(Unit* const unit)
 			break;
 	}	
 	return false;
+}
+
+void Game::selectNewDirection(Unit * unit)
+{
+	if (unit->getId() == ID_GHOST && unit->getMode() == Unit::SELDIR) {
+		unsigned int idx = 0;
+		unsigned int possibleDirs[] = { 0, 0, 0, 0 };
+		
+	}
 }
 
 void Game::refreshPlayerScore(const unsigned int score)

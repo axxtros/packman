@@ -20,7 +20,7 @@
 class Game {
 private:
 	const bool IS_TIMING_VISIBLE = false;
-	const unsigned int GAME_SPEED = 100;
+	const unsigned int GAME_SPEED = 50;
 
 	const std::string SCORES_FILE = "files\\scores.txt";
 	const std::string LEVEL_FILE_DIR = "files\\level_";
@@ -74,6 +74,7 @@ private:
 	void gameLoop();
 	void unitMove(Unit *unit);	
 	bool collisionDetection(Unit* const unit);
+	void selectNewDirection(Unit *unit);
 	void refreshPlayerScore(const unsigned int score);
 	bool isKeydown(const int & key);
 	void timeCounter();
