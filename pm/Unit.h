@@ -33,6 +33,9 @@ private:
 	unsigned int dir;		//direction (0-up, 1-down, 2-left, 3-right)
 	unsigned int color;		//color
 	unsigned int speed;		//ai unit speed
+	unsigned int tmpCoord;
+	unsigned int tmpIdx;
+	unsigned int step;
 	Status currentStatus;
 	Mode currentMode;
 	const std::vector<std::string>* map;	
@@ -40,6 +43,7 @@ private:
 	wchar_t screenSymbol;
 
 	unsigned int selectNewDir();
+	void searchNewDir();	
 protected:
 public:
 	Unit(unsigned int, std::string, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, std::vector<std::string>*, char, wchar_t);
