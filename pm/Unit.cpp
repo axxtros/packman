@@ -30,7 +30,7 @@ void Unit::behaviourCtrl()
 	switch (currentMode) {
 		case Mode::SEARCH:
 			step++;
-			if (step == 3) {
+			if (step == 10) {
 				searchNewDir();
 				step = 0;
 			}			
