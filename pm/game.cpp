@@ -124,15 +124,15 @@ void Game::gameLoop()
 			unitMove(player);
 		}
 
-		//ghosts move
-		ghostRed->behaviourCtrl();
+		//ghosts move		
 		unitMove(ghostRed);
-		ghostBlue->behaviourCtrl();
-		unitMove(ghostBlue);
-		ghostPink->behaviourCtrl();
-		unitMove(ghostPink);
-		ghostOrange->behaviourCtrl();
-		unitMove(ghostOrange);
+		ghostRed->behaviourCtrl();
+		//ghostBlue->behaviourCtrl();
+		//unitMove(ghostBlue);
+		//ghostPink->behaviourCtrl();
+		//unitMove(ghostPink);
+		//ghostOrange->behaviourCtrl();
+		//unitMove(ghostOrange);
 
 		Sleep(GAME_SPEED);
 	}
@@ -141,8 +141,10 @@ void Game::gameLoop()
 void Game::unitMove(Unit * unit)
 {
 	if ( (unit->getId() == ID_PLAYER) || (unit->getId() == ID_GHOST && (unit->getMode() == Unit::SEARCH)) ) {
+		
 		pCwm->wPos(GAME_LEVEL_LEFT_POS + unit->getX(), GAME_LEVEL_TOP_POS + unit->getY(), ConsoleWindowManager::SYMBOL_EMPTY_BLOCK, 0);
 		pLevel[unit->getY()][unit->getX()] = ConsoleWindowManager::SYMBOL_EMPTY_BLOCK;
+		
 		int currentCoord = 0;
 		bool isCollision = false;
 		switch (unit->getDir()) {
@@ -183,8 +185,10 @@ void Game::unitMove(Unit * unit)
 			}
 			break;
 		}
+		
 		pCwm->wPos(GAME_LEVEL_LEFT_POS + unit->getX(), GAME_LEVEL_TOP_POS + unit->getY(), unit->getScreenSymbol(), unit->getColor());
 		pLevel[unit->getY()][unit->getX()] = unit->getMapSymbol();
+		
 		if (isCollision) {
 			if (unit->getId() == ID_GHOST) {
 				unit->setMode(Unit::Mode::SELDIR);

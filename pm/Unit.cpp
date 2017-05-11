@@ -11,13 +11,12 @@ Unit::Unit(unsigned int _id, std::string _name, unsigned int _score, unsigned in
 	this->y = _y;
 	this->dir = _dir;
 	this->color = _color;
-	this->speed = _speed;
+	this->speed = _speed; // +Util::getRandomNum(5, 20);
 	this->currentStatus = Status::ALIVE;
 	this->currentMode = Mode::SEARCH;
 	this->map = _map;
 	this->mapSymbol = _mapSymbol;
 	this->screenSymbol = _screenSymbol;
-	step = 0;
 }
 
 Unit::~Unit()
@@ -29,11 +28,7 @@ void Unit::behaviourCtrl()
 {
 	switch (currentMode) {
 		case Mode::SEARCH:
-			step++;
-			if (step == 10) {
-				searchNewDir();
-				step = 0;
-			}			
+			searchNewDir();
 			break;
 		case Mode::SELDIR:
 			setDir(selectNewDir());
@@ -48,39 +43,30 @@ void Unit::behaviourCtrl()
 	}	
 }
 
-void Unit::searchNewDir() {		
-	unsigned int possDirs[] = { 0, 0, 0, 0 };
-	tmpIdx = 0;
-	tmpCoord = y;
-	if (dir != 1 && map[0][--tmpCoord][x] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK) {
-		possDirs[0] = 0;
-		tmpIdx++;
+void Unit::searchNewDir() {
+	bool isOneWay = false;
+	bool isTwoWay = false;
+	switch (this->dir) {
+		case 0: //up
+
+			break;
+		case 1: //down
+
+			break;
+		case 2: //left
+			
+			break;
+		case 3: //right
+			if (map[0][y - 1][x] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK) {
+				isOneWay = true;
+			}
+			if (map[0][y + 1][x] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK) {
+				isTwoWay = true;
+			}
+			break;
 	}
-	tmpCoord = y;
-	if (dir != 0 && map[0][++tmpCoord][x] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK) {
-		possDirs[1] = 1;
-		tmpIdx++;
-	}
-	tmpCoord = x;
-	if (dir != 3 && map[0][y][--tmpCoord] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK) {
-		possDirs[0] = 2;
-		tmpIdx++;
-	}
-	tmpCoord = x;
-	if (dir != 2 && map[0][y][++tmpCoord] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK) {
-		possDirs[1] = 3;
-		tmpIdx++;
-	}
-	//if (dir == 0 || dir == 1) {			//up or down
-	//	
-	//}
-	//else if (dir == 2 || dir == 3) {	//left or right
-	//	tmpIdx = 0;
-	//	
-	//}
-	if (tmpIdx != 0 && Util::getRandDecide()) {
-		dir = possDirs[Util::getRandomNum(0, tmpIdx)];
-	}
+	
+
 }
 
 unsigned int Unit::selectNewDir()

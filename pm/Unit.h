@@ -35,7 +35,6 @@ private:
 	unsigned int speed;		//ai unit speed
 	unsigned int tmpCoord;
 	unsigned int tmpIdx;
-	unsigned int step;
 	Status currentStatus;
 	Mode currentMode;
 	const std::vector<std::string>* map;	

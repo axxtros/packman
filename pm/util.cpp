@@ -26,6 +26,6 @@ unsigned int Util::getRandomNum(const unsigned int min, const unsigned int max)
 {
 	std::random_device rd;
 	std::mt19937 mt(rd());
-	std::uniform_real_distribution<double> dist(min, max + 1);
+	std::uniform_real_distribution<double> dist(min, (max + 1));
 	return dist(mt);
 }

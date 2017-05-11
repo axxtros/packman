@@ -48,7 +48,7 @@ private:
 	const unsigned int COLOR_GHOST_PINK = 13;
 	const unsigned int COLOR_GHOST_ORANGE = 14;
 
-	const unsigned int GHOST_DEFAULT_SPEED = 100;
+	const unsigned int GHOST_DEFAULT_SPEED = 10;
 
 	//http://www-h.eng.cam.ac.uk/help/tpl/languages/C++/vectormemory.html
 	/*std::vector<char> tempLineVec(lines[0].length());
