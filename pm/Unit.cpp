@@ -46,27 +46,55 @@ void Unit::behaviourCtrl()
 void Unit::searchNewDir() {
 	bool isOneWay = false;
 	bool isTwoWay = false;
-	switch (this->dir) {
-		case 0: //up
-
-			break;
-		case 1: //down
-
-			break;
-		case 2: //left
-			
-			break;
-		case 3: //right
-			if (map[0][y - 1][x] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK) {
-				isOneWay = true;
-			}
-			if (map[0][y + 1][x] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK) {
-				isTwoWay = true;
-			}
-			break;
-	}
+	unsigned int oneWayDir = 0;
+	unsigned int twoWayDir = 0;
 	
+	if (this->dir == 0 || this->dir == 1) {	//up or down
+		unsigned int currX = x;
+		if (map[0][y][--currX] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK) {
+			isOneWay = true;
+			oneWayDir = 2;
+		}
+		currX = x;
+		if (map[0][y][++currX] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK) {
+			isOneWay = true;
+			oneWayDir = 3;
+		}
+	}
 
+	if (this->dir == 2 || this->dir == 3) {	//left or right
+		unsigned int currY = y;
+		if (map[0][--currY][x] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK) {
+			isOneWay = true;
+			oneWayDir = 0;
+		}
+		currY = y;
+		if (map[0][++currY][x] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK) {
+			isTwoWay = true;
+			oneWayDir = 1;
+		}
+	}
+
+	if (isOneWay || isTwoWay) {
+		bool isWantNewDir = Util::getRandTrueOrFalse();
+		if (isWantNewDir) {
+			if (isOneWay && isTwoWay) {
+				bool selectRandNewDir = Util::getRandTrueOrFalse();
+				if(selectRandNewDir)
+					this->dir = twoWayDir;
+					
+				else
+					this->dir = oneWayDir;
+			}
+			else if (isOneWay || isTwoWay) {
+				if (isOneWay)
+					this->dir = twoWayDir;
+				else
+					
+				this->dir = oneWayDir;
+			}
+		}
+	}		
 }
 
 unsigned int Unit::selectNewDir()

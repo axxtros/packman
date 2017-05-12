@@ -17,9 +17,11 @@ std::string Util::getTableText(unsigned int stringTableID)
 	return CStringA(result);
 }
 
-bool Util::getRandDecide()
+bool Util::getRandTrueOrFalse()
 {
-	return getRandomNum(0, 1);	
+	if (Util::getRandomNum(0, 1) == 1)
+		return true;
+	return false;
 }
 
 unsigned int Util::getRandomNum(const unsigned int min, const unsigned int max)

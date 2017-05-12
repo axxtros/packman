@@ -127,12 +127,15 @@ void Game::gameLoop()
 		//ghosts move		
 		unitMove(ghostRed);
 		ghostRed->behaviourCtrl();
-		//ghostBlue->behaviourCtrl();
-		//unitMove(ghostBlue);
-		//ghostPink->behaviourCtrl();
-		//unitMove(ghostPink);
-		//ghostOrange->behaviourCtrl();
-		//unitMove(ghostOrange);
+
+		unitMove(ghostBlue);
+		ghostBlue->behaviourCtrl();
+
+		unitMove(ghostPink);
+		ghostPink->behaviourCtrl();
+		
+		unitMove(ghostOrange);
+		ghostOrange->behaviourCtrl();		
 
 		Sleep(GAME_SPEED);
 	}
