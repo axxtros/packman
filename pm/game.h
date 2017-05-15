@@ -63,10 +63,9 @@ private:
 	unsigned long mPlayerPoint;	
 
 	Unit* player;
-	Unit* ghostRed;
-	Unit* ghostPink;
-	Unit* ghostBlue;
-	Unit* ghostOrange;
+	Unit* ghost;
+	std::vector<Unit*> ghosts;
+	unsigned int ghostsIdx;
 	
 	void init();
 	void loadMapUnits();

@@ -16,13 +16,13 @@ public:
 	*/
 	enum Status { ALIVE, DEATH };
 	/*
-	SEARCH - keres, követi az aktuális irányát
+	MOVE - halad
 	SELDIR - irányt választ (ha elágazáshoz ér, vagy az irány már nem tartható tovább, akkor új irány választ)
 	WAIT - egyhelyben áll, várakozik
 	FOLLOW - követi a játékost, pontosan arra megy, amerre a játékos
 	ANGRY - sokkal gyorsabban SEARCH, vagy FOLLOW, de csak egy bizonyos ideig (0-5 sec.)
 	*/
-	enum Mode { SEARCH, SELDIR, WAIT, FOLLOW, ANGRY };
+	enum Mode { MOVE, SELDIR, WAIT, FOLLOW, ANGRY };
 
 private:
 	unsigned int id;		//0 = player, !0 = ai
@@ -43,9 +43,12 @@ private:
 
 	unsigned int selectNewDir();
 	void searchNewDir();	
+	bool getFreeBlock(unsigned int mapY, unsigned int mapX);
+	bool isImpasse(unsigned int mapY, unsigned int mapX);
 protected:
 public:
-	Unit(unsigned int, std::string, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, std::vector<std::string>*, char, wchar_t);
+	Unit::Unit(unsigned int _id, std::string _name, unsigned int _score, unsigned int _x, unsigned int _y, unsigned int _dir, unsigned int _color,
+		unsigned int _speed, std::vector<std::string>* _map, char _mapSymbol, wchar_t _screenSymbol);
 	~Unit();	
 
 	void setId(unsigned int value) { this->id = value; };

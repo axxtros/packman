@@ -13,7 +13,7 @@ Unit::Unit(unsigned int _id, std::string _name, unsigned int _score, unsigned in
 	this->color = _color;
 	this->speed = _speed; // +Util::getRandomNum(5, 20);
 	this->currentStatus = Status::ALIVE;
-	this->currentMode = Mode::SEARCH;
+	this->currentMode = Mode::MOVE;
 	this->map = _map;
 	this->mapSymbol = _mapSymbol;
 	this->screenSymbol = _screenSymbol;
@@ -27,12 +27,13 @@ Unit::~Unit()
 void Unit::behaviourCtrl()
 {
 	switch (currentMode) {
-		case Mode::SEARCH:
+		case Mode::MOVE:
 			searchNewDir();
 			break;
-		case Mode::SELDIR:
+		case Mode::SELDIR:			
 			setDir(selectNewDir());
-			setMode(Mode::SEARCH);
+			//searchNewDir();
+			setMode(Mode::MOVE);
 			break;
 		case Mode::WAIT: 
 			break;
@@ -50,33 +51,39 @@ void Unit::searchNewDir() {
 	unsigned int twoWayDir = 0;
 	
 	if (this->dir == 0 || this->dir == 1) {	//up or down
-		unsigned int currX = x;
-		if (map[0][y][--currX] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK) {
+		unsigned int currX = x;		
+		if(getFreeBlock(y, --currX)) {
 			isOneWay = true;
 			oneWayDir = 2;
 		}
-		currX = x;
-		if (map[0][y][++currX] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK) {
-			isOneWay = true;
-			oneWayDir = 3;
+		currX = x;		
+		if (getFreeBlock(y, ++currX)) {
+			isTwoWay = true;
+			twoWayDir = 3;
 		}
 	}
 
 	if (this->dir == 2 || this->dir == 3) {	//left or right
-		unsigned int currY = y;
-		if (map[0][--currY][x] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK) {
+		unsigned int currY = y;		
+		if (getFreeBlock(--currY, x)) {
 			isOneWay = true;
 			oneWayDir = 0;
 		}
-		currY = y;
-		if (map[0][++currY][x] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK) {
+		currY = y;		
+		if (getFreeBlock(++currY, x)) {
 			isTwoWay = true;
-			oneWayDir = 1;
+			twoWayDir = 1;
 		}
 	}
 
 	if (isOneWay || isTwoWay) {
-		bool isWantNewDir = Util::getRandTrueOrFalse();
+		bool isWantNewDir = false;
+		if (getDir() == Mode::SELDIR) {
+			isWantNewDir = true;
+		}
+		else {
+			isWantNewDir = Util::getRandTrueOrFalse();
+		}		
 		if (isWantNewDir) {
 			if (isOneWay && isTwoWay) {
 				bool selectRandNewDir = Util::getRandTrueOrFalse();
@@ -88,10 +95,9 @@ void Unit::searchNewDir() {
 			}
 			else if (isOneWay || isTwoWay) {
 				if (isOneWay)
+					this->dir = oneWayDir;
+				else					
 					this->dir = twoWayDir;
-				else
-					
-				this->dir = oneWayDir;
 			}
 		}
 	}		
@@ -100,4 +106,10 @@ void Unit::searchNewDir() {
 unsigned int Unit::selectNewDir()
 {
 	return Util::getRandomNum(0, 3);
+}
+
+bool Unit::getFreeBlock(unsigned int mapY, unsigned int mapX) {
+	if ( (map[0][mapY][mapX] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK) || (map[0][mapY][mapX] == ConsoleWindowManager::SYMBOL_SCREEN_DOT) )
+		return true;
+	return false;
 }
