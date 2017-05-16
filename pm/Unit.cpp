@@ -1,41 +1,50 @@
 #include "stdafx.h"
 #include "Unit.h"
 
-Unit::Unit(unsigned int _id, std::string _name, unsigned int _score, unsigned int _x, unsigned int _y, unsigned int _dir, unsigned int _color, 
-	unsigned int _speed, std::vector<std::string>* _map, char _mapSymbol, wchar_t _screenSymbol)
-{
-	this->id = _id;
-	this->name = _name;
-	this->score = _score;
-	this->x = _x;
-	this->y = _y;
-	this->dir = _dir;
-	this->color = _color;
-	this->speed = _speed; // +Util::getRandomNum(5, 20);
-	this->currentStatus = Status::ALIVE;
-	this->currentMode = Mode::MOVE;
-	this->map = _map;
-	this->mapSymbol = _mapSymbol;
-	this->screenSymbol = _screenSymbol;
-}
+//Unit::Unit(unsigned int _id, std::string _name, unsigned int _score, unsigned int _x, unsigned int _y, unsigned int _dir, unsigned int _color, 
+//	unsigned int _speed, std::vector<std::string>* _map, char _mapSymbol, wchar_t _screenSymbol)
+//{
+//	this->id = _id;
+//	this->name = _name;
+//	this->score = _score;
+//	this->x = _x;
+//	this->y = _y;
+//	this->dir = _dir;
+//	this->color = _color;
+//	this->speed = _speed; //+ Util::getRandomNum(5, 200);
+//	this->currentStatus = Status::ALIVE;
+//	this->currentMode = Mode::MOVE;
+//	this->map = _map;
+//	this->mapSymbol = _mapSymbol;
+//	this->screenSymbol = _screenSymbol;
+//	this->speedCounter = 0;
+//}
 
-Unit::~Unit()
-{
-
-}
+//Unit::~Unit()
+//{
+//	delete[] &missiles;
+//}
 
 void Unit::behaviourCtrl()
 {
 	switch (currentMode) {
 		case Mode::MOVE:
 			searchNewDir();
+			if (this->speed != 0 && speedCounter < speed) {		//ha speed = 0, akkor nincs figyelve
+				setMode(Mode::WAIT);
+			}			
 			break;
 		case Mode::SELDIR:			
 			//setDir(selectNewDir());
 			searchNewDir();
 			setMode(Mode::MOVE);
 			break;
-		case Mode::WAIT: 
+		case Mode::WAIT:
+			++speedCounter;
+			if (speedCounter == speed) {
+				setMode(Mode::MOVE);
+				speedCounter = 0;
+			}
 			break;
 		case Mode::FOLLOW: 
 			break;
@@ -58,29 +67,29 @@ void Unit::searchNewDir() {
 	unsigned int oneWayDir = 0;
 	unsigned int twoWayDir = 0;
 	
-	if (this->dir == 0 || this->dir == 1) {	//up or down
-		unsigned int currX = x;		
-		if(getFreeBlock(y, --currX)) {
+	if (getDir() == DIRECTIONS::UP || getDir() == DIRECTIONS::DOWN) {	//up or down
+		unsigned int currX = getX();		
+		if(getFreeBlock(getY(), --currX)) {
 			isOneWay = true;
-			oneWayDir = 2;
+			oneWayDir = DIRECTIONS::LEFT;
 		}
-		currX = x;		
-		if (getFreeBlock(y, ++currX)) {
+		currX = getX();		
+		if (getFreeBlock(getY(), ++currX)) {
 			isTwoWay = true;
-			twoWayDir = 3;
+			twoWayDir = DIRECTIONS::RIGHT;
 		}
 	}
 
-	if (this->dir == 2 || this->dir == 3) {	//left or right
-		unsigned int currY = y;		
-		if (getFreeBlock(--currY, x)) {
+	if (getDir() == DIRECTIONS::LEFT || getDir() == DIRECTIONS::RIGHT) {	//left or right
+		unsigned int currY = getY();		
+		if (getFreeBlock(--currY, getX())) {
 			isOneWay = true;
-			oneWayDir = 0;
+			oneWayDir = DIRECTIONS::UP;
 		}
-		currY = y;		
-		if (getFreeBlock(++currY, x)) {
+		currY = getY();		
+		if (getFreeBlock(++currY, getX())) {
 			isTwoWay = true;
-			twoWayDir = 1;
+			twoWayDir = DIRECTIONS::DOWN;
 		}
 	}
 
@@ -95,29 +104,28 @@ void Unit::searchNewDir() {
 		if (isWantNewDir) {
 			if (isOneWay && isTwoWay) {
 				bool selectRandNewDir = Util::getRandTrueOrFalse();
-				if(selectRandNewDir)
-					this->dir = twoWayDir;
-					
+				if (selectRandNewDir)
+					setDir(twoWayDir);					
 				else
-					this->dir = oneWayDir;
+					setDir(oneWayDir);
 			}
 			else if (isOneWay || isTwoWay) {
 				if (isOneWay)
-					this->dir = oneWayDir;
+					setDir(oneWayDir);
 				else					
-					this->dir = twoWayDir;
+					setDir(twoWayDir);
 			}
 		}
 	}	
 	else if (!isOneWay && !isTwoWay && getMode() == Mode::SELDIR) {	//ha beszorulna egy olyan helyre, ahonnan csak visszafelé lehet menni
-		if (this->dir == 0)
-			this->dir = 1;
-		else if(this->dir == 1)
-			this->dir = 0;
-		else if (this->dir == 2)
-			this->dir = 3;
-		else if (this->dir == 3)
-			this->dir = 2;
+		if (getDir() == DIRECTIONS::UP)
+			setDir(DIRECTIONS::DOWN);
+		else if(getDir() == DIRECTIONS::DOWN)
+			setDir(DIRECTIONS::UP);
+		else if (getDir() == DIRECTIONS::LEFT)
+			setDir(DIRECTIONS::RIGHT);
+		else if (getDir() == DIRECTIONS::RIGHT)
+			setDir(DIRECTIONS::LEFT);
 	}
 }
 
@@ -131,3 +139,24 @@ bool Unit::getFreeBlock(unsigned int mapY, unsigned int mapX) {
 		return true;
 	return false;
 }
+
+void Unit::addNewMissiles(unsigned int missileId)
+{
+	Missile* missile = new Missile(missileId, getX(), getY(), getDir(), 10, ConsoleWindowManager::SYMBOL_MAP_MISSILE, ConsoleWindowManager::SYMBOL_MISSILE, ConsoleWindowManager::COLOR_MISSILE, missiles.size());
+	missiles.push_back(missile);
+	isEmptyMissiles = false;
+}
+
+void Unit::deleteMissile(unsigned int missileSerialNum)
+{
+	for (std::vector<Missile*>::iterator it = missiles.begin(); it != missiles.end(); ++it) {
+		if ((*it)->getSerialNum() == missileSerialNum) {
+			delete(*it);			
+		}		
+	}
+	missiles.erase(missiles.begin() + missileSerialNum);
+	if (missiles.size() == 0) {
+		isEmptyMissiles = true;
+	}
+}
+

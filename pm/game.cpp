@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "game.h"
+#include "missile.h"
 
 Game::Game(ConsoleWindowManager* cwm)
 {
@@ -113,6 +114,7 @@ void Game::gameLoop()
 		timeThread.detach();
 	}	
 
+	isMissileReady = true;
 	bool gameLoop = true;		
 	while (gameLoop) {
 		//player move
@@ -132,28 +134,41 @@ void Game::gameLoop()
 			player->setDir(3);
 			unitMove(player);
 		}
-
-		//ghosts move
-		if (!ghosts.empty()) {
-			for (ghostsIdx = 0; ghostsIdx != ghosts.size(); ghostsIdx++) {
-				unitMove(ghosts[ghostsIdx]);
-				ghosts[ghostsIdx]->behaviourCtrl();
+		//fire
+		if (isKeydown(VK_SPACE) && isMissileReady) {
+ 			player->addNewMissiles(ID_MISSILE);
+ 			isMissileReady = false;
+		}
+		//player missile move
+		if (!player->getMissiles().empty()) {
+			for (tmpIdx = 0; tmpIdx != player->getMissiles().size(); tmpIdx++) {				
+				if (player->isEmptyMissiles) {	//mert lehet, hogy közben kitöröltük a unitMove alatt
+					break;
+				}
+				unitMove(player->getMissiles()[tmpIdx]);				
 			}
-		}	
+		}
+		//ai ghosts move
+		if (!ghosts.empty()) {
+			for (tmpIdx = 0; tmpIdx != ghosts.size(); tmpIdx++) {
+				unitMove(ghosts[tmpIdx]);
+				ghosts[tmpIdx]->behaviourCtrl();
+			}
+		}		
 
 		Sleep(GAME_SPEED);
 	}
 }
 
-void Game::unitMove(Unit * unit)
-{
-	if ( (unit->getId() == ID_PLAYER) || (unit->getId() == ID_GHOST && (unit->getMode() == Unit::MOVE)) ) {
+void Game::unitMove(GameObject * unit)
+{	
+	bool isCollision = false;
+	if ((unit->getId() == ID_GHOST && (unit->getMode() == Unit::MOVE))  || (unit->getId() == ID_PLAYER) ) {
 		
 		pCwm->wPos(GAME_LEVEL_LEFT_POS + unit->getX(), GAME_LEVEL_TOP_POS + unit->getY(), ConsoleWindowManager::SYMBOL_EMPTY_BLOCK, 0);
 		pLevel[unit->getY()][unit->getX()] = ConsoleWindowManager::SYMBOL_EMPTY_BLOCK;
 		
 		int currentCoord = 0;
-		bool isCollision = false;
 		switch (unit->getDir()) {
 		case 0:	//up
 			currentCoord = unit->getY();
@@ -205,9 +220,49 @@ void Game::unitMove(Unit * unit)
 			refreshEmptyBlock();
 		}
 	}
+
+	if (unit->getId() == ID_MISSILE) {
+
+		pCwm->wPos(GAME_LEVEL_LEFT_POS + unit->getX(), GAME_LEVEL_TOP_POS + unit->getY(), ConsoleWindowManager::SYMBOL_EMPTY_BLOCK, 0);
+		pLevel[unit->getY()][unit->getX()] = ConsoleWindowManager::SYMBOL_EMPTY_BLOCK;
+
+		if (!collisionDetection(unit)) {
+			unsigned int curr = 0;
+			switch (unit->getDir()) {
+			case 0: 
+				curr = unit->getY();
+				unit->setY(--curr);
+				break;
+			case 1: 				
+				curr = unit->getY();
+				unit->setY(++curr);
+				break;
+			case 2: 
+				curr = unit->getX();
+				unit->setX(--curr);
+				break;
+			case 3: 
+				curr = unit->getX();
+				unit->setX(++curr);
+				break;
+			}			
+		}
+		else {
+			isCollision = true;
+		}
+		pCwm->wPos(GAME_LEVEL_LEFT_POS + unit->getX(), GAME_LEVEL_TOP_POS + unit->getY(), unit->getScreenSymbol(), unit->getColor());
+		pLevel[unit->getY()][unit->getX()] = unit->getMapSymbol();
+		if (isCollision) {			
+			pCwm->wPos(GAME_LEVEL_LEFT_POS + unit->getX(), GAME_LEVEL_TOP_POS + unit->getY(), ConsoleWindowManager::SYMBOL_EMPTY_BLOCK, 0);
+			pLevel[unit->getY()][unit->getX()] = ConsoleWindowManager::SYMBOL_EMPTY_BLOCK;
+		 	Missile * rMissile = dynamic_cast<Missile*>(unit);			
+			player->deleteMissile(rMissile->getSerialNum());
+ 			isMissileReady = true;			
+		}
+	}
 }
 
-bool Game::collisionDetection(Unit* const unit)
+bool Game::collisionDetection(GameObject* const unit)
 {
 	switch (unit->getDir()) {
 		case 0: //up
@@ -228,15 +283,6 @@ bool Game::collisionDetection(Unit* const unit)
 			break;
 	}	
 	return false;
-}
-
-void Game::selectNewDirection(Unit * unit)
-{
-	if (unit->getId() == ID_GHOST && unit->getMode() == Unit::SELDIR) {
-		unsigned int idx = 0;
-		unsigned int possibleDirs[] = { 0, 0, 0, 0 };
-		
-	}
 }
 
 void Game::refreshPlayerScore(const unsigned int score)

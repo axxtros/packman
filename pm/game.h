@@ -30,7 +30,8 @@ private:
 
 	enum {
 		ID_PLAYER = 0,
-		ID_GHOST = 1		
+		ID_GHOST = 1,
+		ID_MISSILE = 2
 	};
 
 	const std::string RED_GHOST_NAME = "Blinky";
@@ -48,7 +49,7 @@ private:
 	const unsigned int COLOR_GHOST_PINK = 13;
 	const unsigned int COLOR_GHOST_ORANGE = 14;
 
-	const unsigned int GHOST_DEFAULT_SPEED = 10;
+	const unsigned int GHOST_DEFAULT_SPEED = 0;			//ha speed = 0, akkor nincs figyelve az adott egységnél
 
 	//http://www-h.eng.cam.ac.uk/help/tpl/languages/C++/vectormemory.html
 	/*std::vector<char> tempLineVec(lines[0].length());
@@ -65,15 +66,16 @@ private:
 	Unit* player;
 	Unit* ghost;
 	std::vector<Unit*> ghosts;
-	unsigned int ghostsIdx;
+	unsigned int tmpIdx;
+	bool isMissileReady;
 	
 	void init();
 	void loadMapUnits();
 	void loadLevel(const unsigned int level);	
 	void gameLoop();
-	void unitMove(Unit *unit);	
-	bool collisionDetection(Unit* const unit);
-	void selectNewDirection(Unit *unit);
+	//void unitMove(Unit *unit);
+	void unitMove(GameObject * unit);
+	bool collisionDetection(GameObject* const unit);
 	void refreshPlayerScore(const unsigned int score);
 	bool isKeydown(const int & key);
 	void timeCounter();

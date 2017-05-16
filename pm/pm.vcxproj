@@ -142,6 +142,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="gameObject.h" />
+    <ClInclude Include="missile.h" />
     <ClInclude Include="consoleWindowManager.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="mainMenuCtrl.h" />
@@ -152,6 +154,8 @@
     <ClInclude Include="util.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="gameObject.cpp" />
+    <ClCompile Include="missile.cpp" />
     <ClCompile Include="consoleWindowManager.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="mainMenuCtrl.cpp" />

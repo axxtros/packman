@@ -41,19 +41,22 @@ public:
 	static const char SYMBOL_MAP_GHOST_PINK = 'P';
 	static const char SYMBOL_MAP_GHOST_ORANGE = 'O';
 	static const char SYMBOL_MAP_GHOST_TEST = 'T';
+	static const char SYMBOL_MAP_MISSILE = 'M';
 	
 	//symbols - screen (ezek a felületen jelennek meg)
 	static const wchar_t SYMBOL_SCREEN_WALL_BLOCK = L'\u2588';
 	static const wchar_t SYMBOL_SCREEN_DOT = L'\u2219';	
 	static const wchar_t SYMBOL_SCREEN_PLAYER = L'\u2587';//L'\u2588';
 	static const wchar_t SYMBOL_SCREEN_GHOST = L'\u2588';
+	static const wchar_t SYMBOL_MISSILE = L'\u25A0';
 
 	//symbols - universals (map and screen)
 	static const char SYMBOL_EMPTY_BLOCK = ' ';				//universal, screen and map
 
 	static const unsigned int COLOR_PLAYER = 15;
 	static const unsigned int COLOR_WALL = 2;
-	static const unsigned int COLOR_DOT = 8;	
+	static const unsigned int COLOR_DOT = 8;
+	static const unsigned int COLOR_MISSILE = 12;
 
 	ConsoleWindowManager();
 	~ConsoleWindowManager();
