@@ -20,7 +20,7 @@
 class Game {
 private:
 	const bool IS_TIMING_VISIBLE = false;
-	const unsigned int GAME_SPEED = 50;
+	const unsigned int GAME_SPEED = 25;//50;
 
 	const std::string SCORES_FILE = "files\\scores.txt";
 	const std::string LEVEL_FILE_DIR = "files\\level_";

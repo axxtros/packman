@@ -49,7 +49,7 @@ public:
 	static const wchar_t SYMBOL_SCREEN_GHOST = L'\u2588';
 
 	//symbols - universals (map and screen)
-	static const char SYMBOL_EMPTY_BLOCK = ' ';
+	static const char SYMBOL_EMPTY_BLOCK = ' ';				//universal, screen and map
 
 	static const unsigned int COLOR_PLAYER = 15;
 	static const unsigned int COLOR_WALL = 2;

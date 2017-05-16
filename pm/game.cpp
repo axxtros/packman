@@ -44,6 +44,7 @@ void Game::loadLevel(const unsigned int level)
 	}
 	if (pLevel.size() > 0) {
 		bool firstWallBlock = true;
+		bool isPlayerDone = false;
 		for (unsigned int i = 0; i != pLevel.size(); i++) {
 			for (unsigned int j = 0; j != pLevel[i].length(); j++) {
 				//wall
@@ -60,9 +61,10 @@ void Game::loadLevel(const unsigned int level)
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + j, GAME_LEVEL_TOP_POS + i, ConsoleWindowManager::SYMBOL_SCREEN_DOT, ConsoleWindowManager::COLOR_DOT);
 				}
 				//player
-				else if (pLevel[i][j] == ConsoleWindowManager::SYMBOL_MAP_PLAYER) {
+				else if (pLevel[i][j] == ConsoleWindowManager::SYMBOL_MAP_PLAYER && !isPlayerDone) {
 					player = new Unit(ID_PLAYER, "", 0, j, i, 0, ConsoleWindowManager::COLOR_PLAYER, 0, &pLevel, ConsoleWindowManager::SYMBOL_MAP_PLAYER, ConsoleWindowManager::SYMBOL_SCREEN_PLAYER);
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + j, GAME_LEVEL_TOP_POS + i, ConsoleWindowManager::SYMBOL_SCREEN_PLAYER, ConsoleWindowManager::COLOR_PLAYER);
+					isPlayerDone = true;
 				}
 				//ghost: Blinky: Red
 				else if (pLevel[i][j] == ConsoleWindowManager::SYMBOL_MAP_GHOST_RED) {
@@ -87,6 +89,11 @@ void Game::loadLevel(const unsigned int level)
 					ghost = new Unit(ID_GHOST, ORANGE_GHOST_NAME, ORANGE_GHOST_SCORE, j, i, Util::getRandomNum(0, 3), Game::COLOR_GHOST_ORANGE, Game::GHOST_DEFAULT_SPEED, &pLevel, ConsoleWindowManager::SYMBOL_MAP_GHOST_ORANGE, ConsoleWindowManager::SYMBOL_SCREEN_GHOST);
 					ghosts.push_back(ghost);
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + j, GAME_LEVEL_TOP_POS + i, ConsoleWindowManager::SYMBOL_SCREEN_GHOST, Game::COLOR_GHOST_ORANGE);
+				}
+				//unknow character -> SYMBOL_EMPTY_BLOCK
+				else {
+					pLevel[i][j] = ConsoleWindowManager::SYMBOL_EMPTY_BLOCK;
+					pCwm->wPos(GAME_LEVEL_LEFT_POS + j, GAME_LEVEL_TOP_POS + i, ConsoleWindowManager::SYMBOL_SCREEN_DOT, ConsoleWindowManager::COLOR_DOT);					
 				}
 			}
 		}

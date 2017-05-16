@@ -31,8 +31,8 @@ void Unit::behaviourCtrl()
 			searchNewDir();
 			break;
 		case Mode::SELDIR:			
-			setDir(selectNewDir());
-			//searchNewDir();
+			//setDir(selectNewDir());
+			searchNewDir();
 			setMode(Mode::MOVE);
 			break;
 		case Mode::WAIT: 
@@ -44,6 +44,14 @@ void Unit::behaviourCtrl()
 	}	
 }
 
+/*
+	Ha fel, vagy lefelé megy, akkor csak balra, vagy jobbra keres új irányt.
+	Ha balra, vagy jobbra megy, akkor csak felfelé, vagy lefelé keres új irányt.
+	Lehetõleg visszafelé nem választ irány, csak akkor, ha beszorul egy olyan helyre, 
+	ahonnan nincs más út, csak visszafelé.
+	Lehetséges irányváltásnál elöszõr eldönti, hogy legyen-e irányváltás. És ha igen, akkor merre 
+	- ha több lehetõség áll fent.
+*/
 void Unit::searchNewDir() {
 	bool isOneWay = false;
 	bool isTwoWay = false;
@@ -77,7 +85,7 @@ void Unit::searchNewDir() {
 	}
 
 	if (isOneWay || isTwoWay) {
-		bool isWantNewDir = false;
+		bool isWantNewDir = false;									//akar-e irány váltani, vagy sem
 		if (getDir() == Mode::SELDIR) {
 			isWantNewDir = true;
 		}
@@ -100,11 +108,21 @@ void Unit::searchNewDir() {
 					this->dir = twoWayDir;
 			}
 		}
-	}		
+	}	
+	else if (!isOneWay && !isTwoWay && getMode() == Mode::SELDIR) {	//ha beszorulna egy olyan helyre, ahonnan csak visszafelé lehet menni
+		if (this->dir == 0)
+			this->dir = 1;
+		else if(this->dir == 1)
+			this->dir = 0;
+		else if (this->dir == 2)
+			this->dir = 3;
+		else if (this->dir == 3)
+			this->dir = 2;
+	}
 }
 
 unsigned int Unit::selectNewDir()
-{
+{	
 	return Util::getRandomNum(0, 3);
 }
 
