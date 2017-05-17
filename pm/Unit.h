@@ -42,22 +42,19 @@ public:
 		this->map = _map;		
 		setMapSymbol(_mapSymbol);
 		setScreenSymbol(_screenSymbol);
-		this->speedCounter = 0;
-		isEmptyMissiles = true;
+		this->speedCounter = 0;		
 	};
 	
 	~Unit() {
 		delete[] & missiles;
 	}
 	
-	bool isEmptyMissiles;
-
 	void setScore(unsigned int value) { this->score = value; };
 	unsigned int getScore() { return score; };	
 	std::vector<Missile*> getMissiles() { return missiles; };
 	void behaviourCtrl();
-	void addNewMissiles(unsigned int missileId);
-	virtual void deleteMissile(unsigned int missileSerialNum);
+	bool addNewMissiles(unsigned int missileId);
+	virtual void deleteMissiles();
 
 };
 

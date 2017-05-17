@@ -26,7 +26,7 @@
 //}
 
 void Unit::behaviourCtrl()
-{
+{	
 	switch (currentMode) {
 		case Mode::MOVE:
 			searchNewDir();
@@ -134,29 +134,52 @@ unsigned int Unit::selectNewDir()
 	return Util::getRandomNum(0, 3);
 }
 
+bool Unit::addNewMissiles(unsigned int missileId)
+{
+	unsigned int missileX = getX();
+	unsigned int missileY = getY();
+	switch (getDir()) {
+	case DIRECTIONS::UP: 
+		--missileY;
+		break;
+	case DIRECTIONS::DOWN:
+		++missileY;
+		break;
+	case DIRECTIONS::LEFT:
+		--missileX;
+		break;
+	case DIRECTIONS::RIGHT:
+		++missileX;
+		break;
+	}
+	if (getFreeBlock(missileY, missileX)) {
+		Missile* missile = new Missile(missileId, missileX, missileY, getDir(), 10, ConsoleWindowManager::SYMBOL_MAP_MISSILE, ConsoleWindowManager::SYMBOL_MISSILE, ConsoleWindowManager::COLOR_MISSILE, missiles.size());
+		missiles.push_back(missile);
+		return false;
+	}
+	return true;
+}
+
 bool Unit::getFreeBlock(unsigned int mapY, unsigned int mapX) {
-	if ( (map[0][mapY][mapX] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK) || (map[0][mapY][mapX] == ConsoleWindowManager::SYMBOL_SCREEN_DOT) )
+	if ((map[0][mapY][mapX] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK) || (map[0][mapY][mapX] == ConsoleWindowManager::SYMBOL_SCREEN_DOT))
 		return true;
 	return false;
 }
 
-void Unit::addNewMissiles(unsigned int missileId)
+void Unit::deleteMissiles()
 {
-	Missile* missile = new Missile(missileId, getX(), getY(), getDir(), 10, ConsoleWindowManager::SYMBOL_MAP_MISSILE, ConsoleWindowManager::SYMBOL_MISSILE, ConsoleWindowManager::COLOR_MISSILE, missiles.size());
-	missiles.push_back(missile);
-	isEmptyMissiles = false;
-}
-
-void Unit::deleteMissile(unsigned int missileSerialNum)
-{
-	for (std::vector<Missile*>::iterator it = missiles.begin(); it != missiles.end(); ++it) {
-		if ((*it)->getSerialNum() == missileSerialNum) {
-			delete(*it);			
-		}		
-	}
-	missiles.erase(missiles.begin() + missileSerialNum);
-	if (missiles.size() == 0) {
-		isEmptyMissiles = true;
-	}
+	if (!missiles.empty()) {		
+		//http://stackoverflow.com/questions/8628951/remove-elements-of-a-vector-inside-the-loop
+		for (std::vector<Missile*>::iterator it = missiles.begin(); it != missiles.end(); /*++it*/) {
+			if ((*it)->getStatus() == GameObject::DEATH) {
+				//delete (*it);
+				it = missiles.erase(it);				
+			}
+			else {
+				++it;
+			}			
+		}
+		//missiles.erase(missiles.begin());
+	}	
 }
 

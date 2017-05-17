@@ -3,14 +3,14 @@
 #ifndef GAMEOBJECT_H
 #define GAMEOBJECT_H
 
-class GameObject {
-	/*
-	ALIVE - él, mûködik
-	DEATH - halott, nincs figyelembe véve
-	*/
-	enum Status { ALIVE, DEATH };	
-
+class GameObject {	
 	public:
+		/*
+		ALIVE - él, mûködik
+		DEATH - halott, nincs figyelembe véve
+		*/
+		enum Status { ALIVE, DEATH };
+
 		/*
 		MOVE - halad
 		SELDIR - irányt választ (ha elágazáshoz ér, vagy az irány már nem tartható tovább, akkor új irány választ)
@@ -18,8 +18,7 @@ class GameObject {
 		FOLLOW - követi a játékost, pontosan arra megy, amerre a játékos
 		ANGRY - sokkal gyorsabban SEARCH, vagy FOLLOW, de csak egy bizonyos ideig (0-5 sec.)
 		*/
-		enum Mode { MOVE, SELDIR, WAIT, FOLLOW, ANGRY };
-
+		enum Mode { MOVE, SELDIR, WAIT, FOLLOW, ANGRY };		
 	protected:		
 		Mode currentMode;
 	private:
@@ -66,7 +65,6 @@ class GameObject {
 		wchar_t getScreenSymbol() { return screenSymbol; };
 		virtual Status getStatus() { return status; }
 		Mode getMode() { return currentMode; };
-		virtual void deleteMissile(unsigned int missileSerialNum);
 };
 
 #endif GAMEOBJECT_H

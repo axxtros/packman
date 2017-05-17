@@ -46,6 +46,7 @@ public:
 	//symbols - screen (ezek a felületen jelennek meg)
 	static const wchar_t SYMBOL_SCREEN_WALL_BLOCK = L'\u2588';
 	static const wchar_t SYMBOL_SCREEN_DOT = L'\u2219';	
+	//static const char SYMBOL_SCREEN_DOT = ' ';
 	static const wchar_t SYMBOL_SCREEN_PLAYER = L'\u2587';//L'\u2588';
 	static const wchar_t SYMBOL_SCREEN_GHOST = L'\u2588';
 	static const wchar_t SYMBOL_MISSILE = L'\u25A0';
