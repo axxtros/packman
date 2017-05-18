@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #ifndef  CONSOLE_WINDOW_MANAGER
 #define CONSOLE_WINDOW_MANAGER
@@ -32,7 +32,7 @@ public:
 	static const unsigned int CONSOLE_WINDOW_HEIGHT = 800;
 	static const unsigned int CONSOLE_WINDOW_BUFFER_WIDTH = (CONSOLE_WINDOW_WIDTH / 8);	//kb. 8.3 pixel egy karakter oszlop
 
-	//symbols - map (ezek a térképen jelennek meg)
+	//symbols - map (ezek a tÃ©rkÃ©pen jelennek meg)
 	static const char SYMBOL_FILE_LINE_SEPARATOR = '#';
 	static const char SYMBOL_MAP_WALL_BLOCK = 'X';
 	static const char SYMBOL_MAP_PLAYER = '0';
@@ -43,13 +43,13 @@ public:
 	static const char SYMBOL_MAP_GHOST_TEST = 'T';
 	static const char SYMBOL_MAP_MISSILE = 'M';
 	
-	//symbols - screen (ezek a felületen jelennek meg)
+	//symbols - screen (ezek a felÃ¼leten jelennek meg)
 	static const wchar_t SYMBOL_SCREEN_WALL_BLOCK = L'\u2588';
 	static const wchar_t SYMBOL_SCREEN_DOT = L'\u2219';	
 	//static const char SYMBOL_SCREEN_DOT = ' ';
-	static const wchar_t SYMBOL_SCREEN_PLAYER = L'\u2587';//L'\u2588';
+	static const wchar_t SYMBOL_SCREEN_PLAYER = L'\u2588';//L'\u2587';//L'\u2588';
 	static const wchar_t SYMBOL_SCREEN_GHOST = L'\u2588';
-	static const wchar_t SYMBOL_MISSILE = L'\u25A0';
+	static const wchar_t SYMBOL_MISSILE = L'\u0398';//L'\u25A0';
 
 	//symbols - universals (map and screen)
 	static const char SYMBOL_EMPTY_BLOCK = ' ';				//universal, screen and map
@@ -57,7 +57,7 @@ public:
 	static const unsigned int COLOR_PLAYER = 15;
 	static const unsigned int COLOR_WALL = 2;
 	static const unsigned int COLOR_DOT = 8;
-	static const unsigned int COLOR_MISSILE = 12;
+	static const unsigned int COLOR_MISSILE = 15; //Î›V<>
 
 	ConsoleWindowManager();
 	~ConsoleWindowManager();

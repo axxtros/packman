@@ -31,3 +31,10 @@ unsigned int Util::getRandomNum(const unsigned int min, const unsigned int max)
 	std::uniform_real_distribution<double> dist(min, (max + 1));
 	return dist(mt);
 }
+
+unsigned int Util::currentCustomId = 0;
+
+unsigned int Util::getCustomId()
+{
+	return ++currentCustomId;
+}

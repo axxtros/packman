@@ -86,6 +86,7 @@ private:
 	bool isKeydown(const int & key);
 	void timeCounter();
 	void refreshEmptyBlock();
+	Unit* getShotUnit(Missile* missile);
 protected:
 public:
 	Game(ConsoleWindowManager*);

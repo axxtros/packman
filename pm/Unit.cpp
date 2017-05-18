@@ -153,7 +153,7 @@ bool Unit::addNewMissiles(unsigned int missileId)
 		break;
 	}
 	if (getFreeBlock(missileY, missileX)) {
-		Missile* missile = new Missile(missileId, missileX, missileY, getDir(), 10, ConsoleWindowManager::SYMBOL_MAP_MISSILE, ConsoleWindowManager::SYMBOL_MISSILE, ConsoleWindowManager::COLOR_MISSILE, missiles.size());
+		Missile* missile = new Missile(missileId, Util::getCustomId(), missileX, missileY, getDir(), 10, ConsoleWindowManager::SYMBOL_MAP_MISSILE, ConsoleWindowManager::SYMBOL_MISSILE, ConsoleWindowManager::COLOR_MISSILE, missiles.size());
 		missiles.push_back(missile);
 		return false;
 	}
