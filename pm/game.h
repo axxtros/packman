@@ -25,7 +25,7 @@ private:
 	const std::string LEVEL_FILE_DIR = "files\\level_";
 	const std::string LEVEL_FILE_EXT = ".txt";
 	const unsigned int GAME_LEVEL_LEFT_POS = 0;
-	const unsigned int GAME_LEVEL_TOP_POS = 0;
+	const unsigned int GAME_LEVEL_TOP_POS = 1;
 
 	enum {
 		ID_PLAYER = 0,
@@ -67,12 +67,13 @@ private:
 	std::vector<std::string> pLevel;	//max.: 40x60 karakter
 	ConsoleWindowManager* pCwm;
 	std::map<std::string, unsigned int> mScores;	
-	unsigned long mPlayerPoint;	
+	unsigned long mPlayerBullet;	
 
 	Unit* player;
 	Unit* ghost;
 	std::vector<Unit*> ghosts;
 	unsigned int tmpIdx;
+	std::string bulletStr;
 	bool isMissileReady;
 	
 	void init();
@@ -82,7 +83,8 @@ private:
 	//void unitMove(Unit *unit);
 	void unitMove(GameObject * unit);
 	bool collisionDetection(GameObject* const unit);
-	void refreshPlayerScore(const unsigned int score);
+	bool Game::getFreeBlock(unsigned int mapY, unsigned int mapX);
+	void refreshPlayerBullets(const unsigned int score);
 	bool isKeydown(const int & key);
 	void timeCounter();
 	void refreshEmptyBlock();

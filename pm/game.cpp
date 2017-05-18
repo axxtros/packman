@@ -17,8 +17,7 @@ Game::~Game()
 
 void Game::init()
 {	
-	system("cls");
-	mPlayerPoint = 0;
+	system("cls");	
 	loadMapUnits();
 	loadLevel(1);
 	gameLoop();
@@ -98,7 +97,8 @@ void Game::loadLevel(const unsigned int level)
 				}
 			}
 		}
-		refreshPlayerScore(mPlayerPoint);
+		mPlayerBullet = 10;
+		refreshPlayerBullets(mPlayerBullet);
 	}
 	else {			
 		pCwm->sPos(0, 0, Util::getTableText(11), 7);			
@@ -135,8 +135,12 @@ void Game::gameLoop()
 			unitMove(player);
 		}
 		//player fire
-		if (isKeydown(VK_SPACE) && isMissileReady) { 			
- 			isMissileReady = player->addNewMissiles(ID_MISSILE);
+		if (isKeydown(VK_SPACE) && isMissileReady) {
+			if (mPlayerBullet > 0) {
+				isMissileReady = player->addNewMissiles(ID_MISSILE);
+				--mPlayerBullet;
+				refreshPlayerBullets(mPlayerBullet);
+			}			
 		}
 		//player missile move
 		if (!player->getMissiles().empty()) {
@@ -282,29 +286,48 @@ void Game::unitMove(GameObject * unit)
 bool Game::collisionDetection(GameObject* const unit)
 {
 	switch (unit->getDir()) {
-		case 0: //up
-			if (pLevel[unit->getY() - 1][unit->getX()] != ConsoleWindowManager::SYMBOL_EMPTY_BLOCK)
-				return true;
+		case 0:
+			return !getFreeBlock(unit->getY() - 1, unit->getX());
 			break;
-		case 1: //down
-			if (pLevel[unit->getY() + 1][unit->getX()] != ConsoleWindowManager::SYMBOL_EMPTY_BLOCK)
-				return true;
+		case 1: 
+			return !getFreeBlock(unit->getY() + 1, unit->getX());
 			break;
-		case 2: //left
-			if (pLevel[unit->getY()][unit->getX() - 1] != ConsoleWindowManager::SYMBOL_EMPTY_BLOCK)
-				return true;
+		case 2: 
+			return !getFreeBlock(unit->getY(), unit->getX() - 1);
 			break;
-		case 3: //right
-			if (pLevel[unit->getY()][unit->getX() + 1] != ConsoleWindowManager::SYMBOL_EMPTY_BLOCK)
-				return true;
+		case 3: 
+			return !getFreeBlock(unit->getY(), unit->getX() + 1);
 			break;
+		//case 0: //up
+		//	if (pLevel[unit->getY() - 1][unit->getX()] != ConsoleWindowManager::SYMBOL_EMPTY_BLOCK)
+		//		return true;
+		//	break;
+		//case 1: //down
+		//	if (pLevel[unit->getY() + 1][unit->getX()] != ConsoleWindowManager::SYMBOL_EMPTY_BLOCK)
+		//		return true;
+		//	break;
+		//case 2: //left
+		//	if (pLevel[unit->getY()][unit->getX() - 1] != ConsoleWindowManager::SYMBOL_EMPTY_BLOCK)
+		//		return true;
+		//	break;
+		//case 3: //right
+		//	if (pLevel[unit->getY()][unit->getX() + 1] != ConsoleWindowManager::SYMBOL_EMPTY_BLOCK)
+		//		return true;
+		//	break;
 	}	
 	return false;
 }
 
-void Game::refreshPlayerScore(const unsigned int score)
+bool Game::getFreeBlock(unsigned int mapY, unsigned int mapX) {
+	if ((pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK) || (pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_SCREEN_DOT))
+		return true;
+	return false;
+}
+
+void Game::refreshPlayerBullets(const unsigned int bulletNum)
 {
-	pCwm->sPos(GAME_LEVEL_LEFT_POS, GAME_LEVEL_TOP_POS + pLevel.size(), Util::getTableText(12) + " " + std::to_string(score));	//score
+	bulletStr = bulletNum >= 10 ? (Util::getTableText(12) + " " + std::to_string(bulletNum)) : (Util::getTableText(12) + " " + std::to_string(bulletNum) + " ");
+	pCwm->sPos(GAME_LEVEL_LEFT_POS, GAME_LEVEL_TOP_POS - 1, bulletStr);
 }
 
 inline bool Game::isKeydown(const int & key)

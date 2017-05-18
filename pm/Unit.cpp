@@ -50,7 +50,7 @@ void Unit::behaviourCtrl()
 			break;
 		case Mode::ANGRY: 
 			break;
-	}	
+	}
 }
 
 /*
