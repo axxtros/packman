@@ -69,25 +69,25 @@ void Game::loadLevel(const unsigned int level)
 				}
 				//ghost: Blinky: Red
 				else if (pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_GHOST_RED) {
-					ghost = new Unit(ID_GHOST, RED_GHOST_NAME, RED_GHOST_SCORE, mapX, mapY, Util::getRandomNum(0, 3), Game::COLOR_GHOST_RED, Game::GHOST_DEFAULT_SPEED, &pLevel, ConsoleWindowManager::SYMBOL_MAP_GHOST_RED, ConsoleWindowManager::SYMBOL_SCREEN_GHOST);
+					ghost = new Unit(ID_GHOST, RED_GHOST_NAME, RED_GHOST_SCORE, mapX, mapY, Util::getRandomNum(0, 3), Game::COLOR_GHOST_RED, Game::SPEED_MAX, &pLevel, ConsoleWindowManager::SYMBOL_MAP_GHOST_RED, ConsoleWindowManager::SYMBOL_SCREEN_GHOST);
 					ghosts.push_back(ghost);
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + mapX, GAME_LEVEL_TOP_POS + mapY, ConsoleWindowManager::SYMBOL_SCREEN_GHOST, Game::COLOR_GHOST_RED);
 				}
 				//ghost: Pinky: Pink
 				else if (pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_GHOST_PINK) {
-					ghost = new Unit(ID_GHOST, PINK_GHOST_NAME, PINK_GHOST_SCORE, mapX, mapY, Util::getRandomNum(0, 3), Game::COLOR_GHOST_PINK, Game::GHOST_DEFAULT_SPEED, &pLevel, ConsoleWindowManager::SYMBOL_MAP_GHOST_PINK, ConsoleWindowManager::SYMBOL_SCREEN_GHOST);
+					ghost = new Unit(ID_GHOST, PINK_GHOST_NAME, PINK_GHOST_SCORE, mapX, mapY, Util::getRandomNum(0, 3), Game::COLOR_GHOST_PINK, Game::SPEED_NORMAL, &pLevel, ConsoleWindowManager::SYMBOL_MAP_GHOST_PINK, ConsoleWindowManager::SYMBOL_SCREEN_GHOST);
 					ghosts.push_back(ghost);
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + mapX, GAME_LEVEL_TOP_POS + mapY, ConsoleWindowManager::SYMBOL_SCREEN_GHOST, Game::COLOR_GHOST_PINK);
 				}
 				//ghost: Inky: Blue
 				else if (pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_GHOST_BLUE) {
-					ghost = new Unit(ID_GHOST, BLUE_GHOST_NAME, BLUE_GHOST_SCORE, mapX, mapY, Util::getRandomNum(0, 3), Game::COLOR_GHOST_BLUE, Game::GHOST_DEFAULT_SPEED, &pLevel, ConsoleWindowManager::SYMBOL_MAP_GHOST_BLUE, ConsoleWindowManager::SYMBOL_SCREEN_GHOST);
+					ghost = new Unit(ID_GHOST, BLUE_GHOST_NAME, BLUE_GHOST_SCORE, mapX, mapY, Util::getRandomNum(0, 3), Game::COLOR_GHOST_BLUE, Game::SPEED_EASY, &pLevel, ConsoleWindowManager::SYMBOL_MAP_GHOST_BLUE, ConsoleWindowManager::SYMBOL_SCREEN_GHOST);
 					ghosts.push_back(ghost);
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + mapX, GAME_LEVEL_TOP_POS + mapY, ConsoleWindowManager::SYMBOL_SCREEN_GHOST, Game::COLOR_GHOST_BLUE);
 				}
 				//ghost: Clyde: Orange
 				else if (pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_GHOST_ORANGE) {
-					ghost = new Unit(ID_GHOST, ORANGE_GHOST_NAME, ORANGE_GHOST_SCORE, mapX, mapY, Util::getRandomNum(0, 3), Game::COLOR_GHOST_ORANGE, Game::GHOST_DEFAULT_SPEED, &pLevel, ConsoleWindowManager::SYMBOL_MAP_GHOST_ORANGE, ConsoleWindowManager::SYMBOL_SCREEN_GHOST);
+					ghost = new Unit(ID_GHOST, ORANGE_GHOST_NAME, ORANGE_GHOST_SCORE, mapX, mapY, Util::getRandomNum(0, 3), Game::COLOR_GHOST_ORANGE, Game::SPEED_SLOW, &pLevel, ConsoleWindowManager::SYMBOL_MAP_GHOST_ORANGE, ConsoleWindowManager::SYMBOL_SCREEN_GHOST);
 					ghosts.push_back(ghost);
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + mapX, GAME_LEVEL_TOP_POS + mapY, ConsoleWindowManager::SYMBOL_SCREEN_GHOST, Game::COLOR_GHOST_ORANGE);
 				}

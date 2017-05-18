@@ -37,7 +37,7 @@ public:
 		unsigned int _speed, std::vector<std::string>* _map, char _mapSymbol, wchar_t _screenSymbol) : GameObject(_id, _x, _y, _dir, _mapSymbol, _screenSymbol, _color) {
 		this->name = _name;
 		this->score = _score;		
-		this->speed = _speed; //+ Util::getRandomNum(5, 200);
+		this->speed = _speed;
 		currentMode = Mode::MOVE;
 		this->map = _map;		
 		setMapSymbol(_mapSymbol);
@@ -55,7 +55,6 @@ public:
 	void behaviourCtrl();
 	bool addNewMissiles(unsigned int missileId);
 	virtual void deleteMissiles();
-
 };
 
 #endif UNIT_H

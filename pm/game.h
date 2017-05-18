@@ -19,8 +19,7 @@
 
 class Game {
 private:
-	const bool IS_TIMING_VISIBLE = false;
-	const unsigned int GAME_SPEED = 25;//50;
+	const bool IS_TIMING_VISIBLE = false;	
 
 	const std::string SCORES_FILE = "files\\scores.txt";
 	const std::string LEVEL_FILE_DIR = "files\\level_";
@@ -49,7 +48,14 @@ private:
 	const unsigned int COLOR_GHOST_PINK = 13;
 	const unsigned int COLOR_GHOST_ORANGE = 14;
 
-	const unsigned int GHOST_DEFAULT_SPEED = 0;			//ha speed = 0, akkor nincs figyelve az adott egységnél
+	const unsigned int GAME_SPEED = 25;		//50;
+	
+	enum {
+		SPEED_MAX = 0,
+		SPEED_NORMAL = 1,
+		SPEED_EASY = 2,
+		SPEED_SLOW = 3
+	};
 
 	//http://www-h.eng.cam.ac.uk/help/tpl/languages/C++/vectormemory.html
 	/*std::vector<char> tempLineVec(lines[0].length());
