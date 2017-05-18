@@ -1,4 +1,4 @@
-#include "stdafx.h"
+Ôªø#include "stdafx.h"
 #include "game.h"
 #include "missile.h"
 
@@ -50,7 +50,7 @@ void Game::loadLevel(const unsigned int level)
 				//wall
 				if (pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_WALL_BLOCK) {
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + mapX, GAME_LEVEL_TOP_POS + mapY, ConsoleWindowManager::SYMBOL_SCREEN_WALL_BLOCK, ConsoleWindowManager::COLOR_WALL);
-					if (firstWallBlock) {	//ezt a blokkot frissÌt '¸resen', hogy a villogÛ kurzor ne legyen 'szem elıtt'
+					if (firstWallBlock) {	//ezt a blokkot friss√≠t '√ºresen', hogy a villog√≥ kurzor ne legyen 'szem el≈ëtt'
 						emptyBlockX = mapX;
 						emptyBlockY = mapY;
 						firstWallBlock = false;
@@ -138,7 +138,8 @@ void Game::gameLoop()
 		if (isKeydown(VK_SPACE) && isMissileReady) {
 			if (mPlayerBullet > 0) {
 				isMissileReady = player->addNewMissiles(ID_MISSILE);
-				--mPlayerBullet;
+				if(!Game::IS_INFINITE_MISSILE)
+					--mPlayerBullet;
 				refreshPlayerBullets(mPlayerBullet);
 			}			
 		}
@@ -163,7 +164,7 @@ void Game::gameLoop()
 				}
 			}
 		}
-		//gameloop vÈgÈn elvÈgzendı m˚veletek
+		//gameloop v√©g√©n elv√©gzend≈ë m≈±veletek
 		player->deleteMissiles();
 
 		Sleep(GAME_SPEED);
@@ -326,7 +327,12 @@ bool Game::getFreeBlock(unsigned int mapY, unsigned int mapX) {
 
 void Game::refreshPlayerBullets(const unsigned int bulletNum)
 {
-	bulletStr = bulletNum >= 10 ? (Util::getTableText(12) + " " + std::to_string(bulletNum)) : (Util::getTableText(12) + " " + std::to_string(bulletNum) + " ");
+	if (!IS_INFINITE_MISSILE) {
+		bulletStr = bulletNum >= 10 ? (Util::getTableText(12) + " " + std::to_string(bulletNum)) : (Util::getTableText(12) + " " + std::to_string(bulletNum) + " ");
+	}
+	else {
+		bulletStr = (Util::getTableText(12) + " -");		
+	}	
 	pCwm->sPos(GAME_LEVEL_LEFT_POS, GAME_LEVEL_TOP_POS - 1, bulletStr);
 }
 
@@ -356,7 +362,7 @@ void Game::timeCounter()
 }
 
 /*
-	Csak azÈrt frissÌti az adott fal blokkot, hogy a villogÛ kurzor ne l·tszÛdjon.
+	Csak az√©rt friss√≠ti az adott fal blokkot, hogy a villog√≥ kurzor ne l√°tsz√≥djon.
  */
 void Game::refreshEmptyBlock()
 {

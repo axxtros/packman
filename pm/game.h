@@ -19,7 +19,8 @@
 
 class Game {
 private:
-	const bool IS_TIMING_VISIBLE = false;	
+	const bool IS_TIMING_VISIBLE = false;
+	const bool IS_INFINITE_MISSILE = 1;
 
 	const std::string SCORES_FILE = "files\\scores.txt";
 	const std::string LEVEL_FILE_DIR = "files\\level_";
