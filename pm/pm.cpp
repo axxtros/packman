@@ -16,17 +16,17 @@
 
 int main()
 {	
-	ConsoleWindowManager* cwm = new ConsoleWindowManager();	
-	/*cwm->sPos(0, 0, "H");
-	wchar_t ch2 = L'\u25A0';
-	cwm->wPos(2,2, ch2);*/	
-	ConsoleWindowManager* &rCwm = cwm;
-	//ConsoleWindowManager& rCwm = *cwm;			
-	MainMenuCtrl* mmc = new MainMenuCtrl(rCwm);
+	/*std::cout << "\a" << std::endl;
+	Beep(1000, 1000);*/
 
-	getchar();
+	ConsoleWindowManager* cwm = new ConsoleWindowManager();		
+	ConsoleWindowManager* &rCwm = cwm;	
+	MainMenuCtrl* mmc = new MainMenuCtrl(rCwm);
+	
 	delete mmc;
 	delete cwm;
+	
+	getchar();	
     return 0;
 }
 
