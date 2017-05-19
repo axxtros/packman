@@ -13,7 +13,7 @@
 
 class ConsoleWindowManager {
 
-	static const bool FULL_SCREEN_MODE = 1;		
+	static const bool FULL_SCREEN_MODE = 0;		
 
 private:
 	HANDLE mHConsole;
@@ -42,6 +42,7 @@ public:
 	static const char SYMBOL_MAP_GHOST_ORANGE = 'O';
 	static const char SYMBOL_MAP_GHOST_TEST = 'T';
 	static const char SYMBOL_MAP_MISSILE = 'M';
+	static const char SYMBOL_MAP_AMMO_BOX = 'A';
 	
 	//symbols - screen (ezek a felületen jelennek meg)
 	static const wchar_t SYMBOL_SCREEN_WALL_BLOCK = L'\u2588';
@@ -49,6 +50,7 @@ public:
 	//static const char SYMBOL_SCREEN_DOT = ' ';
 	static const wchar_t SYMBOL_SCREEN_PLAYER = L'\u2588';//L'\u2587';//L'\u2588';
 	static const wchar_t SYMBOL_SCREEN_GHOST = L'\u2588';
+	static const wchar_t SYMBOL_SCREEN_AMMO_BOX = 'A';
 	static const wchar_t SYMBOL_MISSILE = 'o';//L'\u0398';	
 
 	//symbols - universals (map and screen)
@@ -58,7 +60,8 @@ public:
 	static const unsigned int COLOR_PLAYER = 15;
 	static const unsigned int COLOR_WALL = 2;
 	static const unsigned int COLOR_DOT = 8;
-	static const unsigned int COLOR_MISSILE = 15; //ΛV<>
+	static const unsigned int COLOR_MISSILE = 15;
+	static const unsigned int COLOR_AMMO_BOX = 15;
 
 	ConsoleWindowManager();
 	~ConsoleWindowManager();

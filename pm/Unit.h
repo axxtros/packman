@@ -11,7 +11,7 @@
 #include "gameObject.h"
 
 class Unit : public GameObject {
-
+public:
 	enum DIRECTIONS {
 		UP = 0,
 		DOWN = 1,
@@ -28,9 +28,7 @@ private:
 	const std::vector<std::string>* map;
 	unsigned int speedCounter;
 	std::vector<Missile*> missiles;
-	unsigned int selectNewDir();
-	void searchNewDir();
-	bool getFreeBlock(unsigned int mapY, unsigned int mapX);	
+	unsigned int selectNewDir();	
 protected:
 public:
 	Unit::Unit(unsigned int _id, unsigned int _customId, std::string _name, unsigned int _score, unsigned int _x, unsigned int _y, unsigned int _dir, unsigned int _color,
@@ -54,8 +52,8 @@ public:
 	unsigned int getScore() { return score; };	
 	std::vector<Missile*> getMissiles() { return missiles; };
 	void behaviourCtrl();
-	bool addNewMissiles(unsigned int missileId);
-	virtual void deleteMissiles();
+	void addNewMissile(Missile* missile);
+	virtual void deleteMissiles();	
 };
 
 #endif UNIT_H

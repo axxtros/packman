@@ -83,8 +83,20 @@ private:
 	void gameLoop();
 	//void unitMove(Unit *unit);
 	void unitMove(GameObject * unit);
+
+	/*
+	Ha fel, vagy lefelé megy, akkor csak balra, vagy jobbra keres új irányt.
+	Ha balra, vagy jobbra megy, akkor csak felfelé, vagy lefelé keres új irányt.
+	Lehetõleg visszafelé nem választ irány, csak akkor, ha beszorul egy olyan helyre,
+	ahonnan nincs más út, csak visszafelé.
+	Lehetséges irányváltásnál elöszõr eldönti, hogy legyen-e irányváltás. És ha igen, akkor merre
+	- ha több lehetõség áll fent.
+	*/
+	void searchNewDir(Unit * unit);
+
+	bool addNewMissiles(Unit * unit);
 	bool collisionDetection(GameObject* const unit);
-	bool Game::getFreeBlock(unsigned int mapY, unsigned int mapX);
+	bool getFreeBlock(unsigned int mapY, unsigned int mapX);
 	void refreshPlayerBullets(const unsigned int score);
 	bool isKeydown(const int & key);
 	void timeCounter();
