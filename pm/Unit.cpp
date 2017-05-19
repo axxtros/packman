@@ -34,6 +34,11 @@ void Unit::addFireMissile(Missile * missile)
 	missiles.push_back(missile);
 }
 
+void Unit::addExtraMissile(unsigned int missileNum)
+{
+	mMissileNumber = getMissileNumber() + missileNum;
+}
+
 unsigned int Unit::selectNewDir()
 {	
 	return Util::getRandomNum(0, 3);

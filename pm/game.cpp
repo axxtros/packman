@@ -299,12 +299,12 @@ void Game::searchNewDir(GameObject * unit)
 
 	if (unit->getDir() == Unit::DIRECTIONS::UP || unit->getDir() == Unit::DIRECTIONS::DOWN) {	//up or down
 		unsigned int currX = unit->getX();
-		if (checkNextBlock(unit->getY(), --currX)) {
+		if (isFreeBlock(unit->getY(), --currX)) {
 			isOneWay = true;
 			oneWayDir = Unit::DIRECTIONS::LEFT;
 		}
 		currX = unit->getX();
-		if (checkNextBlock(unit->getY(), ++currX)) {
+		if (isFreeBlock(unit->getY(), ++currX)) {
 			isTwoWay = true;
 			twoWayDir = Unit::DIRECTIONS::RIGHT;
 		}
@@ -312,12 +312,12 @@ void Game::searchNewDir(GameObject * unit)
 
 	if (unit->getDir() == Unit::DIRECTIONS::LEFT || unit->getDir() == Unit::DIRECTIONS::RIGHT) {	//left or right
 		unsigned int currY = unit->getY();
-		if (checkNextBlock(--currY, unit->getX())) {
+		if (isFreeBlock(--currY, unit->getX())) {
 			isOneWay = true;
 			oneWayDir = Unit::DIRECTIONS::UP;
 		}
 		currY = unit->getY();
-		if (checkNextBlock(++currY, unit->getX())) {
+		if (isFreeBlock(++currY, unit->getX())) {
 			isTwoWay = true;
 			twoWayDir = Unit::DIRECTIONS::DOWN;
 		}
@@ -377,7 +377,7 @@ bool Game::fireMissile(Unit * unit)
 		++missileX;
 		break;
 	}
-	if (checkNextBlock(missileY, missileX)) {
+	if (isFreeBlock(missileY, missileX)) {
 		Missile* missile = new Missile(ID_MISSILE, Util::getCustomId(), missileX, missileY, unit->getDir(), 10, ConsoleWindowManager::SYMBOL_MAP_MISSILE, ConsoleWindowManager::SYMBOL_MISSILE, ConsoleWindowManager::COLOR_MISSILE, unit->getMissiles().size());
 		unit->addFireMissile(missile);
 		return false;
@@ -389,22 +389,35 @@ bool Game::collisionDetection(GameObject* const unit)
 {
 	switch (unit->getDir()) {
 		case 0:
-			return !checkNextBlock(unit->getY() - 1, unit->getX());
+			checkNextBlock(unit, unit->getY() - 1, unit->getX());
+			return !isFreeBlock(unit->getY() - 1, unit->getX());
 			break;
 		case 1: 
-			return !checkNextBlock(unit->getY() + 1, unit->getX());
+			checkNextBlock(unit, unit->getY() + 1, unit->getX());
+			return !isFreeBlock(unit->getY() + 1, unit->getX());
 			break;
 		case 2: 
-			return !checkNextBlock(unit->getY(), unit->getX() - 1);
+			checkNextBlock(unit, unit->getY(), unit->getX() - 1);
+			return !isFreeBlock(unit->getY(), unit->getX() - 1);
 			break;
 		case 3: 
-			return !checkNextBlock(unit->getY(), unit->getX() + 1);
+			checkNextBlock(unit, unit->getY(), unit->getX() + 1);
+			return !isFreeBlock(unit->getY(), unit->getX() + 1);
 			break;
 	}	
 	return false;
 }
 
-bool Game::checkNextBlock(unsigned int mapY, unsigned int mapX) {
+void Game::checkNextBlock(GameObject * const unit, unsigned int mapY, unsigned int mapX)
+{	
+	if (unit->getId() == ID_PLAYER && pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_AMMO_BOX) {
+		Unit * _player = dynamic_cast<Unit*>(unit);
+		_player->addExtraMissile(DEFAULT_MISSILE_NUMBER);
+		refreshPlayerBullets(_player->getMissileNumber());
+	}
+}
+
+bool Game::isFreeBlock(unsigned int mapY, unsigned int mapX) {
 	if ((pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK) ||
 		(pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_SCREEN_DOT) ||
 		(pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_AMMO_BOX) )

@@ -75,6 +75,8 @@ private:
 	Unit* ghost;
 	std::vector<Unit*> ghosts;
 	unsigned int tmpIdx;
+	unsigned int tmpX;
+	unsigned int tmpY;
 	std::string bulletStr;
 	bool isMissileReady;
 	
@@ -98,8 +100,10 @@ private:
 	bool fireMissile(Unit * unit);
 	bool collisionDetection(GameObject* const unit);
 
+	void checkNextBlock(GameObject* const unit, unsigned int mapY, unsigned int mapX);
+
 	/* True, ha szabad a következõ blokk-ra menni. */
-	bool checkNextBlock(unsigned int mapY, unsigned int mapX);
+	bool isFreeBlock(unsigned int mapY, unsigned int mapX);
 	void refreshPlayerBullets(const unsigned int score);
 	bool isKeydown(const int & key);
 	void timeCounter();

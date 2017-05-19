@@ -56,6 +56,7 @@ public:
 	std::vector<Missile*> getMissiles() { return missiles; };
 	void behaviourCtrl();
 	void addFireMissile(Missile* missile);
+	void addExtraMissile(unsigned int missileNum);
 	virtual void deleteMissiles();	
 };
 
