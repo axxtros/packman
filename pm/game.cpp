@@ -67,6 +67,7 @@ void Game::loadLevel(const unsigned int level)
 				//player
 				else if (pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_PLAYER && !isPlayerDone) {
 					player = new Unit(ID_PLAYER, Util::getCustomId(), "", 0, mapX, mapY, 0, ConsoleWindowManager::COLOR_PLAYER, 0, &pLevel, ConsoleWindowManager::SYMBOL_MAP_PLAYER, ConsoleWindowManager::SYMBOL_SCREEN_PLAYER);
+					player->setMissileNumber(DEFAULT_MISSILE_NUMBER);
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + mapX, GAME_LEVEL_TOP_POS + mapY, ConsoleWindowManager::SYMBOL_SCREEN_PLAYER, ConsoleWindowManager::COLOR_PLAYER);
 					isPlayerDone = true;
 				}
@@ -100,9 +101,8 @@ void Game::loadLevel(const unsigned int level)
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + mapX, GAME_LEVEL_TOP_POS + mapY, ConsoleWindowManager::SYMBOL_SCREEN_DOT, ConsoleWindowManager::COLOR_DOT);					
 				}
 			}
-		}
-		mPlayerBullet = 10;
-		refreshPlayerBullets(mPlayerBullet);
+		}		
+		refreshPlayerBullets(player->getMissileNumber());
 	}
 	else {			
 		pCwm->sPos(0, 0, Util::getTableText(11), 7);			
@@ -140,11 +140,12 @@ void Game::gameLoop()
 		}
 		//player fire
 		if (isKeydown(VK_SPACE) && isMissileReady) {
-			if (mPlayerBullet > 0) {
-				isMissileReady = addNewMissiles(player);
-				if(!Game::IS_INFINITE_MISSILE)
-					--mPlayerBullet;
-				refreshPlayerBullets(mPlayerBullet);
+			if (player->getMissileNumber() > 0) {
+				isMissileReady = fireMissile(player);
+				if (!Game::IS_INFINITE_MISSILE) {
+					player->setMissileNumber(player->getMissileNumber() - 1);
+				}					
+				refreshPlayerBullets(player->getMissileNumber());
 			}			
 		}
 		//player missile move
@@ -171,7 +172,7 @@ void Game::gameLoop()
 		}
 		//gameloop végén elvégzendő műveletek
 		player->deleteMissiles();
-
+		
 		Sleep(GAME_SPEED);
 	}
 }
@@ -289,7 +290,7 @@ void Game::unitMove(GameObject * unit)
 	}
 }
 
-void Game::searchNewDir(Unit * unit)
+void Game::searchNewDir(GameObject * unit)
 {
 	bool isOneWay = false;
 	bool isTwoWay = false;
@@ -298,12 +299,12 @@ void Game::searchNewDir(Unit * unit)
 
 	if (unit->getDir() == Unit::DIRECTIONS::UP || unit->getDir() == Unit::DIRECTIONS::DOWN) {	//up or down
 		unsigned int currX = unit->getX();
-		if (getFreeBlock(unit->getY(), --currX)) {
+		if (checkNextBlock(unit->getY(), --currX)) {
 			isOneWay = true;
 			oneWayDir = Unit::DIRECTIONS::LEFT;
 		}
 		currX = unit->getX();
-		if (getFreeBlock(unit->getY(), ++currX)) {
+		if (checkNextBlock(unit->getY(), ++currX)) {
 			isTwoWay = true;
 			twoWayDir = Unit::DIRECTIONS::RIGHT;
 		}
@@ -311,12 +312,12 @@ void Game::searchNewDir(Unit * unit)
 
 	if (unit->getDir() == Unit::DIRECTIONS::LEFT || unit->getDir() == Unit::DIRECTIONS::RIGHT) {	//left or right
 		unsigned int currY = unit->getY();
-		if (getFreeBlock(--currY, unit->getX())) {
+		if (checkNextBlock(--currY, unit->getX())) {
 			isOneWay = true;
 			oneWayDir = Unit::DIRECTIONS::UP;
 		}
 		currY = unit->getY();
-		if (getFreeBlock(++currY, unit->getX())) {
+		if (checkNextBlock(++currY, unit->getX())) {
 			isTwoWay = true;
 			twoWayDir = Unit::DIRECTIONS::DOWN;
 		}
@@ -358,7 +359,7 @@ void Game::searchNewDir(Unit * unit)
 	}
 }
 
-bool Game::addNewMissiles(Unit * unit)
+bool Game::fireMissile(Unit * unit)
 {
 	unsigned int missileX = unit->getX();
 	unsigned int missileY = unit->getY();
@@ -376,9 +377,9 @@ bool Game::addNewMissiles(Unit * unit)
 		++missileX;
 		break;
 	}
-	if (getFreeBlock(missileY, missileX)) {
+	if (checkNextBlock(missileY, missileX)) {
 		Missile* missile = new Missile(ID_MISSILE, Util::getCustomId(), missileX, missileY, unit->getDir(), 10, ConsoleWindowManager::SYMBOL_MAP_MISSILE, ConsoleWindowManager::SYMBOL_MISSILE, ConsoleWindowManager::COLOR_MISSILE, unit->getMissiles().size());
-		unit->addNewMissile(missile);
+		unit->addFireMissile(missile);
 		return false;
 	}
 	return true;
@@ -388,23 +389,23 @@ bool Game::collisionDetection(GameObject* const unit)
 {
 	switch (unit->getDir()) {
 		case 0:
-			return !getFreeBlock(unit->getY() - 1, unit->getX());
+			return !checkNextBlock(unit->getY() - 1, unit->getX());
 			break;
 		case 1: 
-			return !getFreeBlock(unit->getY() + 1, unit->getX());
+			return !checkNextBlock(unit->getY() + 1, unit->getX());
 			break;
 		case 2: 
-			return !getFreeBlock(unit->getY(), unit->getX() - 1);
+			return !checkNextBlock(unit->getY(), unit->getX() - 1);
 			break;
 		case 3: 
-			return !getFreeBlock(unit->getY(), unit->getX() + 1);
+			return !checkNextBlock(unit->getY(), unit->getX() + 1);
 			break;
 	}	
 	return false;
 }
 
-bool Game::getFreeBlock(unsigned int mapY, unsigned int mapX) {
-	if ((pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK) || 
+bool Game::checkNextBlock(unsigned int mapY, unsigned int mapX) {
+	if ((pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK) ||
 		(pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_SCREEN_DOT) ||
 		(pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_AMMO_BOX) )
 		return true;

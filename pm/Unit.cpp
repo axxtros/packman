@@ -29,7 +29,7 @@ void Unit::behaviourCtrl()
 	}
 }
 
-void Unit::addNewMissile(Missile * missile)
+void Unit::addFireMissile(Missile * missile)
 {
 	missiles.push_back(missile);
 }

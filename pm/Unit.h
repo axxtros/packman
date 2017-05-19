@@ -28,7 +28,8 @@ private:
 	const std::vector<std::string>* map;
 	unsigned int speedCounter;
 	std::vector<Missile*> missiles;
-	unsigned int selectNewDir();	
+	unsigned int selectNewDir();
+	unsigned long mMissileNumber;
 protected:
 public:
 	Unit::Unit(unsigned int _id, unsigned int _customId, std::string _name, unsigned int _score, unsigned int _x, unsigned int _y, unsigned int _dir, unsigned int _color,
@@ -49,10 +50,12 @@ public:
 	}
 	
 	void setScore(unsigned int value) { this->score = value; };
+	void setMissileNumber(unsigned int value) { this->mMissileNumber = value; };
 	unsigned int getScore() { return score; };	
+	unsigned int getMissileNumber() { return mMissileNumber; };
 	std::vector<Missile*> getMissiles() { return missiles; };
 	void behaviourCtrl();
-	void addNewMissile(Missile* missile);
+	void addFireMissile(Missile* missile);
 	virtual void deleteMissiles();	
 };
 

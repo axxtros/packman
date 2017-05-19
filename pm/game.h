@@ -20,7 +20,7 @@
 class Game {
 private:
 	const bool IS_TIMING_VISIBLE = false;
-	const bool IS_INFINITE_MISSILE = 1;
+	const bool IS_INFINITE_MISSILE = 0;
 
 	const std::string SCORES_FILE = "files\\scores.txt";
 	const std::string LEVEL_FILE_DIR = "files\\level_";
@@ -58,6 +58,8 @@ private:
 		SPEED_SLOW = 3
 	};
 
+	const unsigned int DEFAULT_MISSILE_NUMBER = 10;
+
 	//http://www-h.eng.cam.ac.uk/help/tpl/languages/C++/vectormemory.html
 	/*std::vector<char> tempLineVec(lines[0].length());
 	std::vector<std::vector<char>> tempLevelVec(lines.size(), tempLineVec);*/
@@ -68,7 +70,6 @@ private:
 	std::vector<std::string> pLevel;	//max.: 40x60 karakter
 	ConsoleWindowManager* pCwm;
 	std::map<std::string, unsigned int> mScores;	
-	unsigned long mPlayerBullet;	
 
 	Unit* player;
 	Unit* ghost;
@@ -92,11 +93,13 @@ private:
 	Lehetséges irányváltásnál elöszõr eldönti, hogy legyen-e irányváltás. És ha igen, akkor merre
 	- ha több lehetõség áll fent.
 	*/
-	void searchNewDir(Unit * unit);
+	void searchNewDir(GameObject * unit);
 
-	bool addNewMissiles(Unit * unit);
+	bool fireMissile(Unit * unit);
 	bool collisionDetection(GameObject* const unit);
-	bool getFreeBlock(unsigned int mapY, unsigned int mapX);
+
+	/* True, ha szabad a következõ blokk-ra menni. */
+	bool checkNextBlock(unsigned int mapY, unsigned int mapX);
 	void refreshPlayerBullets(const unsigned int score);
 	bool isKeydown(const int & key);
 	void timeCounter();
