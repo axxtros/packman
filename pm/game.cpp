@@ -181,9 +181,9 @@ void Game::unitMove(GameObject * unit)
 {	
 	bool isCollision = false;
 	if ((unit->getId() == ID_GHOST && (unit->getMode() == Unit::MOVE) && (unit->getStatus() == Unit::ALIVE))  || (unit->getId() == ID_PLAYER) ) {
-		
-		pCwm->wPos(GAME_LEVEL_LEFT_POS + unit->getX(), GAME_LEVEL_TOP_POS + unit->getY(), /*unit->getHiddenMapBlock()*/ConsoleWindowManager::SYMBOL_EMPTY_BLOCK, /*getHiddenMapSymbolColor(unit)*/0);
-		pLevel[unit->getY()][unit->getX()] = ConsoleWindowManager::SYMBOL_EMPTY_BLOCK;//unit->getHiddenMapBlock();
+				
+		pCwm->wPos(GAME_LEVEL_LEFT_POS + unit->getX(), GAME_LEVEL_TOP_POS + unit->getY(), /*unit->getHiddenMapBlock()*/ConsoleWindowManager::SYMBOL_SCREEN_DOT, /*getHiddenMapSymbolColor(unit)*/8);
+		pLevel[unit->getY()][unit->getX()] = ConsoleWindowManager::SYMBOL_EMPTY_BLOCK;	//unit->getHiddenMapBlock();
 		
 		int currentCoord = 0;
 		switch (unit->getDir()) {
@@ -224,7 +224,7 @@ void Game::unitMove(GameObject * unit)
 			}
 			break;
 		}
-				
+		
 		pCwm->wPos(GAME_LEVEL_LEFT_POS + unit->getX(), GAME_LEVEL_TOP_POS + unit->getY(), unit->getScreenSymbol(), unit->getColor());
 		pLevel[unit->getY()][unit->getX()] = unit->getMapSymbol();//unit->getMapSymbol();
 		
@@ -499,43 +499,3 @@ unsigned int Game::getHiddenMapSymbolColor(GameObject * unit)
 		return 0;
 	return 0;
 }
-
-//copies -------
-
-//void Game::playerMove(Unit * unit)
-//{
-//	pCwm->wPos(GAME_LEVEL_LEFT_POS + unit->getX(), GAME_LEVEL_TOP_POS + unit->getY(), ConsoleWindowManager::SYMBOL_EMPTY_BLOCK, 0);
-//	pLevel[unit->getY()][unit->getX()] = ConsoleWindowManager::SYMBOL_EMPTY_BLOCK;
-//	int currentCoord = 0;
-//	switch (unit->getDir()) {
-//	case 0:	//up
-//		currentCoord = unit->getY();
-//		if (!collisionDetection(unit)) {
-//			unit->setY(--currentCoord);
-//		}
-//		break;
-//	case 1:	//down
-//		currentCoord = unit->getY();
-//		if (!collisionDetection(unit)) {
-//			unit->setY(++currentCoord);
-//		}
-//		break;
-//	case 2:	//left
-//		currentCoord = unit->getX();
-//		if (!collisionDetection(unit)) {
-//			unit->setX(--currentCoord);
-//		}
-//		break;
-//	case 3:	//right
-//		currentCoord = unit->getX();
-//		if (!collisionDetection(unit)) {
-//			unit->setX(++currentCoord);
-//		}
-//		break;
-//	}
-//	pCwm->wPos(GAME_LEVEL_LEFT_POS + unit->getX(), GAME_LEVEL_TOP_POS + unit->getY(), ConsoleWindowManager::SYMBOL_SCREEN_PLAYER, unit->getColor());
-//	pLevel[unit->getY()][unit->getX()] = ConsoleWindowManager::SYMBOL_MAP_PLAYER;
-//	if (!IS_TIMING_VISIBLE) {
-//		refreshEmptyBlock();
-//	}
-//}
