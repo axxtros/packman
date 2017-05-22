@@ -34,12 +34,13 @@ class GameObject {
 		unsigned int color;
 		char mapSymbol;
 		wchar_t screenSymbol;
-		Status status;			
+		Status status;
+		wchar_t hiddenMapBlock;	//annak a térkép mezõnek a kódja, amit aktuálisan letakar az adott unit
 	public:
 		GameObject() { 
 			//NOP...
 		};
-		GameObject(unsigned int _id, unsigned int _customId, unsigned int _x, unsigned int _y, unsigned int _dir, char _mapSymbol, wchar_t _screenSymbol, unsigned int _color) : id(_id), customId(_customId), x(x), y(y), dir(dir), mapSymbol(_mapSymbol), screenSymbol(_screenSymbol), color(_color) {
+		GameObject(unsigned int _id, unsigned int _customId, unsigned int _x, unsigned int _y, unsigned int _dir, char _mapSymbol, wchar_t _screenSymbol, unsigned int _color, wchar_t _hiddenMapBlock) : id(_id), customId(_customId), x(x), y(y), dir(dir), mapSymbol(_mapSymbol), screenSymbol(_screenSymbol), color(_color), hiddenMapBlock(_hiddenMapBlock) {
 			this->id = _id;			
 			this->customId = _customId;
 			this->x = _x;
@@ -50,6 +51,7 @@ class GameObject {
 			this->color = _color;
 			this->mapSymbol = _mapSymbol;
 			this->status = Status::ALIVE;
+			this->hiddenMapBlock = _hiddenMapBlock;
 		};
 		~GameObject() {
 			
@@ -64,7 +66,8 @@ class GameObject {
 		void setMapSymbol(char value) { this->mapSymbol = value; };
 		void setScreenSymbol(wchar_t value) { this->screenSymbol = value; };
 		virtual void setStatus(Status value) { this->status = value; };
-		void setMode(Mode _mode) { this->currentMode = _mode; };		
+		void setMode(Mode _mode) { this->currentMode = _mode; };
+		void setHiddenMapBlock(wchar_t value) { this->hiddenMapBlock = value; };
 		virtual unsigned int getId() { return id; };
 		virtual unsigned int getCustomId() { return customId; };
 		virtual unsigned int getX() { return x; };
@@ -76,6 +79,7 @@ class GameObject {
 		virtual Status getStatus() { return status; }
 		Mode getMode() { return currentMode; };
 		void backToStartPoint();
+		wchar_t getHiddenMapBlock() { return this->hiddenMapBlock; };
 };
 
 #endif GAMEOBJECT_H

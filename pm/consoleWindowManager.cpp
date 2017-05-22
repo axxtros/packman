@@ -69,5 +69,5 @@ inline void ConsoleWindowManager::calcPos(const int & x, const int & y, const in
 	mCoord.X = x;
 	mCoord.Y = y;
 	SetConsoleCursorPosition(mHConsole, mCoord);
-	SetConsoleTextAttribute(mHConsole, color);
+	SetConsoleTextAttribute(mHConsole, color);	
 }

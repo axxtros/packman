@@ -33,8 +33,8 @@ private:
 protected:
 public:
 	Unit::Unit(unsigned int _id, unsigned int _customId, std::string _name, unsigned int _score, unsigned int _x, unsigned int _y, unsigned int _dir, unsigned int _color,
-				unsigned int _speed, std::vector<std::string>* _map, char _mapSymbol, wchar_t _screenSymbol) : 
-				GameObject(_id, _customId, _x, _y, _dir, _mapSymbol, _screenSymbol, _color) {
+				unsigned int _speed, std::vector<std::string>* _map, char _mapSymbol, wchar_t _screenSymbol, wchar_t _hiddenMapBlock) :
+				GameObject(_id, _customId, _x, _y, _dir, _mapSymbol, _screenSymbol, _color, _hiddenMapBlock) {
 		this->name = _name;
 		this->score = _score;		
 		this->speed = _speed;

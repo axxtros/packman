@@ -54,7 +54,7 @@ public:
 	static const wchar_t SYMBOL_MISSILE = 'o';//L'\u0398';	
 
 	//symbols - universals (map and screen)
-	static const char SYMBOL_EMPTY_BLOCK = ' ';				//universal, screen and map
+	static const wchar_t SYMBOL_EMPTY_BLOCK = ' ';				//universal, screen and map
 	static const wchar_t SYMBOL_INFINITY = L'\u221E';
 
 	static const unsigned int COLOR_PLAYER = 15;

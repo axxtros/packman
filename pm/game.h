@@ -19,8 +19,7 @@
 
 class Game {
 private:
-	const bool IS_TIMING_VISIBLE = false;
-	const bool IS_INFINITE_MISSILE = 0;
+	const bool IS_TIMING_VISIBLE = false;	
 
 	const std::string SCORES_FILE = "files\\scores.txt";
 	const std::string LEVEL_FILE_DIR = "files\\level_";
@@ -77,6 +76,8 @@ private:
 	unsigned int tmpIdx;
 	unsigned int tmpX;
 	unsigned int tmpY;
+
+	bool isInfiniteMissile = 1;
 	std::string bulletStr;
 	bool isMissileReady;
 	
@@ -95,20 +96,22 @@ private:
 	Lehetséges irányváltásnál elöszõr eldönti, hogy legyen-e irányváltás. És ha igen, akkor merre
 	- ha több lehetõség áll fent.
 	*/
-	void searchNewDir(GameObject * unit);
+	void ghostSearchNewDir(GameObject * unit);
 
 	bool fireMissile(Unit * unit);
-	bool collisionDetection(GameObject* const unit);
+	bool collisionDetection(GameObject* const unit);	
 
-	void checkNextBlock(GameObject* const unit, unsigned int mapY, unsigned int mapX);
-
-	/* True, ha szabad a következõ blokk-ra menni. */
-	bool isFreeBlock(unsigned int mapY, unsigned int mapX);
+	/* 
+	Megvizsgálja a következõ map blokkot, hogy azon van-e valamilyen teendõ.
+	Visszatér true-val, ha szabad a következõ blokk-ra mennie, egy adott unit-nak.
+	*/
+	bool checkNextBlock(GameObject * const unit, unsigned int mapY, unsigned int mapX);
 	void refreshPlayerBullets(const unsigned int score);
 	bool isKeydown(const int & key);
 	void timeCounter();
 	void refreshEmptyBlock();
 	Unit* getShotUnit(Missile* missile);
+	unsigned int getHiddenMapSymbolColor(GameObject * unit);
 protected:
 public:
 	Game(ConsoleWindowManager*);
