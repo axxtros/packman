@@ -20,8 +20,27 @@ void Game::init()
 	system("cls");	
 	loadMapUnits();
 	loadLevel(1);
+	runGameLoop = true;
 	gameLoop();
 	getchar();
+}
+
+void Game::restart()
+{
+	runGameLoop = false;
+	player = nullptr;
+	delete player;
+	if (!ghosts.empty()) {
+		for (tmpIdx = 0; tmpIdx != ghosts.size(); tmpIdx++) {
+			ghosts[tmpIdx] = nullptr;
+			delete ghosts[tmpIdx];
+		}
+	}	
+	ghosts.clear();;
+	ghost = nullptr;
+	delete ghost;	
+	pLevel.clear();	
+	init();
 }
 
 void Game::loadMapUnits()
@@ -66,10 +85,10 @@ void Game::loadLevel(const unsigned int level)
 				}
 				//player
 				else if (pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_PLAYER && !isPlayerDone) {
-					player = new Unit(ID_PLAYER, Util::getCustomId(), "", 0, mapX, mapY, 0, ConsoleWindowManager::COLOR_PLAYER, 0, &pLevel, ConsoleWindowManager::SYMBOL_MAP_PLAYER, ConsoleWindowManager::SYMBOL_SCREEN_PLAYER, ConsoleWindowManager::SYMBOL_SCREEN_DOT);
+					player = new Unit(ID_PLAYER, Util::getCustomId(), "", 0, mapX, mapY, 0, ConsoleWindowManager::COLOR_PLAYER, 0, &pLevel, ConsoleWindowManager::SYMBOL_MAP_PLAYER, ConsoleWindowManager::SYMBOL_SCREEN_PLAYER, ConsoleWindowManager::SYMBOL_EMPTY_BLOCK);
 					player->setMissileNumber(DEFAULT_MISSILE_NUMBER);
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + mapX, GAME_LEVEL_TOP_POS + mapY, ConsoleWindowManager::SYMBOL_SCREEN_PLAYER, ConsoleWindowManager::COLOR_PLAYER);
-					isPlayerDone = true;
+					isPlayerDone = true;					
 				}
 				//ghost: Blinky: Red
 				else if (pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_GHOST_RED) {
@@ -118,9 +137,8 @@ void Game::gameLoop()
 		timeThread.detach();
 	}	
 
-	isMissileReady = true;
-	bool gameLoop = true;		
-	while (gameLoop) {
+	isMissileReady = true;	
+	while (runGameLoop) {
 		//player move
 		if (isKeydown(VK_UP)) {			
 			player->setDir(0);
@@ -147,6 +165,10 @@ void Game::gameLoop()
 				}					
 				refreshPlayerBullets(player->getMissileNumber());
 			}			
+		}
+		//restart game
+		if (isKeydown(VK_F1)) {			
+			restart();
 		}
 		//player missile move
 		if (!player->getMissiles().empty()) {
@@ -182,7 +204,7 @@ void Game::unitMove(GameObject * unit)
 	bool isCollision = false;
 	if ((unit->getId() == ID_GHOST && (unit->getMode() == Unit::MOVE) && (unit->getStatus() == Unit::ALIVE))  || (unit->getId() == ID_PLAYER) ) {
 				
-		pCwm->wPos(GAME_LEVEL_LEFT_POS + unit->getX(), GAME_LEVEL_TOP_POS + unit->getY(), /*unit->getHiddenMapBlock()*/ConsoleWindowManager::SYMBOL_SCREEN_DOT, /*getHiddenMapSymbolColor(unit)*/8);
+		pCwm->wPos(GAME_LEVEL_LEFT_POS + unit->getX(), GAME_LEVEL_TOP_POS + unit->getY(), unit->getHiddenMapBlock()/*ConsoleWindowManager::SYMBOL_SCREEN_DOT*/, /*getHiddenMapSymbolColor(unit)*/8);
 		pLevel[unit->getY()][unit->getX()] = ConsoleWindowManager::SYMBOL_EMPTY_BLOCK;	//unit->getHiddenMapBlock();
 		
 		int currentCoord = 0;
@@ -222,11 +244,12 @@ void Game::unitMove(GameObject * unit)
 			else {
 				isCollision = true;
 			}
-			break;
+			break;		
 		}
 		
+		unit->setHiddenMapBlock(pLevel[unit->getY()][unit->getX()]);
 		pCwm->wPos(GAME_LEVEL_LEFT_POS + unit->getX(), GAME_LEVEL_TOP_POS + unit->getY(), unit->getScreenSymbol(), unit->getColor());
-		pLevel[unit->getY()][unit->getX()] = unit->getMapSymbol();//unit->getMapSymbol();
+		pLevel[unit->getY()][unit->getX()] = unit->getMapSymbol();
 		
 		if (isCollision) {
 			if (unit->getId() == ID_GHOST) {
@@ -409,7 +432,6 @@ bool Game::checkNextBlock(GameObject * const unit, unsigned int mapY, unsigned i
 	}
 	//keys
 	//collision ghost with player -> end game
-
 
 	//check isfree the next mapblock
 	if ((pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK) ||

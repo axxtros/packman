@@ -66,6 +66,8 @@ private:
 	unsigned int emptyBlockX;
 	unsigned int emptyBlockY;
 
+	bool runGameLoop = false;
+
 	std::vector<std::string> pLevel;	//max.: 40x60 karakter
 	ConsoleWindowManager* pCwm;
 	std::map<std::string, unsigned int> mScores;	
@@ -82,6 +84,7 @@ private:
 	bool isMissileReady;
 	
 	void init();
+	void restart();
 	void loadMapUnits();
 	void loadLevel(const unsigned int level);	
 	void gameLoop();
@@ -111,7 +114,7 @@ private:
 	void timeCounter();
 	void refreshEmptyBlock();
 	Unit* getShotUnit(Missile* missile);
-	unsigned int getHiddenMapSymbolColor(GameObject * unit);
+	unsigned int getHiddenMapSymbolColor(GameObject * unit);	
 protected:
 public:
 	Game(ConsoleWindowManager*);
@@ -119,3 +122,4 @@ public:
 };
 
 #endif // ! _GAME_H_
+
