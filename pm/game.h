@@ -79,7 +79,7 @@ private:
 	unsigned int tmpX;
 	unsigned int tmpY;
 
-	bool isInfiniteMissile = 1;
+	bool isInfiniteMissile = 0;
 	std::string bulletStr;
 	bool isMissileReady;
 	

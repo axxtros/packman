@@ -64,6 +64,7 @@ void Game::loadLevel(const unsigned int level)
 	if (pLevel.size() > 0) {
 		bool firstWallBlock = true;
 		bool isPlayerDone = false;
+
 		for (unsigned int mapY = 0; mapY != pLevel.size(); mapY++) {
 			for (unsigned int mapX = 0; mapX != pLevel[mapY].length(); mapX++) {
 				//wall
@@ -73,15 +74,15 @@ void Game::loadLevel(const unsigned int level)
 						emptyBlockX = mapX;
 						emptyBlockY = mapY;
 						firstWallBlock = false;
-					}
+					}					
 				}
 				//dot
 				else if (pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK) {
-					pCwm->wPos(GAME_LEVEL_LEFT_POS + mapX, GAME_LEVEL_TOP_POS + mapY, ConsoleWindowManager::SYMBOL_SCREEN_DOT, ConsoleWindowManager::COLOR_DOT);
+					pCwm->wPos(GAME_LEVEL_LEFT_POS + mapX, GAME_LEVEL_TOP_POS + mapY, ConsoleWindowManager::SYMBOL_SCREEN_DOT, ConsoleWindowManager::COLOR_DOT);					
 				}
 				//ammo box
 				else if (pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_AMMO_BOX) {
-					pCwm->wPos(GAME_LEVEL_LEFT_POS + mapX, GAME_LEVEL_TOP_POS + mapY, ConsoleWindowManager::SYMBOL_SCREEN_AMMO_BOX, ConsoleWindowManager::COLOR_AMMO_BOX);
+					pCwm->wPos(GAME_LEVEL_LEFT_POS + mapX, GAME_LEVEL_TOP_POS + mapY, ConsoleWindowManager::SYMBOL_SCREEN_AMMO_BOX, ConsoleWindowManager::COLOR_AMMO_BOX);					
 				}
 				//player
 				else if (pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_PLAYER && !isPlayerDone) {
@@ -94,25 +95,25 @@ void Game::loadLevel(const unsigned int level)
 				else if (pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_GHOST_RED) {
 					ghost = new Unit(ID_GHOST, Util::getCustomId(), RED_GHOST_NAME, RED_GHOST_SCORE, mapX, mapY, Util::getRandomNum(0, 3), Game::COLOR_GHOST_RED, Game::SPEED_MAX, &pLevel, ConsoleWindowManager::SYMBOL_MAP_GHOST_RED, ConsoleWindowManager::SYMBOL_SCREEN_GHOST, ConsoleWindowManager::SYMBOL_SCREEN_DOT);
 					ghosts.push_back(ghost);
-					pCwm->wPos(GAME_LEVEL_LEFT_POS + mapX, GAME_LEVEL_TOP_POS + mapY, ConsoleWindowManager::SYMBOL_SCREEN_GHOST, Game::COLOR_GHOST_RED);
+					pCwm->wPos(GAME_LEVEL_LEFT_POS + mapX, GAME_LEVEL_TOP_POS + mapY, ConsoleWindowManager::SYMBOL_SCREEN_GHOST, Game::COLOR_GHOST_RED);					
 				}
 				//ghost: Pinky: Pink
 				else if (pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_GHOST_PINK) {
 					ghost = new Unit(ID_GHOST, Util::getCustomId(), PINK_GHOST_NAME, PINK_GHOST_SCORE, mapX, mapY, Util::getRandomNum(0, 3), Game::COLOR_GHOST_PINK, Game::SPEED_NORMAL, &pLevel, ConsoleWindowManager::SYMBOL_MAP_GHOST_PINK, ConsoleWindowManager::SYMBOL_SCREEN_GHOST, ConsoleWindowManager::SYMBOL_SCREEN_DOT);
 					ghosts.push_back(ghost);
-					pCwm->wPos(GAME_LEVEL_LEFT_POS + mapX, GAME_LEVEL_TOP_POS + mapY, ConsoleWindowManager::SYMBOL_SCREEN_GHOST, Game::COLOR_GHOST_PINK);
+					pCwm->wPos(GAME_LEVEL_LEFT_POS + mapX, GAME_LEVEL_TOP_POS + mapY, ConsoleWindowManager::SYMBOL_SCREEN_GHOST, Game::COLOR_GHOST_PINK);					
 				}
 				//ghost: Inky: Blue
 				else if (pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_GHOST_BLUE) {
 					ghost = new Unit(ID_GHOST, Util::getCustomId(), BLUE_GHOST_NAME, BLUE_GHOST_SCORE, mapX, mapY, Util::getRandomNum(0, 3), Game::COLOR_GHOST_BLUE, Game::SPEED_EASY, &pLevel, ConsoleWindowManager::SYMBOL_MAP_GHOST_BLUE, ConsoleWindowManager::SYMBOL_SCREEN_GHOST, ConsoleWindowManager::SYMBOL_SCREEN_DOT);
 					ghosts.push_back(ghost);
-					pCwm->wPos(GAME_LEVEL_LEFT_POS + mapX, GAME_LEVEL_TOP_POS + mapY, ConsoleWindowManager::SYMBOL_SCREEN_GHOST, Game::COLOR_GHOST_BLUE);
+					pCwm->wPos(GAME_LEVEL_LEFT_POS + mapX, GAME_LEVEL_TOP_POS + mapY, ConsoleWindowManager::SYMBOL_SCREEN_GHOST, Game::COLOR_GHOST_BLUE);					
 				}
 				//ghost: Clyde: Orange
 				else if (pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_GHOST_ORANGE) {
 					ghost = new Unit(ID_GHOST, Util::getCustomId(), ORANGE_GHOST_NAME, ORANGE_GHOST_SCORE, mapX, mapY, Util::getRandomNum(0, 3), Game::COLOR_GHOST_ORANGE, Game::SPEED_SLOW, &pLevel, ConsoleWindowManager::SYMBOL_MAP_GHOST_ORANGE, ConsoleWindowManager::SYMBOL_SCREEN_GHOST, ConsoleWindowManager::SYMBOL_SCREEN_DOT);
 					ghosts.push_back(ghost);
-					pCwm->wPos(GAME_LEVEL_LEFT_POS + mapX, GAME_LEVEL_TOP_POS + mapY, ConsoleWindowManager::SYMBOL_SCREEN_GHOST, Game::COLOR_GHOST_ORANGE);
+					pCwm->wPos(GAME_LEVEL_LEFT_POS + mapX, GAME_LEVEL_TOP_POS + mapY, ConsoleWindowManager::SYMBOL_SCREEN_GHOST, Game::COLOR_GHOST_ORANGE);					
 				}
 				//unknow character -> SYMBOL_EMPTY_BLOCK
 				else {
@@ -203,9 +204,15 @@ void Game::unitMove(GameObject * unit)
 {	
 	bool isCollision = false;
 	if ((unit->getId() == ID_GHOST && (unit->getMode() == Unit::MOVE) && (unit->getStatus() == Unit::ALIVE))  || (unit->getId() == ID_PLAYER) ) {
-				
-		pCwm->wPos(GAME_LEVEL_LEFT_POS + unit->getX(), GAME_LEVEL_TOP_POS + unit->getY(), unit->getHiddenMapBlock()/*ConsoleWindowManager::SYMBOL_SCREEN_DOT*/, /*getHiddenMapSymbolColor(unit)*/8);
-		pLevel[unit->getY()][unit->getX()] = ConsoleWindowManager::SYMBOL_EMPTY_BLOCK;	//unit->getHiddenMapBlock();
+		
+		if (unit->getId() == ID_GHOST) {
+			pCwm->wPos(GAME_LEVEL_LEFT_POS + unit->getX(), GAME_LEVEL_TOP_POS + unit->getY(), unit->getHiddenSymbolMapBlock(), unit->getHiddenSymbolMapBlockColor());
+			pLevel[unit->getY()][unit->getX()] = unit->getHiddenSymbolMapBlock();
+		}
+		else if (unit->getId() == ID_PLAYER) {
+			pCwm->wPos(GAME_LEVEL_LEFT_POS + unit->getX(), GAME_LEVEL_TOP_POS + unit->getY(), ConsoleWindowManager::SYMBOL_EMPTY_BLOCK, ConsoleWindowManager::COLOR_EMPTY);
+			pLevel[unit->getY()][unit->getX()] = ConsoleWindowManager::SYMBOL_EMPTY_BLOCK;
+		}
 		
 		int currentCoord = 0;
 		switch (unit->getDir()) {
@@ -246,8 +253,20 @@ void Game::unitMove(GameObject * unit)
 			}
 			break;		
 		}
-		
-		unit->setHiddenMapBlock(pLevel[unit->getY()][unit->getX()]);
+				
+		//ghos esetében eltárolja, hogy milyen térkép block-ot takar el aktuálisan a unit (+ a szinét), hogy a következő lépésnél azt vissza állíthassuk
+		if (unit->getId() == ID_GHOST) {			
+			unit->setHiddenSymbolMapBlock(pLevel[unit->getY()][unit->getX()]);
+			switch (pLevel[unit->getY()][unit->getX()]) {
+			case ConsoleWindowManager::SYMBOL_MAP_AMMO_BOX:
+				unit->setHiddenSymbolMapBlockColor(ConsoleWindowManager::COLOR_AMMO_BOX);
+				break;
+			default:
+				unit->setHiddenSymbolMapBlockColor(ConsoleWindowManager::COLOR_EMPTY);
+				break;
+			}
+		}
+
 		pCwm->wPos(GAME_LEVEL_LEFT_POS + unit->getX(), GAME_LEVEL_TOP_POS + unit->getY(), unit->getScreenSymbol(), unit->getColor());
 		pLevel[unit->getY()][unit->getX()] = unit->getMapSymbol();
 		
@@ -265,8 +284,10 @@ void Game::unitMove(GameObject * unit)
 	}
 
 	if (unit->getId() == ID_MISSILE) {
-		pCwm->wPos(GAME_LEVEL_LEFT_POS + unit->getX(), GAME_LEVEL_TOP_POS + unit->getY(), ConsoleWindowManager::SYMBOL_EMPTY_BLOCK, 0);
-		pLevel[unit->getY()][unit->getX()] = ConsoleWindowManager::SYMBOL_EMPTY_BLOCK;
+		
+		pCwm->wPos(GAME_LEVEL_LEFT_POS + unit->getX(), GAME_LEVEL_TOP_POS + unit->getY(), unit->getHiddenSymbolMapBlock(), unit->getHiddenSymbolMapBlockColor());
+		pLevel[unit->getY()][unit->getX()] = unit->getHiddenSymbolMapBlock();
+
 		if (!collisionDetection(unit)) {
 			unsigned int curr = 0;
 			switch (unit->getDir()) {
@@ -291,7 +312,17 @@ void Game::unitMove(GameObject * unit)
 		else {
 			isCollision = true;
 		}						
-		if (!isCollision) {						
+		if (!isCollision) {
+			unit->setHiddenSymbolMapBlock(pLevel[unit->getY()][unit->getX()]);
+			switch (pLevel[unit->getY()][unit->getX()]) {
+			case ConsoleWindowManager::SYMBOL_MAP_AMMO_BOX:
+				unit->setHiddenSymbolMapBlockColor(ConsoleWindowManager::COLOR_AMMO_BOX);
+				break;
+			default:
+				unit->setHiddenSymbolMapBlockColor(ConsoleWindowManager::COLOR_EMPTY);
+				break;
+			}
+
 			pCwm->wPos(GAME_LEVEL_LEFT_POS + unit->getX(), GAME_LEVEL_TOP_POS + unit->getY(), unit->getScreenSymbol(), unit->getColor());
 			pLevel[unit->getY()][unit->getX()] = unit->getMapSymbol();
 		}
@@ -396,7 +427,7 @@ bool Game::fireMissile(Unit * unit)
 		break;
 	}
 	if (checkNextBlock(nullptr, missileY, missileX)) {
-		Missile* missile = new Missile(ID_MISSILE, Util::getCustomId(), missileX, missileY, unit->getDir(), 10, ConsoleWindowManager::SYMBOL_MAP_MISSILE, ConsoleWindowManager::SYMBOL_MISSILE, ConsoleWindowManager::COLOR_MISSILE, unit->getMissiles().size(), pLevel[missileY][missileX]);
+		Missile* missile = new Missile(ID_MISSILE, Util::getCustomId(), missileX, missileY, unit->getDir(), 10, ConsoleWindowManager::SYMBOL_MAP_MISSILE, ConsoleWindowManager::SYMBOL_MISSILE, ConsoleWindowManager::COLOR_MISSILE, unit->getMissiles().size(), ConsoleWindowManager::COLOR_EMPTY);
 		unit->addFireMissile(missile);
 		return false;
 	}
@@ -515,9 +546,9 @@ Unit * Game::getShotUnit(Missile* missile)
 
 unsigned int Game::getHiddenMapSymbolColor(GameObject * unit)
 {
-	if (unit->getHiddenMapBlock() == ConsoleWindowManager::SYMBOL_SCREEN_DOT)
+	if (unit->getHiddenSymbolMapBlock() == ConsoleWindowManager::SYMBOL_SCREEN_DOT)
 		return ConsoleWindowManager::COLOR_DOT;
-	else if (unit->getHiddenMapBlock() == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK)
+	else if (unit->getHiddenSymbolMapBlock() == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK)
 		return 0;
 	return 0;
 }

@@ -35,12 +35,13 @@ class GameObject {
 		char mapSymbol;
 		wchar_t screenSymbol;
 		Status status;
-		wchar_t hiddenMapBlock;	//annak a térkép mezõnek a kódja, amit aktuálisan letakar az adott unit
+		wchar_t hiddenSymbolMapBlock;				//annak a térkép mezõnek a kódja, amit aktuálisan letakar az adott unit
+		unsigned int hiddenSymbolMapBlockColor;		//annak a térkép mezõnek a szine, amit aktuálisan letakar az adott unit
 	public:
 		GameObject() { 
 			//NOP...
 		};
-		GameObject(unsigned int _id, unsigned int _customId, unsigned int _x, unsigned int _y, unsigned int _dir, char _mapSymbol, wchar_t _screenSymbol, unsigned int _color, wchar_t _hiddenMapBlock) : id(_id), customId(_customId), x(x), y(y), dir(dir), mapSymbol(_mapSymbol), screenSymbol(_screenSymbol), color(_color), hiddenMapBlock(_hiddenMapBlock) {
+		GameObject(unsigned int _id, unsigned int _customId, unsigned int _x, unsigned int _y, unsigned int _dir, char _mapSymbol, wchar_t _screenSymbol, unsigned int _color, wchar_t _hiddenMapBlock) : id(_id), customId(_customId), x(x), y(y), dir(dir), mapSymbol(_mapSymbol), screenSymbol(_screenSymbol), color(_color), hiddenSymbolMapBlock(_hiddenMapBlock) {
 			this->id = _id;			
 			this->customId = _customId;
 			this->x = _x;
@@ -51,7 +52,7 @@ class GameObject {
 			this->color = _color;
 			this->mapSymbol = _mapSymbol;
 			this->status = Status::ALIVE;
-			this->hiddenMapBlock = _hiddenMapBlock;
+			this->hiddenSymbolMapBlock = _hiddenMapBlock;
 		};
 		~GameObject() {
 			
@@ -67,7 +68,9 @@ class GameObject {
 		void setScreenSymbol(wchar_t value) { this->screenSymbol = value; };
 		virtual void setStatus(Status value) { this->status = value; };
 		void setMode(Mode _mode) { this->currentMode = _mode; };
-		void setHiddenMapBlock(wchar_t value) { this->hiddenMapBlock = value; };
+		void setHiddenSymbolMapBlock(wchar_t value) { this->hiddenSymbolMapBlock = value; };
+		void setHiddenSymbolMapBlockColor(unsigned int value) { this->hiddenSymbolMapBlockColor = value; };
+
 		virtual unsigned int getId() { return id; };
 		virtual unsigned int getCustomId() { return customId; };
 		virtual unsigned int getX() { return x; };
@@ -79,7 +82,8 @@ class GameObject {
 		virtual Status getStatus() { return status; }
 		Mode getMode() { return currentMode; };
 		void backToStartPoint();
-		wchar_t getHiddenMapBlock() { return this->hiddenMapBlock; };
+		wchar_t getHiddenSymbolMapBlock() { return this->hiddenSymbolMapBlock; };
+		unsigned int getHiddenSymbolMapBlockColor() { return this->hiddenSymbolMapBlockColor; };
 };
 
 #endif GAMEOBJECT_H
