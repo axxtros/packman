@@ -127,7 +127,6 @@ void Game::loadLevel(const unsigned int level)
 				}
 			}
 		}
-		fillLevel();
 		refreshDisplayPlayerHitPoints(player->getHitPoint());
 		refreshDisplayPlayerBullets(player->getMissileNumber());
 	}
@@ -135,16 +134,6 @@ void Game::loadLevel(const unsigned int level)
 		pCwm->sPos(0, 0, Util::getTableText(11), 7);			
 		std::cin.ignore();
 		exit(EXIT_FAILURE);
-	}
-}
-
-void Game::fillLevel()
-{
-	for (unsigned int mapY = 0; mapY != pLevel.size(); mapY++) {
-		for (unsigned int mapX = 0; mapX != pLevel[mapY].length(); mapX++) {
-			if()
-			pCwm->wPos(GAME_LEVEL_LEFT_POS + mapX, GAME_LEVEL_TOP_POS + mapY, '.', ConsoleWindowManager::COLOR_DOT);
-		}
 	}
 }
 

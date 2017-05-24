@@ -93,7 +93,6 @@ private:
 	void restart();
 	void loadMapUnits();
 	void loadLevel(const unsigned int level);
-	void fillLevel();
 	void gameLoop();
 	//void unitMove(Unit *unit);
 	void unitMove(GameObject * unit);
