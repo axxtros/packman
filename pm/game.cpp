@@ -122,7 +122,7 @@ void Game::loadLevel(const unsigned int level)
 				}
 			}
 		}		
-		refreshPlayerBullets(player->getMissileNumber());
+		refreshDisplayPlayerBullets(player->getMissileNumber());
 	}
 	else {			
 		pCwm->sPos(0, 0, Util::getTableText(11), 7);			
@@ -164,7 +164,7 @@ void Game::gameLoop()
 				if (!Game::isInfiniteMissile) {
 					player->setMissileNumber(player->getMissileNumber() - 1);
 				}					
-				refreshPlayerBullets(player->getMissileNumber());
+				refreshDisplayPlayerBullets(player->getMissileNumber());
 			}			
 		}
 		//restart game
@@ -311,7 +311,12 @@ void Game::unitMove(GameObject * unit)
 		}
 		else {
 			isCollision = true;
-		}						
+		}		
+		
+		if (pLevel[unit->getY()][unit->getX()] == ConsoleWindowManager::SYMBOL_MAP_AMMO_BOX) {
+			unit->getCustomId();
+		}
+
 		if (!isCollision) {
 			unit->setHiddenSymbolMapBlock(pLevel[unit->getY()][unit->getX()]);
 			switch (pLevel[unit->getY()][unit->getX()]) {
@@ -322,11 +327,10 @@ void Game::unitMove(GameObject * unit)
 				unit->setHiddenSymbolMapBlockColor(ConsoleWindowManager::COLOR_EMPTY);
 				break;
 			}
-
 			pCwm->wPos(GAME_LEVEL_LEFT_POS + unit->getX(), GAME_LEVEL_TOP_POS + unit->getY(), unit->getScreenSymbol(), unit->getColor());
 			pLevel[unit->getY()][unit->getX()] = unit->getMapSymbol();
 		}
-		else {
+		else {			
 			Missile * rMissile = dynamic_cast<Missile*>(unit);
 			rMissile->setStatus(rMissile->DEATH);			
 			
@@ -334,8 +338,8 @@ void Game::unitMove(GameObject * unit)
 			if (ghost != nullptr) {				
 				ghost->setStatus(Unit::Status::DEATH);
 			}
-			pCwm->wPos(GAME_LEVEL_LEFT_POS + unit->getX(), GAME_LEVEL_TOP_POS + unit->getY(), ConsoleWindowManager::SYMBOL_EMPTY_BLOCK, 0);
-			pLevel[unit->getY()][unit->getX()] = ConsoleWindowManager::SYMBOL_EMPTY_BLOCK;			
+			pCwm->wPos(GAME_LEVEL_LEFT_POS + unit->getX(), GAME_LEVEL_TOP_POS + unit->getY(), unit->getHiddenSymbolMapBlock(), unit->getHiddenSymbolMapBlockColor());
+			pLevel[unit->getY()][unit->getX()] = unit->getHiddenSymbolMapBlock();
 			//player->deleteMissile(rMissile->getSerialNum());
 			isMissileReady = true;
 		}
@@ -427,7 +431,16 @@ bool Game::fireMissile(Unit * unit)
 		break;
 	}
 	if (checkNextBlock(nullptr, missileY, missileX)) {
-		Missile* missile = new Missile(ID_MISSILE, Util::getCustomId(), missileX, missileY, unit->getDir(), 10, ConsoleWindowManager::SYMBOL_MAP_MISSILE, ConsoleWindowManager::SYMBOL_MISSILE, ConsoleWindowManager::COLOR_MISSILE, unit->getMissiles().size(), ConsoleWindowManager::COLOR_EMPTY);
+		Missile* missile = new Missile(ID_MISSILE, Util::getCustomId(), missileX, missileY, unit->getDir(), 10, ConsoleWindowManager::SYMBOL_MAP_MISSILE, ConsoleWindowManager::SYMBOL_MISSILE, ConsoleWindowManager::COLOR_MISSILE, unit->getMissiles().size(), pLevel[missileY][missileX]);
+		missile->setHiddenSymbolMapBlock(pLevel[missileY][missileX]);
+		switch (pLevel[missileY][missileX]) {
+		case ConsoleWindowManager::SYMBOL_MAP_AMMO_BOX:
+			missile->setHiddenSymbolMapBlockColor(ConsoleWindowManager::COLOR_AMMO_BOX);
+			break;
+		default:
+			missile->setHiddenSymbolMapBlockColor(ConsoleWindowManager::COLOR_EMPTY);
+			break;
+		}
 		unit->addFireMissile(missile);
 		return false;
 	}
@@ -459,7 +472,7 @@ bool Game::checkNextBlock(GameObject * const unit, unsigned int mapY, unsigned i
 	if (unit != nullptr && !isInfiniteMissile && unit->getId() == ID_PLAYER && pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_AMMO_BOX) {
 		Unit * _player = dynamic_cast<Unit*>(unit);
 		_player->addExtraMissile(DEFAULT_MISSILE_NUMBER);
-		refreshPlayerBullets(_player->getMissileNumber());
+		refreshDisplayPlayerBullets(_player->getMissileNumber());
 	}
 	//keys
 	//collision ghost with player -> end game
@@ -472,7 +485,7 @@ bool Game::checkNextBlock(GameObject * const unit, unsigned int mapY, unsigned i
 	return false;
 }
 
-void Game::refreshPlayerBullets(const unsigned int bulletNum)
+void Game::refreshDisplayPlayerBullets(const unsigned int bulletNum)
 {
 	if (!isInfiniteMissile) {
 		bulletStr = bulletNum >= 10 ? (Util::getTableText(12) + " " + std::to_string(bulletNum)) : (Util::getTableText(12) + " " + std::to_string(bulletNum) + " ");

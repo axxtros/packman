@@ -109,7 +109,7 @@ private:
 	Visszatér true-val, ha szabad a következõ blokk-ra mennie, egy adott unit-nak.
 	*/
 	bool checkNextBlock(GameObject * const unit, unsigned int mapY, unsigned int mapX);
-	void refreshPlayerBullets(const unsigned int score);
+	void refreshDisplayPlayerBullets(const unsigned int score);
 	bool isKeydown(const int & key);
 	void timeCounter();
 	void refreshEmptyBlock();
