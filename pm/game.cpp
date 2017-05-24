@@ -91,32 +91,32 @@ void Game::loadLevel(const unsigned int level)
 				}
 				//player
 				else if (pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_PLAYER && !isPlayerDone) {
-					player = new Unit(ID_PLAYER, Util::getCustomId(), "", 0, mapX, mapY, 0, ConsoleWindowManager::COLOR_PLAYER, 0, &pLevel, ConsoleWindowManager::SYMBOL_MAP_PLAYER, ConsoleWindowManager::SYMBOL_SCREEN_PLAYER, ConsoleWindowManager::SYMBOL_EMPTY_BLOCK);
+					player = new Unit(ID_PLAYER, Util::getCustomId(), DEFAULT_UNIT_HIT_POINT, "", 0, mapX, mapY, 0, ConsoleWindowManager::COLOR_PLAYER, 0, &pLevel, ConsoleWindowManager::SYMBOL_MAP_PLAYER, ConsoleWindowManager::SYMBOL_SCREEN_PLAYER, ConsoleWindowManager::SYMBOL_EMPTY_BLOCK);
 					player->setMissileNumber(DEFAULT_MISSILE_NUMBER);
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + mapX, GAME_LEVEL_TOP_POS + mapY, ConsoleWindowManager::SYMBOL_SCREEN_PLAYER, ConsoleWindowManager::COLOR_PLAYER);
 					isPlayerDone = true;					
 				}
 				//ghost: Blinky: Red
 				else if (pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_GHOST_RED) {
-					ghost = new Unit(ID_GHOST, Util::getCustomId(), RED_GHOST_NAME, RED_GHOST_SCORE, mapX, mapY, Util::getRandomNum(0, 3), Game::COLOR_GHOST_RED, Game::SPEED_MAX, &pLevel, ConsoleWindowManager::SYMBOL_MAP_GHOST_RED, ConsoleWindowManager::SYMBOL_SCREEN_GHOST, ConsoleWindowManager::SYMBOL_SCREEN_DOT);
+					ghost = new Unit(ID_GHOST, Util::getCustomId(), DEFAULT_UNIT_HIT_POINT, RED_GHOST_NAME, RED_GHOST_SCORE, mapX, mapY, Util::getRandomNum(0, 3), Game::COLOR_GHOST_RED, Game::SPEED_MAX, &pLevel, ConsoleWindowManager::SYMBOL_MAP_GHOST_RED, ConsoleWindowManager::SYMBOL_SCREEN_GHOST, ConsoleWindowManager::SYMBOL_SCREEN_DOT);
 					ghosts.push_back(ghost);
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + mapX, GAME_LEVEL_TOP_POS + mapY, ConsoleWindowManager::SYMBOL_SCREEN_GHOST, Game::COLOR_GHOST_RED);					
 				}
 				//ghost: Pinky: Pink
 				else if (pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_GHOST_PINK) {
-					ghost = new Unit(ID_GHOST, Util::getCustomId(), PINK_GHOST_NAME, PINK_GHOST_SCORE, mapX, mapY, Util::getRandomNum(0, 3), Game::COLOR_GHOST_PINK, Game::SPEED_NORMAL, &pLevel, ConsoleWindowManager::SYMBOL_MAP_GHOST_PINK, ConsoleWindowManager::SYMBOL_SCREEN_GHOST, ConsoleWindowManager::SYMBOL_SCREEN_DOT);
+					ghost = new Unit(ID_GHOST, Util::getCustomId(), DEFAULT_UNIT_HIT_POINT, PINK_GHOST_NAME, PINK_GHOST_SCORE, mapX, mapY, Util::getRandomNum(0, 3), Game::COLOR_GHOST_PINK, Game::SPEED_NORMAL, &pLevel, ConsoleWindowManager::SYMBOL_MAP_GHOST_PINK, ConsoleWindowManager::SYMBOL_SCREEN_GHOST, ConsoleWindowManager::SYMBOL_SCREEN_DOT);
 					ghosts.push_back(ghost);
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + mapX, GAME_LEVEL_TOP_POS + mapY, ConsoleWindowManager::SYMBOL_SCREEN_GHOST, Game::COLOR_GHOST_PINK);					
 				}
 				//ghost: Inky: Blue
 				else if (pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_GHOST_BLUE) {
-					ghost = new Unit(ID_GHOST, Util::getCustomId(), BLUE_GHOST_NAME, BLUE_GHOST_SCORE, mapX, mapY, Util::getRandomNum(0, 3), Game::COLOR_GHOST_BLUE, Game::SPEED_EASY, &pLevel, ConsoleWindowManager::SYMBOL_MAP_GHOST_BLUE, ConsoleWindowManager::SYMBOL_SCREEN_GHOST, ConsoleWindowManager::SYMBOL_SCREEN_DOT);
+					ghost = new Unit(ID_GHOST, Util::getCustomId(), DEFAULT_UNIT_HIT_POINT, BLUE_GHOST_NAME, BLUE_GHOST_SCORE, mapX, mapY, Util::getRandomNum(0, 3), Game::COLOR_GHOST_BLUE, Game::SPEED_EASY, &pLevel, ConsoleWindowManager::SYMBOL_MAP_GHOST_BLUE, ConsoleWindowManager::SYMBOL_SCREEN_GHOST, ConsoleWindowManager::SYMBOL_SCREEN_DOT);
 					ghosts.push_back(ghost);
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + mapX, GAME_LEVEL_TOP_POS + mapY, ConsoleWindowManager::SYMBOL_SCREEN_GHOST, Game::COLOR_GHOST_BLUE);					
 				}
 				//ghost: Clyde: Orange
 				else if (pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_GHOST_ORANGE) {
-					ghost = new Unit(ID_GHOST, Util::getCustomId(), ORANGE_GHOST_NAME, ORANGE_GHOST_SCORE, mapX, mapY, Util::getRandomNum(0, 3), Game::COLOR_GHOST_ORANGE, Game::SPEED_SLOW, &pLevel, ConsoleWindowManager::SYMBOL_MAP_GHOST_ORANGE, ConsoleWindowManager::SYMBOL_SCREEN_GHOST, ConsoleWindowManager::SYMBOL_SCREEN_DOT);
+					ghost = new Unit(ID_GHOST, Util::getCustomId(), DEFAULT_UNIT_HIT_POINT, ORANGE_GHOST_NAME, ORANGE_GHOST_SCORE, mapX, mapY, Util::getRandomNum(0, 3), Game::COLOR_GHOST_ORANGE, Game::SPEED_SLOW, &pLevel, ConsoleWindowManager::SYMBOL_MAP_GHOST_ORANGE, ConsoleWindowManager::SYMBOL_SCREEN_GHOST, ConsoleWindowManager::SYMBOL_SCREEN_DOT);
 					ghosts.push_back(ghost);
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + mapX, GAME_LEVEL_TOP_POS + mapY, ConsoleWindowManager::SYMBOL_SCREEN_GHOST, Game::COLOR_GHOST_ORANGE);					
 				}
@@ -126,13 +126,25 @@ void Game::loadLevel(const unsigned int level)
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + mapX, GAME_LEVEL_TOP_POS + mapY, ConsoleWindowManager::SYMBOL_SCREEN_DOT, ConsoleWindowManager::COLOR_DOT);					
 				}
 			}
-		}		
+		}
+		fillLevel();
+		refreshDisplayPlayerHitPoints(player->getHitPoint());
 		refreshDisplayPlayerBullets(player->getMissileNumber());
 	}
 	else {			
 		pCwm->sPos(0, 0, Util::getTableText(11), 7);			
 		std::cin.ignore();
 		exit(EXIT_FAILURE);
+	}
+}
+
+void Game::fillLevel()
+{
+	for (unsigned int mapY = 0; mapY != pLevel.size(); mapY++) {
+		for (unsigned int mapX = 0; mapX != pLevel[mapY].length(); mapX++) {
+			if()
+			pCwm->wPos(GAME_LEVEL_LEFT_POS + mapX, GAME_LEVEL_TOP_POS + mapY, '.', ConsoleWindowManager::COLOR_DOT);
+		}
 	}
 }
 
@@ -208,7 +220,7 @@ void Game::gameLoop()
 void Game::unitMove(GameObject * unit)
 {	
 	bool isCollision = false;
-	if ((unit->getId() == ID_GHOST && (unit->getMode() == Unit::MOVE) && (unit->getStatus() == Unit::ALIVE))  || (unit->getId() == ID_PLAYER) ) {
+	if ((unit->getId() == ID_GHOST && (unit->getMode() == Unit::MOVE) && (unit->getStatus() == Unit::ALIVE))  || (unit->getId() == ID_PLAYER && unit->getStatus() == Unit::ALIVE) ) {
 		
 		if (unit->getId() == ID_GHOST) {
 			pCwm->wPos(GAME_LEVEL_LEFT_POS + unit->getX(), GAME_LEVEL_TOP_POS + unit->getY(), unit->getHiddenSymbolMapBlock(), unit->getHiddenSymbolMapBlockColor());
@@ -435,7 +447,7 @@ bool Game::fireMissile(Unit * unit)
 		break;
 	}
 	if (checkNextBlock(nullptr, missileY, missileX)) {
-		Missile* missile = new Missile(ID_MISSILE, Util::getCustomId(), missileX, missileY, unit->getDir(), 10, ConsoleWindowManager::SYMBOL_MAP_MISSILE, ConsoleWindowManager::SYMBOL_MISSILE, ConsoleWindowManager::COLOR_MISSILE, unit->getMissiles().size(), pLevel[missileY][missileX]);
+		Missile* missile = new Missile(ID_MISSILE, Util::getCustomId(), DEFAULT_UNIT_HIT_POINT, missileX, missileY, unit->getDir(), 10, ConsoleWindowManager::SYMBOL_MAP_MISSILE, ConsoleWindowManager::SYMBOL_MISSILE, ConsoleWindowManager::COLOR_MISSILE, unit->getMissiles().size(), pLevel[missileY][missileX]);
 		missile->setHiddenSymbolMapBlock(pLevel[missileY][missileX]);
 		switch (pLevel[missileY][missileX]) {
 		case ConsoleWindowManager::SYMBOL_MAP_AMMO_BOX:
@@ -473,13 +485,43 @@ bool Game::collisionDetection(GameObject* const unit)
 bool Game::checkNextBlock(GameObject * const unit, unsigned int mapY, unsigned int mapX) {
 
 	//ammo box
-	if (unit != nullptr && !isInfiniteMissile && unit->getId() == ID_PLAYER && pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_AMMO_BOX) {
+	if (unit != nullptr && unit->getId() == ID_PLAYER && !isInfiniteMissile && pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_AMMO_BOX) {
 		Unit * _player = dynamic_cast<Unit*>(unit);
-		_player->addExtraMissile(DEFAULT_MISSILE_NUMBER);
+		_player->addExtraMissile(DEFAULT_MISSILE_NUMBER, MAX_MISSILE_NUMBER);
 		refreshDisplayPlayerBullets(_player->getMissileNumber());
 	}
-	//keys
-	//collision ghost with player -> end game
+	//key
+	
+	//collision ghost with player -> game over???
+	if (unit != nullptr && unit->getId() == ID_GHOST && player->getStatus() == Unit::Status::ALIVE) {
+		tmpBool = false;
+		switch (unit->getDir()) {
+		case 0: 
+			if(((unit->getY() - 1) == player->getY()) && (unit->getX() == player->getX()))
+				tmpBool = true;
+			break;
+		case 1: 
+			if (((unit->getY() + 1) == player->getY()) && (unit->getX() == player->getX()))
+				tmpBool = true;
+			break;
+		case 2: 
+			if ((unit->getY() == player->getY()) && ((unit->getX() - 1) == player->getX()))
+				tmpBool = true;
+			break;
+		case 3: 
+			if ((unit->getY() == player->getY()) && ((unit->getX() + 1) == player->getX()))
+				tmpBool = true;
+			break;
+		}
+		if (tmpBool) {
+			player->setHitPoint(player->getHitPoint() - 1);
+			if (player->getHitPoint() <= 0) {
+				player->setHitPoint(0);
+				player->setStatus(Unit::Status::DEATH);					//player is death -> GAME OVER!
+			}
+			refreshDisplayPlayerHitPoints(player->getHitPoint());			
+		}
+	}
 
 	//check isfree the next mapblock
 	if ((pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK) ||
@@ -489,15 +531,26 @@ bool Game::checkNextBlock(GameObject * const unit, unsigned int mapY, unsigned i
 	return false;
 }
 
+void Game::refreshDisplayPlayerHitPoints(const unsigned int hp)
+{
+	if (!isInfiniteHitPoint) {
+		tmpStr = hp >= 10 ? (Util::getTableText(13) + " " + std::to_string(hp) + "  ") : (Util::getTableText(13) + " " + std::to_string(hp) + "   ");
+	}
+	else {
+		tmpStr = (Util::getTableText(13) + " -");
+	}
+	pCwm->sPos(GAME_LEVEL_LEFT_POS, GAME_LEVEL_TOP_POS - 1, tmpStr);
+}
+
 void Game::refreshDisplayPlayerBullets(const unsigned int bulletNum)
 {
 	if (!isInfiniteMissile) {
-		bulletStr = bulletNum >= 10 ? (Util::getTableText(12) + " " + std::to_string(bulletNum)) : (Util::getTableText(12) + " " + std::to_string(bulletNum) + " ");
+		tmpStr = bulletNum >= 10 ? (Util::getTableText(12) + " " + std::to_string(bulletNum)) : (Util::getTableText(12) + " " + std::to_string(bulletNum) + " ");
 	}
 	else {
-		bulletStr = (Util::getTableText(12) + " -");		
+		tmpStr = (Util::getTableText(12) + " -");		
 	}	
-	pCwm->sPos(GAME_LEVEL_LEFT_POS, GAME_LEVEL_TOP_POS - 1, bulletStr);
+	pCwm->sPos(GAME_LEVEL_LEFT_POS + 10, GAME_LEVEL_TOP_POS - 1, tmpStr);
 }
 
 inline bool Game::isKeydown(const int & key)

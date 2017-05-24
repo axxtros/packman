@@ -27,6 +27,8 @@ private:
 	const unsigned int GAME_LEVEL_LEFT_POS = 0;
 	const unsigned int GAME_LEVEL_TOP_POS = 1;
 
+	const unsigned int DEFAULT_UNIT_HIT_POINT = 100;
+
 	enum {
 		ID_PLAYER = 0,
 		ID_GHOST = 1,
@@ -56,8 +58,9 @@ private:
 		SPEED_EASY = 2,
 		SPEED_SLOW = 3
 	};
-
+	
 	const unsigned int DEFAULT_MISSILE_NUMBER = 10;
+	const unsigned int MAX_MISSILE_NUMBER = 99;
 
 	//http://www-h.eng.cam.ac.uk/help/tpl/languages/C++/vectormemory.html
 	/*std::vector<char> tempLineVec(lines[0].length());
@@ -78,15 +81,19 @@ private:
 	unsigned int tmpIdx;
 	unsigned int tmpX;
 	unsigned int tmpY;
+	std::string tmpStr;
+	bool tmpBool;
 
 	bool isInfiniteMissile = 0;
-	std::string bulletStr;
+	bool isInfiniteHitPoint = 0;
+	
 	bool isMissileReady;
 	
 	void init();
 	void restart();
 	void loadMapUnits();
-	void loadLevel(const unsigned int level);	
+	void loadLevel(const unsigned int level);
+	void fillLevel();
 	void gameLoop();
 	//void unitMove(Unit *unit);
 	void unitMove(GameObject * unit);
@@ -109,6 +116,7 @@ private:
 	Visszatér true-val, ha szabad a következõ blokk-ra mennie, egy adott unit-nak.
 	*/
 	bool checkNextBlock(GameObject * const unit, unsigned int mapY, unsigned int mapX);
+	void refreshDisplayPlayerHitPoints(const unsigned int hp);
 	void refreshDisplayPlayerBullets(const unsigned int score);
 	bool isKeydown(const int & key);
 	void timeCounter();

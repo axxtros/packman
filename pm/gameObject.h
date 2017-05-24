@@ -25,7 +25,8 @@ class GameObject {
 		Mode currentMode;
 	private:
 		unsigned int id;		//ID_PLAYER = 0, ID_GHOST = 1, ID_MISSILE = 2
-		unsigned int customId;	
+		unsigned int customId;	//egyéni sorszám	
+		unsigned int hitPoint;	//életerõ
 		unsigned int x;			//x coord on the map
 		unsigned int y;			//y coord on the map
 		unsigned int startX;	//starting x coord on the map
@@ -41,9 +42,10 @@ class GameObject {
 		GameObject() { 
 			//NOP...
 		};
-		GameObject(unsigned int _id, unsigned int _customId, unsigned int _x, unsigned int _y, unsigned int _dir, char _mapSymbol, wchar_t _screenSymbol, unsigned int _color, wchar_t _hiddenMapBlock) : id(_id), customId(_customId), x(x), y(y), dir(dir), mapSymbol(_mapSymbol), screenSymbol(_screenSymbol), color(_color), hiddenSymbolMapBlock(_hiddenMapBlock) {
+		GameObject(unsigned int _id, unsigned int _customId, unsigned int _hitPoint, unsigned int _x, unsigned int _y, unsigned int _dir, char _mapSymbol, wchar_t _screenSymbol, unsigned int _color, wchar_t _hiddenMapBlock) : id(_id), customId(_customId), hitPoint(_hitPoint), x(x), y(y), dir(dir), mapSymbol(_mapSymbol), screenSymbol(_screenSymbol), color(_color), hiddenSymbolMapBlock(_hiddenMapBlock) {
 			this->id = _id;			
 			this->customId = _customId;
+			this->hitPoint = _hitPoint;
 			this->x = _x;
 			this->y = _y;
 			this->startX = _x;
@@ -60,6 +62,7 @@ class GameObject {
 
 		virtual void setId(unsigned int value) { this->id = value; };
 		virtual void setCustomId(unsigned int value) { this->customId = value; };
+		virtual void setHitPoint(unsigned int value) { this->hitPoint = value; };
 		virtual void setX(unsigned int value) { this->x = value; };
 		virtual void setY(unsigned int value) { this->y = value; };
 		virtual void setDir(unsigned int value) { this->dir = value; };
@@ -73,6 +76,7 @@ class GameObject {
 
 		virtual unsigned int getId() { return id; };
 		virtual unsigned int getCustomId() { return customId; };
+		virtual unsigned int getHitPoint() { return hitPoint; };
 		virtual unsigned int getX() { return x; };
 		virtual unsigned int getY() { return y; };
 		virtual unsigned int getDir() { return dir; };

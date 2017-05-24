@@ -34,9 +34,11 @@ void Unit::addFireMissile(Missile * missile)
 	missiles.push_back(missile);
 }
 
-void Unit::addExtraMissile(unsigned int missileNum)
+void Unit::addExtraMissile(unsigned int missileNum, const unsigned int maxMissileNum)
 {
 	mMissileNumber = getMissileNumber() + missileNum;
+	if (mMissileNumber >= maxMissileNum)
+		mMissileNumber = maxMissileNum;
 }
 
 unsigned int Unit::selectNewDir()

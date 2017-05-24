@@ -32,10 +32,11 @@ private:
 	unsigned long mMissileNumber;
 protected:
 public:
-	Unit::Unit(unsigned int _id, unsigned int _customId, std::string _name, unsigned int _score, unsigned int _x, unsigned int _y, unsigned int _dir, unsigned int _color,
+	Unit::Unit(unsigned int _id, unsigned int _customId, unsigned int _hitPoint, std::string _name, unsigned int _score, unsigned int _x, unsigned int _y, unsigned int _dir, unsigned int _color,
 				unsigned int _speed, std::vector<std::string>* _map, char _mapSymbol, wchar_t _screenSymbol, wchar_t _hiddenMapBlock) :
-				GameObject(_id, _customId, _x, _y, _dir, _mapSymbol, _screenSymbol, _color, _hiddenMapBlock) {
+				GameObject(_id, _customId, _hitPoint, _x, _y, _dir, _mapSymbol, _screenSymbol, _color, _hiddenMapBlock) {
 		this->name = _name;
+		setHitPoint(_hitPoint);
 		this->score = _score;		
 		this->speed = _speed;
 		currentMode = Mode::MOVE;
@@ -56,7 +57,7 @@ public:
 	std::vector<Missile*> getMissiles() { return missiles; };
 	void behaviourCtrl();
 	void addFireMissile(Missile* missile);
-	void addExtraMissile(unsigned int missileNum);
+	void addExtraMissile(unsigned int missileNum, const unsigned int maxMissileNum);
 	virtual void deleteMissiles();	
 };
 
