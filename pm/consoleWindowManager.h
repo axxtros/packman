@@ -31,9 +31,10 @@ public:
 	static const unsigned int CONSOLE_WINDOW_WIDTH = 1000;
 	static const unsigned int CONSOLE_WINDOW_HEIGHT = 800;
 	static const unsigned int CONSOLE_WINDOW_BUFFER_WIDTH = (CONSOLE_WINDOW_WIDTH / 8);	//kb. 8.3 pixel egy karakter oszlop
+		
+	static const char SYMBOL_FILE_LINE_SEPARATOR = '#';
 
 	//symbols - map (ezek a térképen jelennek meg)
-	static const char SYMBOL_FILE_LINE_SEPARATOR = '#';
 	static const char SYMBOL_MAP_WALL_BLOCK = 'X';
 	static const char SYMBOL_MAP_PLAYER = '0';
 	static const char SYMBOL_MAP_GHOST_RED = 'R';
@@ -62,7 +63,7 @@ public:
 	static const unsigned int COLOR_WALL = 2;
 	static const unsigned int COLOR_DOT = 8;
 	static const unsigned int COLOR_MISSILE = 15;
-	static const unsigned int COLOR_AMMO_BOX = 15;
+	static const unsigned int COLOR_AMMO_BOX = 7;
 
 	ConsoleWindowManager();
 	~ConsoleWindowManager();

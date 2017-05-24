@@ -28,6 +28,11 @@ void Game::init()
 void Game::restart()
 {
 	runGameLoop = false;
+	if (player->getMissiles().size() > 0) {
+		for (tmpIdx = 0; tmpIdx != player->getMissiles().size(); tmpIdx++) {
+			delete player->getMissiles()[tmpIdx];
+		}
+	}
 	player = nullptr;
 	delete player;
 	if (!ghosts.empty()) {
@@ -144,19 +149,19 @@ void Game::gameLoop()
 		if (isKeydown(VK_UP)) {			
 			player->setDir(0);
 			unitMove(player);
-		}
+		} 
 		if (isKeydown(VK_DOWN)) {
 			player->setDir(1);
 			unitMove(player);
-		}
+		} 
 		if (isKeydown(VK_LEFT)) {
 			player->setDir(2);
 			unitMove(player);
-		}
+		} 
 		if (isKeydown(VK_RIGHT)) {
 			player->setDir(3);
 			unitMove(player);
-		}
+		} 
 		//player fire
 		if (isKeydown(VK_SPACE) && isMissileReady) {
 			if (player->getMissileNumber() > 0) {
