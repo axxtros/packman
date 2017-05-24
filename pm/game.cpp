@@ -333,8 +333,7 @@ void Game::unitMove(GameObject * unit)
 		else {			
 			Missile * rMissile = dynamic_cast<Missile*>(unit);
 			rMissile->setStatus(rMissile->DEATH);			
-			
-			ghost = getShotUnit(rMissile);
+			ghost = getShotDownUnit(rMissile);
 			if (ghost != nullptr) {				
 				ghost->setStatus(Unit::Status::DEATH);
 			}
@@ -529,7 +528,7 @@ void Game::refreshEmptyBlock()
 	pCwm->wPos(GAME_LEVEL_LEFT_POS + emptyBlockX, GAME_LEVEL_TOP_POS + emptyBlockY, ConsoleWindowManager::SYMBOL_SCREEN_WALL_BLOCK, ConsoleWindowManager::COLOR_WALL);
 }
 
-Unit * Game::getShotUnit(Missile* missile)
+Unit * Game::getShotDownUnit(Missile* missile)
 {
 	if (!ghosts.empty() && missile != nullptr) {
 		unsigned int searchX = missile->getX();

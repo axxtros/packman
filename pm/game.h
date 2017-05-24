@@ -113,7 +113,7 @@ private:
 	bool isKeydown(const int & key);
 	void timeCounter();
 	void refreshEmptyBlock();
-	Unit* getShotUnit(Missile* missile);
+	Unit* getShotDownUnit(Missile* missile);
 	unsigned int getHiddenMapSymbolColor(GameObject * unit);	
 protected:
 public:
