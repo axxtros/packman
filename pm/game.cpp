@@ -278,7 +278,8 @@ void Game::unitMove(GameObject * unit)
 		
 		if (isCollision) {
 			if (unit->getId() == ID_GHOST) {
-				unit->setMode(Unit::Mode::SELDIR);
+				collisionWithPlayer(unit);
+				unit->setMode(Unit::Mode::SELDIR);				
 			}
 		}
 		if (!IS_TIMING_VISIBLE) {
@@ -479,25 +480,34 @@ bool Game::checkNextBlock(GameObject * const unit, unsigned int mapY, unsigned i
 		_player->addExtraMissile(DEFAULT_MISSILE_NUMBER, MAX_MISSILE_NUMBER);
 		refreshDisplayPlayerBullets(_player->getMissileNumber());
 	}
-	//key
-	
-	//collision ghost with player -> game over???
+	//key		
+
+	//check isfree the next mapblock
+	if ((pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK) ||
+		(pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_SCREEN_DOT) ||
+		(pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_AMMO_BOX) )
+		return true;
+	return false;
+}
+
+bool Game::collisionWithPlayer(GameObject * unit)
+{	
 	if (unit != nullptr && unit->getId() == ID_GHOST && player->getStatus() == Unit::Status::ALIVE) {
 		tmpBool = false;
 		switch (unit->getDir()) {
-		case 0: 
-			if(((unit->getY() - 1) == player->getY()) && (unit->getX() == player->getX()))
+		case 0:
+			if (((unit->getY() - 1) == player->getY()) && (unit->getX() == player->getX()))
 				tmpBool = true;
 			break;
-		case 1: 
+		case 1:
 			if (((unit->getY() + 1) == player->getY()) && (unit->getX() == player->getX()))
 				tmpBool = true;
 			break;
-		case 2: 
+		case 2:
 			if ((unit->getY() == player->getY()) && ((unit->getX() - 1) == player->getX()))
 				tmpBool = true;
 			break;
-		case 3: 
+		case 3:
 			if ((unit->getY() == player->getY()) && ((unit->getX() + 1) == player->getX()))
 				tmpBool = true;
 			break;
@@ -509,14 +519,9 @@ bool Game::checkNextBlock(GameObject * const unit, unsigned int mapY, unsigned i
 				player->setStatus(Unit::Status::DEATH);					//player is death -> GAME OVER!
 			}
 			refreshDisplayPlayerHitPoints(player->getHitPoint());			
+			return true;
 		}
 	}
-
-	//check isfree the next mapblock
-	if ((pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK) ||
-		(pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_SCREEN_DOT) ||
-		(pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_AMMO_BOX) )
-		return true;
 	return false;
 }
 
