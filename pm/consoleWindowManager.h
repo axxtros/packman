@@ -44,6 +44,10 @@ public:
 	static const char SYMBOL_MAP_GHOST_TEST = 'T';
 	static const char SYMBOL_MAP_MISSILE = 'M';
 	static const char SYMBOL_MAP_AMMO_BOX = 'A';
+
+	static const char SYMBOL_MAP_KEY_RED = 'K';
+	static const char SYMBOL_MAP_KEY_BLUE = 'L';
+	static const char SYMBOL_MAP_KEY_GREEN = 'J';
 	
 	//symbols - screen (ezek a felületen jelennek meg)
 	static const wchar_t SYMBOL_SCREEN_WALL_BLOCK = L'\u2588';
@@ -53,6 +57,7 @@ public:
 	static const wchar_t SYMBOL_SCREEN_GHOST = L'\u2588';
 	static const wchar_t SYMBOL_SCREEN_AMMO_BOX = 'A';
 	static const wchar_t SYMBOL_MISSILE = 'o';//L'\u0398';	
+	static const wchar_t SYMBOL_KEY = 'K';
 
 	//symbols - universals (map and screen)
 	static const wchar_t SYMBOL_EMPTY_BLOCK = ' ';				//universal, screen and map
@@ -64,6 +69,10 @@ public:
 	static const unsigned int COLOR_DOT = 8;
 	static const unsigned int COLOR_MISSILE = 15;
 	static const unsigned int COLOR_AMMO_BOX = 7;
+
+	static const unsigned int COLOR_KEY_RED = 12;
+	static const unsigned int COLOR_KEY_BLUE = 9;
+	static const unsigned int COLOR_KEY_GREEN = 10;
 
 	ConsoleWindowManager();
 	~ConsoleWindowManager();

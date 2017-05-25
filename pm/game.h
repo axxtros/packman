@@ -50,6 +50,8 @@ private:
 	const unsigned int COLOR_GHOST_PINK = 13;
 	const unsigned int COLOR_GHOST_ORANGE = 14;
 
+
+
 	const unsigned int GAME_SPEED = 25;		//50;
 	
 	enum {

@@ -87,7 +87,19 @@ void Game::loadLevel(const unsigned int level)
 				}
 				//ammo box
 				else if (pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_AMMO_BOX) {
-					pCwm->wPos(GAME_LEVEL_LEFT_POS + mapX, GAME_LEVEL_TOP_POS + mapY, ConsoleWindowManager::SYMBOL_SCREEN_AMMO_BOX, ConsoleWindowManager::COLOR_AMMO_BOX);					
+					pCwm->wPos(GAME_LEVEL_LEFT_POS + mapX, GAME_LEVEL_TOP_POS + mapY, ConsoleWindowManager::SYMBOL_SCREEN_AMMO_BOX, ConsoleWindowManager::COLOR_AMMO_BOX);
+				}
+				//key: red
+				else if (pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_KEY_RED) {
+					pCwm->wPos(GAME_LEVEL_LEFT_POS + mapX, GAME_LEVEL_TOP_POS + mapY, ConsoleWindowManager::SYMBOL_KEY, ConsoleWindowManager::COLOR_KEY_RED);
+				}
+				//key: blue
+				else if (pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_KEY_BLUE) {
+					pCwm->wPos(GAME_LEVEL_LEFT_POS + mapX, GAME_LEVEL_TOP_POS + mapY, ConsoleWindowManager::SYMBOL_KEY, ConsoleWindowManager::COLOR_KEY_BLUE);
+				}
+				//key: green
+				else if (pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_KEY_GREEN) {
+					pCwm->wPos(GAME_LEVEL_LEFT_POS + mapX, GAME_LEVEL_TOP_POS + mapY, ConsoleWindowManager::SYMBOL_KEY, ConsoleWindowManager::COLOR_KEY_GREEN);
 				}
 				//player
 				else if (pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_PLAYER && !isPlayerDone) {
@@ -261,13 +273,26 @@ void Game::unitMove(GameObject * unit)
 		}
 				
 		//ghos esetében eltárolja, hogy milyen térkép block-ot takar el aktuálisan a unit (+ a szinét), hogy a következő lépésnél azt vissza állíthassuk
-		if (unit->getId() == ID_GHOST) {			
-			unit->setHiddenSymbolMapBlock(pLevel[unit->getY()][unit->getX()]);
+		if (unit->getId() == ID_GHOST) {						
 			switch (pLevel[unit->getY()][unit->getX()]) {
 			case ConsoleWindowManager::SYMBOL_MAP_AMMO_BOX:
+				unit->setHiddenSymbolMapBlock(ConsoleWindowManager::SYMBOL_SCREEN_AMMO_BOX);
 				unit->setHiddenSymbolMapBlockColor(ConsoleWindowManager::COLOR_AMMO_BOX);
 				break;
+			case ConsoleWindowManager::SYMBOL_MAP_KEY_RED:
+				unit->setHiddenSymbolMapBlock(ConsoleWindowManager::SYMBOL_KEY);
+				unit->setHiddenSymbolMapBlockColor(ConsoleWindowManager::COLOR_KEY_RED);
+				break;
+			case ConsoleWindowManager::SYMBOL_MAP_KEY_BLUE:
+				unit->setHiddenSymbolMapBlock(ConsoleWindowManager::SYMBOL_KEY);
+				unit->setHiddenSymbolMapBlockColor(ConsoleWindowManager::COLOR_KEY_BLUE);
+				break;
+			case ConsoleWindowManager::SYMBOL_MAP_KEY_GREEN:
+				unit->setHiddenSymbolMapBlock(ConsoleWindowManager::SYMBOL_KEY);
+				unit->setHiddenSymbolMapBlockColor(ConsoleWindowManager::COLOR_KEY_GREEN);
+				break;
 			default:
+				unit->setHiddenSymbolMapBlock(ConsoleWindowManager::SYMBOL_EMPTY_BLOCK);
 				unit->setHiddenSymbolMapBlockColor(ConsoleWindowManager::COLOR_EMPTY);
 				break;
 			}
@@ -480,12 +505,21 @@ bool Game::checkNextBlock(GameObject * const unit, unsigned int mapY, unsigned i
 		_player->addExtraMissile(DEFAULT_MISSILE_NUMBER, MAX_MISSILE_NUMBER);
 		refreshDisplayPlayerBullets(_player->getMissileNumber());
 	}
-	//key		
+	//key
+	if (unit != nullptr && unit->getId() == ID_PLAYER && !isInfiniteMissile && 
+		(pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_KEY_RED ||
+			pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_KEY_BLUE ||
+			pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_KEY_GREEN) ) {
+		
+	}
 
 	//check isfree the next mapblock
 	if ((pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK) ||
 		(pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_SCREEN_DOT) ||
-		(pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_AMMO_BOX) )
+		(pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_AMMO_BOX) ||
+		(pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_KEY_RED) ||
+		(pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_KEY_BLUE) ||
+		(pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_KEY_GREEN) )
 		return true;
 	return false;
 }
