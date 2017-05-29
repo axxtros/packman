@@ -4,20 +4,36 @@
 
 Game::Game(ConsoleWindowManager* cwm)
 {
-	this->pCwm = cwm;
+	this->pCwm = cwm;	
 	init();
 }
 
 Game::~Game()
 {	
+	runGameLoop = false;
+	if (player->getMissiles().size() > 0) {
+		for (tmpIdx = 0; tmpIdx != player->getMissiles().size(); tmpIdx++) {
+			delete player->getMissiles()[tmpIdx];
+		}
+	}
+	player = nullptr;
 	delete player;
-	delete[] &ghosts;
+	if (!ghosts.empty()) {
+		for (tmpIdx = 0; tmpIdx != ghosts.size(); tmpIdx++) {
+			ghosts[tmpIdx] = nullptr;
+			delete ghosts[tmpIdx];
+		}
+	}
+	ghosts.clear();;
+	ghost = nullptr;
 	delete ghost;
+	pLevel.clear();
+	system("cls");
 }
 
 void Game::init()
 {	
-	system("cls");	
+	system("cls");
 	loadMapUnits();
 	loadLevel(1);
 	runGameLoop = true;
@@ -69,6 +85,7 @@ void Game::loadLevel(const unsigned int level)
 	if (pLevel.size() > 0) {
 		bool firstWallBlock = true;
 		bool isPlayerDone = false;
+		mapKeys = 0;
 
 		for (unsigned int mapY = 0; mapY != pLevel.size(); mapY++) {
 			for (unsigned int mapX = 0; mapX != pLevel[mapY].length(); mapX++) {
@@ -92,14 +109,17 @@ void Game::loadLevel(const unsigned int level)
 				//key: red
 				else if (pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_KEY_RED) {
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + mapX, GAME_LEVEL_TOP_POS + mapY, ConsoleWindowManager::SYMBOL_KEY, ConsoleWindowManager::COLOR_KEY_RED);
+					++mapKeys;
 				}
 				//key: blue
 				else if (pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_KEY_BLUE) {
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + mapX, GAME_LEVEL_TOP_POS + mapY, ConsoleWindowManager::SYMBOL_KEY, ConsoleWindowManager::COLOR_KEY_BLUE);
+					++mapKeys;
 				}
 				//key: green
 				else if (pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_KEY_GREEN) {
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + mapX, GAME_LEVEL_TOP_POS + mapY, ConsoleWindowManager::SYMBOL_KEY, ConsoleWindowManager::COLOR_KEY_GREEN);
+					++mapKeys;
 				}
 				//player
 				else if (pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_PLAYER && !isPlayerDone) {
@@ -111,13 +131,13 @@ void Game::loadLevel(const unsigned int level)
 				//ghost: Blinky: Red
 				else if (pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_GHOST_RED) {
 					ghost = new Unit(ID_GHOST, Util::getCustomId(), DEFAULT_UNIT_HIT_POINT, RED_GHOST_NAME, RED_GHOST_SCORE, mapX, mapY, Util::getRandomNum(0, 3), Game::COLOR_GHOST_RED, Game::SPEED_MAX, &pLevel, ConsoleWindowManager::SYMBOL_MAP_GHOST_RED, ConsoleWindowManager::SYMBOL_SCREEN_GHOST, ConsoleWindowManager::SYMBOL_SCREEN_DOT);
-					ghosts.push_back(ghost);
+					ghosts.push_back(ghost);					
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + mapX, GAME_LEVEL_TOP_POS + mapY, ConsoleWindowManager::SYMBOL_SCREEN_GHOST, Game::COLOR_GHOST_RED);					
 				}
 				//ghost: Pinky: Pink
 				else if (pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_GHOST_PINK) {
 					ghost = new Unit(ID_GHOST, Util::getCustomId(), DEFAULT_UNIT_HIT_POINT, PINK_GHOST_NAME, PINK_GHOST_SCORE, mapX, mapY, Util::getRandomNum(0, 3), Game::COLOR_GHOST_PINK, Game::SPEED_NORMAL, &pLevel, ConsoleWindowManager::SYMBOL_MAP_GHOST_PINK, ConsoleWindowManager::SYMBOL_SCREEN_GHOST, ConsoleWindowManager::SYMBOL_SCREEN_DOT);
-					ghosts.push_back(ghost);
+					ghosts.push_back(ghost);					
 					pCwm->wPos(GAME_LEVEL_LEFT_POS + mapX, GAME_LEVEL_TOP_POS + mapY, ConsoleWindowManager::SYMBOL_SCREEN_GHOST, Game::COLOR_GHOST_PINK);					
 				}
 				//ghost: Inky: Blue
@@ -280,15 +300,15 @@ void Game::unitMove(GameObject * unit)
 				unit->setHiddenSymbolMapBlockColor(ConsoleWindowManager::COLOR_AMMO_BOX);
 				break;
 			case ConsoleWindowManager::SYMBOL_MAP_KEY_RED:
-				unit->setHiddenSymbolMapBlock(ConsoleWindowManager::SYMBOL_KEY);
+				unit->setHiddenSymbolMapBlock(ConsoleWindowManager::SYMBOL_MAP_KEY_RED);
 				unit->setHiddenSymbolMapBlockColor(ConsoleWindowManager::COLOR_KEY_RED);
 				break;
 			case ConsoleWindowManager::SYMBOL_MAP_KEY_BLUE:
-				unit->setHiddenSymbolMapBlock(ConsoleWindowManager::SYMBOL_KEY);
+				unit->setHiddenSymbolMapBlock(ConsoleWindowManager::SYMBOL_MAP_KEY_BLUE);
 				unit->setHiddenSymbolMapBlockColor(ConsoleWindowManager::COLOR_KEY_BLUE);
 				break;
 			case ConsoleWindowManager::SYMBOL_MAP_KEY_GREEN:
-				unit->setHiddenSymbolMapBlock(ConsoleWindowManager::SYMBOL_KEY);
+				unit->setHiddenSymbolMapBlock(ConsoleWindowManager::SYMBOL_MAP_KEY_GREEN);
 				unit->setHiddenSymbolMapBlockColor(ConsoleWindowManager::COLOR_KEY_GREEN);
 				break;
 			default:
@@ -509,10 +529,12 @@ bool Game::checkNextBlock(GameObject * const unit, unsigned int mapY, unsigned i
 	if (unit != nullptr && unit->getId() == ID_PLAYER && !isInfiniteMissile && 
 		(pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_KEY_RED ||
 			pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_KEY_BLUE ||
-			pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_KEY_GREEN) ) {
-		
+			pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_MAP_KEY_GREEN) ) {		
+		unit->setKeyCounter(unit->getKeyCounter() + 1);
+		if (mapKeys == unit->getKeyCounter()) {			//player is WIN
+			winGame();
+		}
 	}
-
 	//check isfree the next mapblock
 	if ((pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK) ||
 		(pLevel[mapY][mapX] == ConsoleWindowManager::SYMBOL_SCREEN_DOT) ||
@@ -551,6 +573,7 @@ bool Game::collisionWithPlayer(GameObject * unit)
 			if (player->getHitPoint() <= 0) {
 				player->setHitPoint(0);
 				player->setStatus(Unit::Status::DEATH);					//player is death -> GAME OVER!
+				lostGame();
 			}
 			refreshDisplayPlayerHitPoints(player->getHitPoint());			
 			return true;
@@ -649,4 +672,18 @@ unsigned int Game::getHiddenMapSymbolColor(GameObject * unit)
 	else if (unit->getHiddenSymbolMapBlock() == ConsoleWindowManager::SYMBOL_EMPTY_BLOCK)
 		return 0;
 	return 0;
+}
+
+void Game::winGame()
+{
+	runGameLoop = false;
+	system("cls");
+	return;
+}
+
+void Game::lostGame()
+{
+	runGameLoop = false;
+	system("cls");
+	return;
 }

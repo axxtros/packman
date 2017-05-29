@@ -50,8 +50,6 @@ private:
 	const unsigned int COLOR_GHOST_PINK = 13;
 	const unsigned int COLOR_GHOST_ORANGE = 14;
 
-
-
 	const unsigned int GAME_SPEED = 25;		//50;
 	
 	enum {
@@ -74,7 +72,8 @@ private:
 	bool runGameLoop = false;
 
 	std::vector<std::string> pLevel;	//max.: 40x60 karakter
-	ConsoleWindowManager* pCwm;
+	ConsoleWindowManager* pCwm;	
+	
 	std::map<std::string, unsigned int> mScores;	
 
 	Unit* player;
@@ -85,11 +84,10 @@ private:
 	unsigned int tmpY;
 	std::string tmpStr;
 	bool tmpBool;
-
 	bool isInfiniteMissile = 0;
-	bool isInfiniteHitPoint = 0;
-	
+	bool isInfiniteHitPoint = 0;	
 	bool isMissileReady;
+	unsigned int mapKeys;
 	
 	void init();
 	void restart();
@@ -97,7 +95,7 @@ private:
 	void loadLevel(const unsigned int level);
 	void gameLoop();
 	//void unitMove(Unit *unit);
-	void unitMove(GameObject * unit);
+	void unitMove(GameObject * unit);	
 
 	/*
 	Ha fel, vagy lefelé megy, akkor csak balra, vagy jobbra keres új irányt.
@@ -124,7 +122,9 @@ private:
 	void timeCounter();
 	void refreshEmptyBlock();
 	Unit* getShotDownUnit(Missile* missile);
-	unsigned int getHiddenMapSymbolColor(GameObject * unit);	
+	unsigned int getHiddenMapSymbolColor(GameObject * unit);
+	void winGame();
+	void lostGame();
 protected:
 public:
 	Game(ConsoleWindowManager*);

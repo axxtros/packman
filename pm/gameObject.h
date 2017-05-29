@@ -38,6 +38,7 @@ class GameObject {
 		Status status;
 		wchar_t hiddenSymbolMapBlock;				//annak a térkép mezõnek a kódja, amit aktuálisan letakar az adott unit
 		unsigned int hiddenSymbolMapBlockColor;		//annak a térkép mezõnek a szine, amit aktuálisan letakar az adott unit
+		unsigned int keyCounter;
 	public:
 		GameObject() { 
 			//NOP...
@@ -55,6 +56,7 @@ class GameObject {
 			this->mapSymbol = _mapSymbol;
 			this->status = Status::ALIVE;
 			this->hiddenSymbolMapBlock = _hiddenMapBlock;
+			this->keyCounter = 0;
 		};
 		~GameObject() {
 			
@@ -73,6 +75,7 @@ class GameObject {
 		void setMode(Mode _mode) { this->currentMode = _mode; };
 		void setHiddenSymbolMapBlock(wchar_t value) { this->hiddenSymbolMapBlock = value; };
 		void setHiddenSymbolMapBlockColor(unsigned int value) { this->hiddenSymbolMapBlockColor = value; };
+		void setKeyCounter(unsigned int value) { this->keyCounter = value; };
 
 		virtual unsigned int getId() { return id; };
 		virtual unsigned int getCustomId() { return customId; };
@@ -88,6 +91,7 @@ class GameObject {
 		void backToStartPoint();
 		wchar_t getHiddenSymbolMapBlock() { return this->hiddenSymbolMapBlock; };
 		unsigned int getHiddenSymbolMapBlockColor() { return this->hiddenSymbolMapBlockColor; };
+		unsigned int getKeyCounter() { return this->keyCounter; };
 };
 
 #endif GAMEOBJECT_H

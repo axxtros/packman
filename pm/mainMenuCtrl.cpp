@@ -15,7 +15,8 @@ MainMenuCtrl::~MainMenuCtrl()
 
 void MainMenuCtrl::loopMainMenu()
 {	
-	//writeTitle();	
+	system("cls");
+	writeTitle();	
 	selectedMenu = 1;
 	bool isKeyDown = false;
 	writeMainMenu();
@@ -42,6 +43,7 @@ void MainMenuCtrl::loopMainMenu()
 		//new game
 		case 1: 
 			pGame = new Game(pCwm);
+			loopMainMenu();				//ha a Game return-el visszatér, akkor rekurzívan meghívja magát
 			break;
 		//high score
 		case 2: 
