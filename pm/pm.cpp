@@ -37,13 +37,14 @@ int main()
 	/*std::cout << "\a" << std::endl;
 	Beep(1000, 1000);*/
 
-	/*ConsoleWindowManager* cwm = new ConsoleWindowManager();		
+	ConsoleWindowManager* cwm = new ConsoleWindowManager();		
 	ConsoleWindowManager* &rCwm = cwm;	
 	MainMenuCtrl* mmc = new MainMenuCtrl(rCwm);	
 	delete mmc;
-	delete cwm;*/
+	delete cwm;
 	
 	//template gyakorlás
+	/*
 	f(5, 7);
 	f(5.5, 7.0);
 	double e = f<double>(2, 3);
@@ -63,7 +64,7 @@ int main()
 	stringFifo sf;
 	sf.setFifoData("ABCDEFGH");
 	sf.writeDataToConsole();
-
+	*/
 	getchar();	
     return 0;
 }
